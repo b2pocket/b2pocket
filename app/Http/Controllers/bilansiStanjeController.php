@@ -36,7 +36,7 @@ class bilansiStanjeController extends Controller
 					
 						select b.sifkon as konto,k.naziv
 						from (
-						select distinct(sifkon) from gk.vgk where sifkon not  in (select konto from gk.b_gk_veza_klasa_konto_bs) and (sifkon like \'5%\' or sifkon like \'6%\') ) b,
+						select distinct(sifkon) from gk.vgk where sifkon not  in (select konto from gk.b_gk_veza_klasa_konto_bs) and (sifkon like \'1%\' or sifkon like \'2%\' or sifkon like \'3%\' or sifkon like \'4%\')  ) b,
 						gk.konto k
 						where b.sifkon = k.sifra
 

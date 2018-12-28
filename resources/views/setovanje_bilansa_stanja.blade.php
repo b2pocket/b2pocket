@@ -116,7 +116,7 @@
                 ]
     });
 
-	var url = '{{ route('tableDetailStanja', ['klasaKonta' => '99999999']) }}';
+	var url = '{{ route('tableDetailStanja', ['klasaKonta2' => '99999999']) }}';
     var tableDetail = $('#tableDetail').DataTable({
         //processing: true,
         //serverSide: true,
@@ -177,7 +177,7 @@
                           pickedup = $( this );
                          // alert(selektovanoZaglavlje);
 
-                        url = '{{ route('tableDetail', ['klasaKonta' => ':sifra_klase']) }}';
+                        url = '{{ route('tableDetailStanja', ['klasaKonta2' => ':sifra_klase']) }}';
 						url = url.replace(':sifra_klase', selektovanoZaglavlje);
 							
 							tableDetail.ajax.url(url).load();
