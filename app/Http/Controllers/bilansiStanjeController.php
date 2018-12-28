@@ -33,15 +33,17 @@ class bilansiStanjeController extends Controller
      public function neklasifikovanaKontaStanja()
     {
     	     $neklasifikova = DB::select('
-					
-						select b.sifkon as konto,k.naziv
+
+    	     			select b.sifkon as konto,k.naziv
 						from (
-						select distinct(sifkon) from gk.vgk where sifkon not  in (select konto from gk.b_gk_veza_klasa_konto_bs) and (sifkon like \'1%\' or sifkon like \'2%\' or sifkon like \'3%\' or sifkon like \'4%\')  ) b,
+						select distinct(substring(sifkon,1,3)) as sifkon from gk.vgk 
+						where substring(sifkon,1,3) not  in (select substring(konto,1,3) from gk.b_gk_veza_klasa_konto_bs) 
+						and sifkon not like \'6%\' and sifkon not like \'5%\'  and sifkon not like \'7%\'  and sifkon not like \'9%\'
+						) b,
 						gk.konto k
 						where b.sifkon = k.sifra
-
-
-
+						and length(b.sifkon) >0
+					
 							');
     	     return json_encode($neklasifikova);
   	

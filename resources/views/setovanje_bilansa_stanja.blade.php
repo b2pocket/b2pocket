@@ -68,9 +68,8 @@
 							<table class="table table-bordered" style="table-layout: fixed;width: 100%;"  id="tableDetail">
 							<thead >
 								<tr>
-									<th>KLASA</th>
-									<th>SIFRA_KLASE</th>
-									<th>KONTO NAZIV</th>
+									
+									<th width="80%">KONTO NAZIV</th>
 									<th id="KLAS_KONTO">KONTO</th>
 								
 								</tr>
@@ -136,8 +135,7 @@
             	dataSrc: ''
         	},
         columns:[
-                { data: 'klasa_konta' },
-                { data: 'sifra_klase' },
+             
                 { data: 'nazivd' },
                 { data: 'konto' }
                 ]
