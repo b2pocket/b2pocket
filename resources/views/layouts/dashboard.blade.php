@@ -261,6 +261,9 @@
                                     <a href="{{ url ('setovanje_bilansa_uspeha') }}">Setovanje bilansa uspeha</a>
                                 </li>
                                 <li {{ (Request::is('*blank') ? 'class="active"' : '') }}>
+                                    <a href="{{ url ('setovanje_bilansa_stanja') }}">Setovanje bilansa stanja</a>
+                                </li>
+                                <li {{ (Request::is('*blank') ? 'class="active"' : '') }}>
                                     <a href="#">Android manipulacija<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>

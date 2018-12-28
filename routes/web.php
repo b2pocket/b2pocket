@@ -21,6 +21,15 @@ Route::get('klasifikujKonto','bilansiUspehaController@klasifikujKonto');
 Route::get('obrisiKlasifikacijuKonta','bilansiUspehaController@obrisiKlasifikacijuKonta');
 // --------!!!!!!!!-------------
 
+
+// SETOVANJE BILANSA STANJA
+Route::get('setovanje_bilansa_stanja', 'bilansiStanjeController@setovanje_bilansa_stanja');
+Route::get('zaglavljeKontaStanja', 'bilansiStanjeController@zaglavljeKontaStanja')->name('zaglavljeKontaStanja');
+Route::get('neklasifikovanaKontaStanja', 'bilansiStanjeController@neklasifikovanaKontaStanja')->name('neklasifikovanaKontaStanja');
+Route::get('tableDetailStanja/{klasaKonta}', 'bilansiStanjeController@tableDetailStanja')->name('tableDetailStanja');
+
+// --------!!!!!!!!-------------
+
 // ANDROID MANIPULACIJA
 	Route::get('korisnici_i_prava', 'korisniciIPravaController@korisnici_i_prava');
 
