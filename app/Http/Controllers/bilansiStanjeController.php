@@ -12,7 +12,7 @@ class bilansiStanjeController extends Controller
       public function setovanje_bilansa_stanja()
     {
       
-        return view('setovanje_bilansa_stanja');      
+        return view('cmat/setovanje_bilansa_stanja');      
     
     }
      public function zaglavljeKontaStanja()

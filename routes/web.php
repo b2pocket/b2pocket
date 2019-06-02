@@ -31,10 +31,124 @@ Route::get('tableDetailStanja/{klasaKonta2}', 'bilansiStanjeController@tableDeta
 // --------!!!!!!!!-------------
 
 // ANDROID MANIPULACIJA
-	Route::get('korisnici_i_prava', 'korisniciIPravaController@korisnici_i_prava');
+		//Registracija korisnika
+			Route::get('korisnici_i_prava', 'korisniciIPravaController@korisnici_i_prava');
+			Route::get('androidUsers', 'korisniciIPravaController@androidUsers')->name('androidUsers');
+			Route::get('androidAppsForUser/{korisnik}', 'korisniciIPravaController@androidAppsForUser')->name('androidAppsForUser');
+			Route::post('upisAndUSer', 'korisniciIPravaController@upisAndUSer')->name('upisAndUSer');
+			Route::post('updateAndUser', 'korisniciIPravaController@updateAndUser')->name('updateAndUser');
+			Route::get('deleteAndUser', 'korisniciIPravaController@deleteAndUser')->name('deleteAndUser');
+			Route::get('appsnotforuser','korisniciIPravaController@appsnotforuser')->name('appsnotforuser');
+			Route::get('poveziKorisnikaIAplikaciju','korisniciIPravaController@poveziKorisnikaIAplikaciju')->name('poveziKorisnikaIAplikaciju');
+			Route::get('sakrijAppOdKorisnika','korisniciIPravaController@sakrijAppOdKorisnika')->name('sakrijAppOdKorisnika');
+		//Aplikacije
+			Route::get('aplikacijeIndex', 'aplikacijeController@aplikacijeIndex');
+			Route::get('androidMeniji', 'aplikacijeController@androidMeniji')->name('androidMeniji');
+			Route::get('androidAplikacije/{meni}', 'aplikacijeController@androidAplikacije')->name('androidAplikacije');
+			Route::get('androidSveAPlikacije', 'aplikacijeController@androidSveAPlikacije')->name('androidSveAPlikacije');
+			Route::get('androidTabovi/{aplikacija}', 'aplikacijeController@androidTabovi')->name('androidTabovi');
+			Route::get('androidSviTabovi', 'aplikacijeController@androidSviTabovi')->name('androidSviTabovi');
+			Route::get('androidTaboviStavke/{aplikacija}/{br_taba}', 'aplikacijeController@androidTaboviStavke')->name('androidTaboviStavke');
+			Route::get('meniUnos','aplikacijeController@meniUnos')->name('meniUnos');
+			Route::get('meniIzmena','aplikacijeController@meniIzmena')->name('meniIzmena');
+			Route::get('aplikacijaUnos','aplikacijeController@aplikacijaUnos')->name('aplikacijaUnos');
+			Route::get('aplikacijaIzmena','aplikacijeController@aplikacijaIzmena')->name('aplikacijaIzmena');
+			Route::get('tabUnos','aplikacijeController@tabUnos')->name('tabUnos');
+			Route::get('tabIzmena','aplikacijeController@tabIzmena')->name('tabIzmena');
+			Route::get('tabStavkeUnos','aplikacijeController@tabStavkeUnos')->name('tabStavkeUnos');
+			Route::get('tabStavkeIzmena','aplikacijeController@tabStavkeIzmena')->name('tabStavkeIzmena');
+			Route::get('tabStavkeBrisanje','aplikacijeController@tabStavkeBrisanje')->name('tabStavkeBrisanje');
+			Route::get('tabBrisanje','aplikacijeController@tabBrisanje')->name('tabBrisanje');
+			Route::get('aplikacijeBrisanje','aplikacijeController@aplikacijeBrisanje')->name('aplikacijeBrisanje');
+			Route::get('meniBrisanje','aplikacijeController@meniBrisanje')->name('meniBrisanje');
+			Route::get('tabStavkaBrisanje','aplikacijeController@tabStavkaBrisanje')->name('tabStavkaBrisanje');
+
+// --------!!!!!!!!-------------
+// ZAPISI
+Route::get('zapisiIndex', 'adminApps\zapisiController@zapisiIndex');
+Route::get('zapisiSqlLogger', 'adminApps\zapisiController@zapisiSqlLogger')->name('zapisiSqlLogger');
+Route::get('nivelacijeUnos','cmatMPO\nivelacijeController@nivelacijeUnos')->name('nivelacijeUnos');
+// --------!!!!!!!!-------------
+
+// --------!!!!!!!!-------------
+// BRISANJE KALKULACIJA
+Route::get('brisanjeKalkulacijaIndex', 'adminApps\brisanjeKalkulacija@brisanjeKalkulacijaIndex');
+Route::get('obrisiKalkulacije', 'adminApps\brisanjeKalkulacija@obrisiKalkulacije')->name('obrisiKalkulacije');
 
 // --------!!!!!!!!-------------
 
+// BRISANJE KALKULACIJA
+Route::get('brisanjeInternihFakturaIndex', 'adminApps\brisanjeInternihFaktura@brisanjeInternihFakturaIndex');
+Route::get('obrisiInternuFakturu', 'adminApps\brisanjeInternihFaktura@obrisiInternuFakturu')->name('obrisiInternuFakturu');
+
+// --------!!!!!!!!-------------
+
+// --------!!!!!!!!-------------CMAT MPO RUTE
+// --------!!!!!!!!-------------
+		// NIVELACIJE ZAGLAVLEJ
+		Route::get('nivelacijeZaglavljeIndex', 'cmatMPO\nivelacijeZaglavljeController@nivelacijeZaglavljeIndex');//Zaboravio sam sufiks Controller
+		Route::get('nivelacijeZaglavljeSpisak', 'cmatMPO\nivelacijeZaglavljeController@nivelacijeZaglavljeSpisak')->name('nivelacijeZaglavljeSpisak');
+		Route::get('nivelacijeZaglavljePoslednji', 'cmatMPO\nivelacijeZaglavljeController@nivelacijeZaglavljePoslednji')->name('nivelacijeZaglavljePoslednji');
+		Route::get('nivelacijeZaglavljeUnos','cmatMPO\nivelacijeZaglavljeController@nivelacijeZaglavljeUnos')->name('nivelacijeZaglavljeUnos');
+		Route::get('nivelacijeZaglavljeBrisanje','cmatMPO\nivelacijeZaglavljeController@nivelacijeZaglavljeBrisanje')->name('nivelacijeZaglavljeBrisanje');
+		
+		// --------!!!!!!!!-------------
+		// NIVELACIJE STAVKE
+		Route::get('nivelacijeIndex', 'cmatMPO\nivelacijeController@nivelacijeIndex');//Zaboravio sam sufiks Controller
+		Route::get('nivelacijeSpisak/{broj}', 'cmatMPO\nivelacijeController@nivelacijeSpisak')->name('nivelacijeSpisak');
+		Route::get('nivelacijeUnos','cmatMPO\nivelacijeController@nivelacijeUnos')->name('nivelacijeUnos');
+		Route::get('nivelacijeArtikli', 'cmatMPO\nivelacijeController@nivelacijeArtikli')->name('nivelacijeArtikli');
+		Route::get('nivelacijeObjekti', 'cmatMPO\nivelacijeController@nivelacijeObjekti')->name('nivelacijeObjekti');
+		Route::get('nivelacijeBrisanje','cmatMPO\nivelacijeController@nivelacijeBrisanje')->name('nivelacijeBrisanje');
+		Route::get('nivelacijeJasper/{id}','cmatMPO\nivelacijeController@nivelacijeJasper')->name('nivelacijeJasper');
+
+		// --------!!!!!!!!-------------
+
+		// -------!!!!!!!!------------
+			//UKALK
+			Route::get('ukalkIndex', 'cmatMPO\ukalkController@ukalkIndex');
+			Route::get('ukalkSpisak', 'cmatMPO\ukalkController@ukalkSpisak')->name('ukalkSpisak');
+			Route::get('ukalkUnos', 'cmatMPO\ukalkController@ukalkUnos')->name('ukalkUnos');
+
+			Route::get('nivelacijeArtikliKalk', 'cmatMPO\nivelacijeController@nivelacijeArtikliKalk')->name('nivelacijeArtikliKalk'); //samo za 4 dobavljaca fiktivni artikli
+
+			Route::get('kalkSpisak/{broj}', 'cmatMPO\ukalkController@kalkSpisak')->name('kalkSpisak');
+			Route::get('kalkUnos', 'cmatMPO\ukalkController@kalkUnos')->name('kalkUnos');
+			Route::get('kalkulacijaBrisanje', 'cmatMPO\ukalkController@kalkulacijaBrisanje')->name('kalkulacijaBrisanje');
+
+
+// --------!!!!!!!!------------- GLOBALNE
+
+
+
+
+	// --------!!!!!!!!-------------CMAT MPO RUTE
+					// --------!!!!!!!!-------------CMAT KADROVI RUTE
+							Route::get('kadroviIndex', 'cmatMPO\kadroviController@kadroviIndex');
+							Route::get('kadroviSpisak', 'cmatMPO\kadroviController@kadroviSpisak')->name('kadroviSpisak');
+							Route::get('kadroviUnos', 'cmatMPO\kadroviController@kadroviUnos')->name('kadroviUnos');
+					// --------!!!!!!!!-------------CMAT ZAPOSLENJA RUTE
+							Route::get('zaposlenjaIndex', 'cmatMPO\zaposlenjaController@zaposlenjaIndex');
+							Route::get('zaposlenjaSpisak', 'cmatMPO\zaposlenjaController@zaposlenjaSpisak')->name('zaposlenjaSpisak');
+							Route::get('zaposlenjaKadrovi', 'cmatMPO\zaposlenjaController@zaposlenjaKadrovi')->name('zaposlenjaKadrovi');
+							Route::get('zaposlenjaRadnje', 'cmatMPO\zaposlenjaController@zaposlenjaRadnje')->name('zaposlenjaRadnje');
+							Route::get('zaposlenjaUnos', 'cmatMPO\zaposlenjaController@zaposlenjaUnos')->name('zaposlenjaUnos');
+					// --------!!!!!!!!-------------CMAT OCENJIVANJE ZAPOSLENIH
+							Route::get('oceneZaposleniIndex', 'cmatMPO\ocenaZaposlenihController@oceneZaposleniIndex');
+							Route::post('oceneZaposleniSpisak', 'cmatMPO\ocenaZaposlenihController@oceneZaposleniSpisak')->name('oceneZaposleniSpisak');
+							Route::post('ocenjeniSpisak', 'cmatMPO\ocenaZaposlenihController@ocenjeniSpisak')->name('ocenjeniSpisak');
+							Route::get('ocenjivanjeUnos', 'cmatMPO\ocenaZaposlenihController@ocenjivanjeUnos')->name('ocenjivanjeUnos');
+							Route::get('ocenaBrisanje', 'cmatMPO\ocenaZaposlenihController@ocenaBrisanje')->name('ocenaBrisanje');
+					// --------!!!!!!!!-------------CMAT MAPIRANJE ARTIKALA SA ROBNIM GRUPAMA
+							Route::get('rgIndex', 'cmatMPO\rgController@rgIndex');
+							Route::post('artikliSpisak', 'cmatMPO\rgController@artikliSpisak')->name('artikliSpisak');
+							Route::get('artikalVeza', 'cmatMPO\rgController@artikalVeza')->name('artikalVeza');
+							Route::get('robneGrupeSpisak', 'cmatMPO\rgController@robneGrupeSpisak')->name('robneGrupeSpisak');
+	// -------!!!!!!!!------------ 
+
+Route::get('dobavljaciSpisak', 'DashboardController@dobavljaciSpisak')->name('dobavljaciSpisak');
+
+//	// -------!!!!!!!!------------
 // AUTHENTICATION SISTEM
 Route::get('/', function () {
     return view('welcome');

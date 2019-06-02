@@ -5,7 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header" style="background-color: #7386D5;">{{ __('Register') }}
+                     <a style="float: right;" href="{{ url ('/home') }}" >
+                        <i class="fas fa-home"></i>
+                        Pocetna
+                    </a>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -38,6 +43,36 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Rola') }}</label>
+
+                            <div class="col-md-6">
+                                
+                                    <select name="role" class="form-control" id="odabranaRola" onchange="definisanjeObjekta()">
+                                        <option value="admin">admin</option>
+                                        <option value="cmat">cmat</option>
+                                        <option value="cmatMPO">MATEA_ADMIN</option>
+                                        <option value="cmatRADNJA">MATEA OBJEKAT</option>
+                                       
+                                    </select> 
+                         
+                            </div>
+                            </div>   
+                            <div class="form-group row" id="sifraRadnje">
+                                <label for="orgjed" class="col-md-4 col-form-label text-md-right">{{ __('Sifra radnje') }}</label>
+
+                                <div class="col-md-6">
+                                            <input id="orgjed" type="text" class="form-control{{ $errors->has('orgjed') ? ' is-invalid' : '' }}" name="orgjed" value="{{ old('orgjed') }}" >
+
+                                            @if ($errors->has('orgjed'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('orgjed') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                            </div>
+                         
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -74,4 +109,19 @@
         </div>
     </div>
 </div>
+<script>
+      document.getElementById('sifraRadnje').style.display = 'none';
+    function definisanjeObjekta() {
+            if(document.getElementById('odabranaRola').value == 'cmatRADNJA' )
+            {
+                document.getElementById('sifraRadnje').style.display = '';
+
+            }
+            else 
+            {
+                 document.getElementById('sifraRadnje').style.display = 'none';
+            }
+      
+    }
+</script>
 @endsection

@@ -12,7 +12,7 @@ class bilansiUspehaController extends Controller
       public function setovanje_bilansa_uspeha()
     {
       
-        return view('setovanje_bilansa_uspeha');      
+        return view('cmat/setovanje_bilansa_uspeha');      
     
     }
      public function zaglavljeKonta()
