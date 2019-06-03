@@ -36,7 +36,7 @@ class brisanjeKalkulacija extends Controller
 
 							");
     	
-    	   	
+    	   	echo 'Uspesno ste obrisali!!!';
     	      }
       catch(QueryException $ex){
          // do task when error
