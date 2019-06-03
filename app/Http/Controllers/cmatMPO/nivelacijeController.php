@@ -131,7 +131,9 @@ class nivelacijeController extends Controller
       //['312','265','6120','75','6110']
         
         $andr = new artikal;
-        $apps = $andr::whereIn('sifra', ['312','265','6120','75','6110'])->get();
+        //$apps = $andr::whereIn('sifra', ['312','265','6120','75','6110'])->get();
+        $apps = $andr::where('naziv', 'like', '%' . strtoupper($request->pretraga)  . '%')->orWhere('sifra', 'like', '%' . $request->pretraga . '%')->get();
+        
 
            return json_encode($apps);
     
