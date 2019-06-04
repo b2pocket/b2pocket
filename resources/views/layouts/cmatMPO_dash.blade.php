@@ -85,6 +85,12 @@
                                     <a  href="{{ url ('rgIndex') }}"> <i class="fas fa-laptop-code"></i>Robne grupe</a>
             
                  </li>
+                        <li id="zatvoriSidebar">
+                            <a   href="{{ url ('brisanjeKalkulacijaIndex') }}"><i class="fas fa-laptop-code"></i>Brisanje kalkulacija</a>
+                        </li>
+                         <li id="zatvoriSidebar">
+                            <a  href="{{ url ('brisanjeInternihFakturaIndex') }}"><i class="fas fa-laptop-code"></i>Brisanje internih faktura</a>
+                        </li>
 
              
             </ul>
