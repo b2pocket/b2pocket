@@ -27,15 +27,18 @@ class HomeController extends Controller
     {
         if (Auth::user()->role == 'cmat')
         {
-        return view('cmat/home');
+        //return view('cmat/home');
+             return view('admin/home');
         }
         else if (Auth::user()->role == 'cmatMPO')
         {
-             return view('cmatMPO/home');
+           //  return view('cmatMPO/home');
+             return view('admin/home');
         }
          else if (Auth::user()->role == 'cmatRADNJA')
         {
-             return view('cmatRADNJA/home');
+         //    return view('cmatRADNJA/home');
+             return view('admin/home');
         }
         else
         {

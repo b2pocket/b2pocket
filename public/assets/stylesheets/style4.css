@@ -148,7 +148,7 @@ span {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    /*background: #6d7fcc;*/
 }
 
 a[data-toggle="collapse"] {
@@ -328,7 +328,7 @@ font-size: calc(12px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
 
  .mojeTabele th{
         font-size: 12px;
-        color: red;
+        /*color: red;*/
         white-space: nowrap;
         table-layout:fixed;
     }

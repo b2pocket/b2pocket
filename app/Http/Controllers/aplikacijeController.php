@@ -7,17 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\andr_and_user_Model as andr;
 use Laravel\cmat\and_v_prava_na_app as prava;
 use Laravel\cmat\and_aplikacija as allApp;
+use Laravel\cmat\and_aplikacija_en as allApp_en;
 use Laravel\cmat\and_meni as andMeni;
 use Laravel\cmat\and_tab as andTab;
 use Laravel\cmat\and_aplikacija_stavka as andTabStavke;
+use Laravel\cmat\and_aplikacija_stavka_en as andTabStavke_en;
 use Exception;
+use DB;
 
 class aplikacijeController extends Controller
 {
      public function aplikacijeIndex()
     {
-      
-        return view('admin/android_manipulacija/aplikacije');      
+         $jeziciKolekcija =  DB::select("
+                 
+                  select jezik,jezik_naziv from andr.and_jezik
+
+            ");
+           
+        return view('admin/android_manipulacija/aplikacije',compact('jeziciKolekcija'));     
     
     }
      public function androidMeniji()
@@ -43,11 +51,25 @@ class aplikacijeController extends Controller
     }
     public function androidAplikacije(request $request)
     {
-    		
-    		$andr = new allApp;
-    		$apps = $andr::where('podsistem',$request->meni)->get();
+    		if ($request->jezik == 'SRB')
+          {
+        		$andr = new allApp;
+        		$apps = $andr::where('podsistem',$request->meni)->get();
+          }
+          else
+          {
+            $andr = new allApp_en;
+            // $apps = $andr::where('podsistem',$request->meni)->where('jezik',$request->jezik)->get();
+            $apps = DB::select("
+                select e.* from andr.and_aplikacija_en e,andr.and_aplikacija a
+              where a.aplikacija = e.aplikacija
+              and a.podsistem= '$request->meni'
+              and e.jezik = '$request->jezik'
 
+              ");
+          }
     	     return json_encode($apps);
+          
   	
     }
     public function androidSveAPlikacije()
@@ -79,9 +101,25 @@ class aplikacijeController extends Controller
     }
        public function androidTaboviStavke(request $request)
     {
-        
+         if ($request->jezik == 'SRB')
+          {
         $andr = new andTabStavke;
         $tabStavke = $andr::where('aplikacija',$request->aplikacija)->where('broj_taba',$request->br_taba)->get();
+            }
+            else
+            {
+               $andr = new andTabStavke_en;
+               $tabStavke = DB::select("
+                select a.* from andr.and_aplikacija_stavka l,andr.and_aplikacija_stavka_en  a
+                where a.aplikacija = l.aplikacija
+                and a.stavka = l.stavka
+                and l.broj_taba =$request->br_taba
+                and a.jezik ='$request->jezik'
+                and a.aplikacija = '$request->aplikacija'
+
+                ");
+            /*  $tabStavke = $andr::where('aplikacija',$request->aplikacija)->where('broj_taba',$request->br_taba)->where('jezik',$request->jezik)->get();*/
+            }
 
            return json_encode($tabStavke);
     
@@ -126,16 +164,29 @@ class aplikacijeController extends Controller
     public function aplikacijaUnos(request $request)
     {
         try{
-        $obj = new allApp;     
-        $obj ->aplikacija = $request->aplikacija;
-        $obj ->prikazni_naziv = $request->prikazni_naziv; 
-        $obj ->android_maska = $request->android_maska;
-        $obj ->ws_parametar = $request->ws_parametar; 
-        $obj ->ws_parametar2 = $request->ws_parametar2; 
-        $obj ->snack_poruka_do = $request->snack_poruka_do; 
-        $obj ->podsistem = $request->podsistem;   
-        
-        $obj->save();
+           if ($request->jezik == 'SRB')
+             {
+              $obj = new allApp;     
+              $obj ->aplikacija = $request->aplikacija;
+              $obj ->prikazni_naziv = $request->prikazni_naziv; 
+              $obj ->android_maska = $request->android_maska;
+              $obj ->ws_parametar = $request->ws_parametar; 
+              $obj ->ws_parametar2 = $request->ws_parametar2; 
+              $obj ->snack_poruka_do = $request->snack_poruka_do; 
+              $obj ->podsistem = $request->podsistem;   
+              
+              $obj->save();
+            }
+            else
+            {
+               $obj = new allApp_en;     
+                $obj ->aplikacija = $request->aplikacija;
+                $obj ->prikazni_naziv = $request->prikazni_naziv; 
+               
+                $obj ->jezik = $request->jezik;   
+                
+                $obj->save();
+            }
 
         
         }
@@ -150,6 +201,8 @@ class aplikacijeController extends Controller
     public function aplikacijaIzmena(request $request)
     {
         try{
+            if ($request->jezik == 'SRB')
+             {
        $izmena = allApp::where('aplikacija','=',$request->aplikacija)
                 ->update([
                   'prikazni_naziv'=>$request->prikazni_naziv,
@@ -159,6 +212,15 @@ class aplikacijeController extends Controller
                   'snack_poruka_do'=>$request->snack_poruka_do,
                   'podsistem'=>$request->podsistem
                         ]);
+              }
+              else
+              {
+          $izmena = allApp_en::where('aplikacija','=',$request->aplikacija)->where('jezik','=',$request->jezik)
+                ->update([
+                  'prikazni_naziv'=>$request->prikazni_naziv
+               
+                        ]);
+              }
 
         
         }
@@ -216,32 +278,65 @@ class aplikacijeController extends Controller
     public function tabStavkeUnos(request $request)
     {
         try{
-        $obj = new andTabStavke;     
-        $obj ->aplikacija = $request->aplikacija;
-        $obj ->stavka = $request->stavka; 
-        $obj ->grafik = $request->grafik; 
-        $obj ->broj_serija = $request->broj_serija; 
-        $obj ->serija1_naziv = $request->serija1_naziv; 
-        $obj ->serija2_naziv = $request->serija2_naziv; 
-        $obj ->serija3_naziv = $request->serija3_naziv; 
-        $obj ->naziv_isvestaja = $request->naziv_isvestaja; 
-        $obj ->dd_naziv_izvestaja = $request->dd_naziv_izvestaja; 
-        $obj ->dd_web_servis = $request->dd_web_servis; 
-        $obj ->broj_taba = $request->broj_taba; 
-        $obj ->web_servis = $request->web_servis; 
-        $obj ->serija4_naziv = $request->serija4_naziv; 
-        $obj ->serija5_naziv = $request->serija5_naziv; 
-        $obj ->dd_stavka = $request->dd_stavka; 
-        $obj ->dd_grafik = $request->dd_grafik; 
-        $obj ->dd_br_serija = $request->dd_br_serija; 
-        $obj ->dd_serija1_naziv = $request->dd_serija1_naziv; 
-        $obj ->dd_serija2_naziv = $request->dd_serija2_naziv; 
-        $obj ->dd_serija3_naziv = $request->dd_serija3_naziv; 
-        $obj ->dd_serija4_naziv = $request->dd_serija4_naziv; 
-        $obj ->dd_serija5_naziv = $request->dd_serija5_naziv; 
- 
-        $obj->save();
 
+          if ($request->jezik == 'SRB')
+          {
+            $obj = new andTabStavke;     
+            $obj ->aplikacija = $request->aplikacija;
+            $obj ->stavka = $request->stavka; 
+            $obj ->grafik = $request->grafik; 
+            $obj ->broj_serija = $request->broj_serija; 
+            $obj ->serija1_naziv = $request->serija1_naziv; 
+            $obj ->serija2_naziv = $request->serija2_naziv; 
+            $obj ->serija3_naziv = $request->serija3_naziv; 
+            $obj ->naziv_isvestaja = $request->naziv_isvestaja; 
+            $obj ->dd_naziv_izvestaja = $request->dd_naziv_izvestaja; 
+            $obj ->dd_web_servis = $request->dd_web_servis; 
+            $obj ->broj_taba = $request->broj_taba; 
+            $obj ->web_servis = $request->web_servis; 
+            $obj ->serija4_naziv = $request->serija4_naziv; 
+            $obj ->serija5_naziv = $request->serija5_naziv; 
+            $obj ->dd_stavka = $request->dd_stavka; 
+            $obj ->dd_grafik = $request->dd_grafik; 
+            $obj ->dd_br_serija = $request->dd_br_serija; 
+            $obj ->dd_serija1_naziv = $request->dd_serija1_naziv; 
+            $obj ->dd_serija2_naziv = $request->dd_serija2_naziv; 
+            $obj ->dd_serija3_naziv = $request->dd_serija3_naziv; 
+            $obj ->dd_serija4_naziv = $request->dd_serija4_naziv; 
+            $obj ->dd_serija5_naziv = $request->dd_serija5_naziv; 
+     
+            $obj->save();
+          }
+          else
+          {
+            $obj = new andTabStavke_en;     
+            $obj ->aplikacija = $request->aplikacija;
+            $obj ->stavka = $request->stavka; 
+            //$obj ->grafik = $request->grafik; 
+            //$obj ->broj_serija = $request->broj_serija; 
+            $obj ->serija1_naziv = $request->serija1_naziv; 
+            $obj ->serija2_naziv = $request->serija2_naziv; 
+            $obj ->serija3_naziv = $request->serija3_naziv; 
+            $obj ->naziv_isvestaja = $request->naziv_isvestaja; 
+            $obj ->dd_naziv_izvestaja = $request->dd_naziv_izvestaja; 
+            //$obj ->dd_web_servis = $request->dd_web_servis; 
+            //$obj ->broj_taba = $request->broj_taba; 
+            //$obj ->web_servis = $request->web_servis; 
+            $obj ->serija4_naziv = $request->serija4_naziv; 
+            $obj ->serija5_naziv = $request->serija5_naziv; 
+            //$obj ->dd_stavka = $request->dd_stavka; 
+            //$obj ->dd_grafik = $request->dd_grafik; 
+            //$obj ->dd_br_serija = $request->dd_br_serija; 
+            $obj ->dd_serija1_naziv = $request->dd_serija1_naziv; 
+            $obj ->dd_serija2_naziv = $request->dd_serija2_naziv; 
+            $obj ->dd_serija3_naziv = $request->dd_serija3_naziv; 
+            $obj ->dd_serija4_naziv = $request->dd_serija4_naziv; 
+            $obj ->dd_serija5_naziv = $request->dd_serija5_naziv; 
+            $obj ->jezik = $request->jezik; 
+     
+            $obj->save();
+
+          }
         
         }
     catch(Exception $e){
@@ -255,10 +350,11 @@ class aplikacijeController extends Controller
     {
         try{
        
- 
+   if ($request->jezik == 'SRB')
+          {
         $izmena = andTabStavke::where('aplikacija','=',$request->aplikacija)->where('stavka','=',$request->stavka)
                 ->update([
-                  'stavka'=>$request->stavka,
+                   'stavka'=>$request->stavka,
                   'grafik'=>$request->grafik,
                   'broj_serija'=>$request->broj_serija,
                   'serija1_naziv'=>$request->serija1_naziv,
@@ -278,8 +374,38 @@ class aplikacijeController extends Controller
                   'dd_serija3_naziv'=>$request->dd_serija3_naziv,
                   'dd_serija4_naziv'=>$request->dd_serija4_naziv,
                   'dd_serija5_naziv'=>$request->dd_serija5_naziv
+
+
+               
                 
                         ]);
+
+              }
+              else
+              {
+                $izmena = andTabStavke_en::where('aplikacija','=',$request->aplikacija)->where('stavka','=',$request->stavka)->where('jezik','=',$request->jezik)
+                ->update([
+                             'stavka'=>$request->stavka,
+              
+                            'serija1_naziv'=>$request->serija1_naziv,
+                            'serija2_naziv'=>$request->serija2_naziv,
+                            'serija3_naziv'=>$request->serija3_naziv,
+                            'naziv_isvestaja'=>$request->naziv_isvestaja,
+                            'dd_naziv_izvestaja'=>$request->dd_naziv_izvestaja,
+            
+                    
+                            'serija4_naziv'=>$request->serija4_naziv,
+                            'serija5_naziv'=>$request->serija5_naziv,
+                     
+                        
+                            'dd_serija1_naziv'=>$request->dd_serija1_naziv,
+                            'dd_serija2_naziv'=>$request->dd_serija2_naziv,
+                            'dd_serija3_naziv'=>$request->dd_serija3_naziv,
+                            'dd_serija4_naziv'=>$request->dd_serija4_naziv,
+                            'dd_serija5_naziv'=>$request->dd_serija5_naziv
+                          
+                        ]);
+              }
 
         
         }
@@ -318,7 +444,14 @@ class aplikacijeController extends Controller
     public function tabStavkaBrisanje(Request $request)
     {
       try{
-        $res=andTabStavke::where('stavka',$request->stavka)->where('aplikacija',$request->aplikacija)->delete();
+          if ($request->jezik == 'SRB')
+          {
+            $res=andTabStavke::where('stavka',$request->stavka)->where('aplikacija',$request->aplikacija)->delete();
+          }
+          else
+          {
+            $res=andTabStavke_en::where('stavka',$request->stavka)->where('aplikacija',$request->aplikacija)->where('jezik',$request->jezik)->delete();
+          }
          
            }
             catch(Exception $e){

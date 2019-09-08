@@ -32,7 +32,51 @@ max-width: 150px;
 }
 
 
+
+.noteSetovanjaHelena
+{
+    text-align: center;
+    height: 20px;
+    background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+    color: #fff;
+    font-weight: bold;
+    line-height: 80px;
+}
+
+.btnSubmitSetovanjaHelena
+{
+    border:none;
+    /*border-radius:1rem;*/
+    padding: 1%;
+    /*width: 70px;*/
+    cursor: pointer;
+    background: #0062cc;
+    color: #fff;
+}
+
+.btnDynamic {
+  background-color: white;
+  margin-right: 5px;
+  border: solid 1px;
+  /*color: white;*/
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+
 @media (min-width: 1200px) {
+    .btnDynamic {
+  background-color: white;
+  margin-right: 5px;
+  border: solid 1px;
+  /*color: white;*/
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
 
 .kalkulacijeSirinaSelecta {
 max-width: 167px;
@@ -43,6 +87,18 @@ max-width: 167px;
 
 
  @media (min-width: 992px) and (max-width: 1199.98px) { 
+
+  
+.btnSubmitSetovanjaHelena
+{
+    border:none;
+    /*border-radius:1rem;*/
+    padding: 1%;
+    /*width: 70px;*/
+    cursor: pointer;
+    background: #0062cc;
+    color: #fff;
+}
 
 
 .kalkulacijeSirinaSelecta {

@@ -1,0 +1,92 @@
+.mojBody
+{
+  padding-left: 14rem;
+}
+.mojTopBar
+{
+	margin-left: 14rem;
+
+}
+
+/* width */
+#meniDiv::-webkit-scrollbar {
+  width: 5px;
+  display: none;
+}
+
+/* Track */
+#meniDiv::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+#meniDiv::-webkit-scrollbar-thumb {
+  background: #0079fa; 
+}
+
+/* Handle on hover */
+#meniDiv::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+@media (min-width: 200px) {
+			.mojBody
+			{
+			  padding-left: 6.5rem;
+			}
+			.mojTopBar
+			{
+				margin-left: 6.5rem;
+			}
+#meniDiv
+{
+	height: 60vh!important;
+	/*overflow-y: scroll;*/
+	/*overflow-x: hidden;*/
+/*	 top: 0px;
+	 position: fixed;
+	
+	  bottom: 0;
+	  left: 0;*/
+	  /*display: block;*/
+	  /*overflow-x: hidden;*/
+	  /*overflow-y: scroll;*/
+
+}
+
+}
+
+@media (min-width: 768px) {
+			.mojBody
+			{
+			  padding-left: 14rem;
+			}
+			.mojTopBar
+			{
+				margin-left: 14rem;
+			}
+			#accordionSidebar
+
+}
+
+@media (min-width: 992px) {
+			.mojBody
+			{
+			  padding-left: 14rem;
+			}
+			.mojTopBar
+						{
+							margin-left: 14rem;
+						}
+}
+
+@media (min-width: 1200px) {
+			.mojBody
+			{
+			   padding-left: 14rem;
+			}
+			.mojTopBar
+						{
+							margin-left: 14rem;
+						}
+}

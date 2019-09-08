@@ -44,11 +44,11 @@ Route::get('tableDetailStanja/{klasaKonta2}', 'bilansiStanjeController@tableDeta
 		//Aplikacije
 			Route::get('aplikacijeIndex', 'aplikacijeController@aplikacijeIndex');
 			Route::get('androidMeniji', 'aplikacijeController@androidMeniji')->name('androidMeniji');
-			Route::get('androidAplikacije/{meni}', 'aplikacijeController@androidAplikacije')->name('androidAplikacije');
+			Route::get('androidAplikacije/{meni}/{jezik}', 'aplikacijeController@androidAplikacije')->name('androidAplikacije');
 			Route::get('androidSveAPlikacije', 'aplikacijeController@androidSveAPlikacije')->name('androidSveAPlikacije');
 			Route::get('androidTabovi/{aplikacija}', 'aplikacijeController@androidTabovi')->name('androidTabovi');
 			Route::get('androidSviTabovi', 'aplikacijeController@androidSviTabovi')->name('androidSviTabovi');
-			Route::get('androidTaboviStavke/{aplikacija}/{br_taba}', 'aplikacijeController@androidTaboviStavke')->name('androidTaboviStavke');
+			Route::get('androidTaboviStavke/{aplikacija}/{br_taba}/{jezik}', 'aplikacijeController@androidTaboviStavke')->name('androidTaboviStavke');
 			Route::get('meniUnos','aplikacijeController@meniUnos')->name('meniUnos');
 			Route::get('meniIzmena','aplikacijeController@meniIzmena')->name('meniIzmena');
 			Route::get('aplikacijaUnos','aplikacijeController@aplikacijaUnos')->name('aplikacijaUnos');
@@ -69,6 +69,34 @@ Route::get('zapisiIndex', 'adminApps\zapisiController@zapisiIndex');
 Route::get('zapisiSqlLogger', 'adminApps\zapisiController@zapisiSqlLogger')->name('zapisiSqlLogger');
 Route::get('nivelacijeUnos','cmatMPO\nivelacijeController@nivelacijeUnos')->name('nivelacijeUnos');
 // --------!!!!!!!!-------------
+
+// SETOVANJE TRASNFERA
+Route::get('setovanjeTransferaIndex', 'adminApps\setovanjeTransferaController@setovanjeTransferaIndex');
+Route::get('helenaSetovanjaR', 'adminApps\setovanjeTransferaController@helenaSetovanjaR')->name('helenaSetovanjaR');
+Route::get('helenaSetovanjaKreirajModal', 'adminApps\setovanjeTransferaController@helenaSetovanjaKreirajModal')->name('helenaSetovanjaKreirajModal');
+Route::post('helenaEditovanjeTabele', 'adminApps\setovanjeTransferaController@helenaEditovanjeTabele')->name('helenaEditovanjeTabele');
+Route::post('helenaInsertReda', 'adminApps\setovanjeTransferaController@helenaInsertReda')->name('helenaInsertReda');
+
+// --------!!!!!!!!-------------
+
+// SETOVANJE B2ME ADMINS
+Route::get('b2me_amdinsV', 'adminApps\setovanjeB2meAdminsController@setovanjeTransferaIndex')->name('b2me_amdinsV');
+Route::get('b2me_amdinsR', 'adminApps\setovanjeB2meAdminsController@helenaSetovanjaR')->name('b2me_amdinsR');
+Route::get('b2me_amdinsM', 'adminApps\setovanjeB2meAdminsController@helenaSetovanjaKreirajModal')->name('b2me_amdinsM');
+Route::post('b2me_amdinsE', 'adminApps\setovanjeB2meAdminsController@helenaEditovanjeTabele')->name('b2me_amdinsE');
+Route::post('b2me_amdinsI', 'adminApps\setovanjeB2meAdminsController@helenaInsertReda')->name('b2me_amdinsI');
+
+// --------!!!!!!!!-------------
+
+// SETOVANJE WP_WEB_MENI_GRUPE
+Route::get('wp_web_meni_grupeV/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeV')->name('wp_web_meni_grupeV');
+Route::get('wp_web_meni_grupeR/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeR')->name('wp_web_meni_grupeR');
+Route::get('wp_web_meni_grupeM/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeM')->name('wp_web_meni_grupeM');
+Route::post('wp_web_meni_grupeE/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeE')->name('wp_web_meni_grupeE');
+Route::post('wp_web_meni_grupeI/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeI')->name('wp_web_meni_grupeI');
+
+// --------!!!!!!!!-------------
+
 
 // --------!!!!!!!!-------------
 // BRISANJE KALKULACIJA
@@ -147,6 +175,7 @@ Route::get('obrisiInternuFakturu', 'adminApps\brisanjeInternihFaktura@obrisiInte
 	// -------!!!!!!!!------------ 
 
 Route::get('dobavljaciSpisak', 'DashboardController@dobavljaciSpisak')->name('dobavljaciSpisak');
+Route::get('kreirajMeni', 'DashboardController@kreirajMeni')->name('kreirajMeni');
 
 //	// -------!!!!!!!!------------
 // AUTHENTICATION SISTEM

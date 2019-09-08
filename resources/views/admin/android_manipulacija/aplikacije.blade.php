@@ -167,11 +167,22 @@
                             <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena"  data-toggle="modal" id="btnBrisanjeAplikacije" ><i class="fas fa-trash" style="color: red;"></i></button>
                             </div>
+
+                            <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
+                              <select  class=" form-control mb-2" id="APP_JEZIK_UNOS">
+                                        @foreach ($jeziciKolekcija as $jezik)
+                                        <option value="{{$jezik->jezik}}">{{$jezik->jezik_naziv}}</option>
+                                        @endforeach  
+                            </select>
+                            </div>
                             <button id="selektovanaAplikacija" class="btn ml-2 selektovano" ></button>
-                        
+
+
+                            
                     </div>
                             
                     <div class="card-body" >
+                        <div id="tblAplikacijeD">
                                 <table class="table mojeTabele cell-border"  id="tblAplikacije" style="width: 100%;">
                                 <thead >
                                     <tr>
@@ -184,7 +195,20 @@
                                         <th>SNACK POR</th>
                                     </tr>
                                 </thead>
-                            </table>            
+                            </table>         
+                        </div>
+                        <div id="tblAplikacije_enD">
+                              <table class="table mojeTabele cell-border"  id="tblAplikacije_en" style="width: 100%;">
+                                <thead >
+                                    <tr>
+                                        <th id="tblSelAplikacijaNaziv_en">APLIKACIJA</th>
+                                        <th>PRIKAZNI NAZIV</th>
+                                        <th>JEZIK</th>
+                                        
+                                    </tr>
+                                </thead>
+                            </table>  
+                        </div>   
                     </div>
                 </div>
 
@@ -498,11 +522,21 @@
                             <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena"  data-toggle="modal" id="btnBrisanjeStavkeTaba" ><i class="fas fa-trash" style="color: red;"></i></button>
                             </div>
+                            <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
+                            
+                             <select  class=" form-control mb-2" id="TAB_STAVKE_JEZIK_PRIMENE">
+                                        @foreach ($jeziciKolekcija as $jezik)
+                                        <option value="{{$jezik->jezik}}">{{$jezik->jezik_naziv}}</option>
+                                        @endforeach
+                                          
+                                      </select>
+                            </div>
                             <button id="selektovanaStavka" class="btn ml-2  selektovano"></button>
                         
                     </div>
                             
                     <div class="card-body">
+                             <div  id="tblTaboviStavkeD">  
                             <table class="table mojeTabele cell-border" style="width: 100%;"  id="tblTaboviStavke">
                                 <thead >
                                     <tr>
@@ -532,7 +566,40 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
-                            </table>            
+                            </table>    
+                        </div>
+                            <div  id="tblTaboviStavke_enD">  
+                            <table style="display: hidden;" class="table mojeTabele cell-border" style="width: 100%;"  id="tblTaboviStavke_en">
+                                <thead >
+                                    <tr>
+                                        <th>APLIKACIJA</th>
+                                        <th>STAVKA</th>
+                                     
+                                 
+                                   
+                                        <th>SERIJA1_NAZIV</th>
+                                        <th>SERIJA2_NAZIV</th>
+                                        <th>SERIJA3_NAZIV</th>
+                                        <th>NAZIV_IZVESTAJA</th>
+                           
+                                        <th>SERIJA4_NAZIV</th>
+                                        <th>SERIJA5_NAZIV</th>
+                          
+                                 
+                                        <th>DD_SERIJA1_NAZIV</th>
+                                        <th>DD_SERIJA2_NAZIV</th>
+                                        <th>DD_SERIJA3_NAZIV</th>
+                                        <th>DD_SERIJA4_NAZIV</th>
+                                        <th>DD_SERIJA5_NAZIV</th>
+                                        <th>DD_NAZIV_IZVESTAJA</th>
+                                        <th>JEZIK</th>
+                                  
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>      
+                            </div>            
                     </div>
                 </div>
 
@@ -545,8 +612,11 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title text-xs-center">Dodaj stavku taba</h4>
                                 </div> --}}
-                                <div class="row col-12 mb-3">
+                                  
+                                <div class="row col-12 mb-5">
+
                                 <div class="modal-body col-6" id="cetvrtiModal">
+                                    
                                     {{-- <form role="form" method="POST" action="{{ route('meniUnos')}}"> --}}
                                        {{ csrf_field() }} 
                                        <div class="row">
@@ -972,6 +1042,7 @@
 
                     $('#prikaziSetAplikacija').trigger('click');
                     tblAplikacije.ajax.reload();
+                     tblAplikacije_en.ajax.reload();
                   });
 
                
@@ -991,6 +1062,7 @@
 
                     $('#prikaziSetStavki').trigger('click');
                     tblTaboviStavke.ajax.reload();
+                    tblTaboviStavke_en.ajax.reload();
                   });
               });
     </script>
@@ -1017,6 +1089,7 @@
             
 
         });
+
         $('#modIzmeniStavkuTaba').click(function(e){
             // $('#tabStavkeUnos').hide();
             // $('#tabStavkeIzmena').show();
@@ -1126,6 +1199,27 @@
             
 
         });
+
+          function modIzmeniAplikaciju_en(){
+           // $('#aplikacijaUnos').hide();
+            //$('#aplikacijaIzmena').show();
+            if (selektovanaAplikacija=='')
+            {
+                alert('Niste selektovali aplikacijue za izmenu!!!!');
+                // $('#modalUnosMeni').modal('toggle');
+                e.stopPropagation();//ne otvaraj modal ako nije red selektovan
+            }
+            $('#APP_NAZIV_UNOS').prop('readonly', true);
+            $('#APP_MENI_UNOS').prop('disabled', true);
+
+            $('#APP_NAZIV_UNOS').val(selektovanaAplikacija);
+            $('#APP_PRIKAZNI_NAZIV_UNOS').val(appPrikazniNaziv);
+           
+
+
+            
+
+        };
          
      </script>
      <script>
@@ -1184,11 +1278,13 @@
         dd_serija2_naziv: $("#TAB_DD_SERIJA2_NAZIV_UNOS2").val(),
         dd_serija3_naziv: $("#TAB_DD_SERIJA3_NAZIV_UNOS2").val(),
         dd_serija4_naziv: $("#TAB_DD_SERIJA4_NAZIV_UNOS2").val(),
-        dd_serija5_naziv: $("#TAB_DD_SERIJA5_NAZIV_UNOS2").val()
+        dd_serija5_naziv: $("#TAB_DD_SERIJA5_NAZIV_UNOS2").val(),
+        jezik : $("#TAB_STAVKE_JEZIK_PRIMENE").val()
               
             },function(result){
-                   
+                   console.log(result);
                     tblTaboviStavke.ajax.reload();
+                    tblTaboviStavke_en.ajax.reload();
                     $('#modalUnosTabStavke').modal('toggle');
 
           
@@ -1218,11 +1314,14 @@
         dd_serija2_naziv: $("#TAB_DD_SERIJA2_NAZIV_UNOS").val(),
         dd_serija3_naziv: $("#TAB_DD_SERIJA3_NAZIV_UNOS").val(),
         dd_serija4_naziv: $("#TAB_DD_SERIJA4_NAZIV_UNOS").val(),
-        dd_serija5_naziv: $("#TAB_DD_SERIJA5_NAZIV_UNOS").val()
+        dd_serija5_naziv: $("#TAB_DD_SERIJA5_NAZIV_UNOS").val(),
+        jezik: $("#TAB_STAVKE_JEZIK_PRIMENE").val()
               
             },function(result){
-                  
+                  console.log(result);
                     tblTaboviStavke.ajax.reload();
+                     tblTaboviStavke_en.ajax.reload();
+
                     $('#modalUnosTabStavke').modal('toggle');
 
           
@@ -1261,6 +1360,7 @@
             },function(result){
                   
                 tblAplikacije.ajax.reload();
+                   tblAplikacije_en.ajax.reload();
                    
             });
         });
@@ -1285,18 +1385,20 @@
         });
            $('#btnBrisanjeStavkeTaba').click(function(){
         // alert(tabStavkeBrisanjeAplikacija+tabStavkeBrisanjeBroj);
-        if (tabStavkeBrisanjeAplikacija == '' || tabStavkeBrisanjeBroj==''){
+        if (tabStavkeBrisanjeAplikacija == '' || tabStavkaStavkaUnos==''){
             alert('Nije selektovana stavka!!!');
             return false;
         }
     $.get("tabStavkaBrisanje",{
 
         aplikacija: tabStavkeBrisanjeAplikacija,
-        stavka: tabStavkaStavkaUnos
+        stavka: tabStavkaStavkaUnos,
+        jezik: $('#TAB_STAVKE_JEZIK_PRIMENE').val()
               
             },function(result){
                   //  alert(result);
                 tblTaboviStavke.ajax.reload();
+                tblTaboviStavke_en.ajax.reload();
                    
             });
         });
@@ -1344,11 +1446,13 @@
                 ws_parametar: $("#APP_WS_PARAMETAR_UNOS2").val(),
                 ws_parametar2: $("#APP_WS_PARAMETAR2_UNOS2").val(),
                 snack_poruka_do: $("#APP_SNACK_PORUKA_DO_UNOS2").val(),
-                podsistem: $("#APP_MENI_UNOS2").val()
+                podsistem: $("#APP_MENI_UNOS2").val(),
+                jezik: $("#APP_JEZIK_UNOS").val()
 
             },function(result){
                    // alert(result);
                     tblAplikacije.ajax.reload();
+                     tblAplikacije_en.ajax.reload();
                     $('#modalUnosAplikacije').modal('toggle');
                     popuniSelectAplikacije();
 
@@ -1364,12 +1468,14 @@
                 ws_parametar: $("#APP_WS_PARAMETAR_UNOS").val(),
                 ws_parametar2: $("#APP_WS_PARAMETAR2_UNOS").val(),
                 snack_poruka_do: $("#APP_SNACK_PORUKA_DO_UNOS").val(),
-                podsistem: $("#APP_MENI_UNOS").val()
+                podsistem: $("#APP_MENI_UNOS").val(),
+                jezik: $("#APP_JEZIK_UNOS").val()
               
              
             },function(result){
-                  
+                    console.log(result);
                     tblAplikacije.ajax.reload();
+                    tblAplikacije_en.ajax.reload();
                     $('#modalUnosAplikacije').modal('toggle');
                     popuniSelectAplikacije();
 
@@ -1587,18 +1693,42 @@
             if (pickedupMeni != null) {
                               pickedupMeni.css( "background-color", "#ffffff" );
                           }
-                          $( this ).css( "background-color", "#17A2B8" );
+                          $( this ).css( "background-color", "#B0BED9" );
                           pickedupMeni = $( this );
 
-             urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni']) }}';
+             urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni','jezik' =>':jezik']) }}';
 
                         urlAplikacije = urlAplikacije.replace(':meni', selektovaniMeni);
+                    urlAplikacije = urlAplikacije.replace(':jezik', $('#APP_JEZIK_UNOS').val());
                                     tblAplikacije.ajax.url(urlAplikacije).load();
+
 
                                     $("#modIzmeniMeni").trigger('click');
         
             });
-        urlAplikacije = "{{ route('androidAplikacije', ['meni' =>'n']) }}"
+        urlAplikacije = "{{ route('androidAplikacije', ['meni' =>'n','jezik' =>'SRB']) }}";
+        $('#tblAplikacije_enD').hide();
+        $('#APP_JEZIK_UNOS').change(function(){
+            urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni','jezik' =>':jezik']) }}';
+
+                        urlAplikacije = urlAplikacije.replace(':meni', selektovaniMeni);
+                    urlAplikacije = urlAplikacije.replace(':jezik', $('#APP_JEZIK_UNOS').val());
+                                   
+            if ($('#APP_JEZIK_UNOS').val()=='SRB')
+            {
+                $('#tblAplikacije_enD').hide();
+                $('#tblAplikacijeD').show();
+
+                 tblAplikacije.ajax.url(urlAplikacije).load();
+            }
+            else
+            {
+                $('#tblAplikacije_enD').show();
+                $('#tblAplikacijeD').hide();
+
+                 tblAplikacije_en.ajax.url(urlAplikacije).load();
+            }
+        })
         var tblAplikacije = $('#tblAplikacije').DataTable({
      
                 scrollY: "17vh",
@@ -1625,6 +1755,33 @@
                         { data: 'ws_parametar' },
                         { data: 'ws_parametar2' },
                         { data: 'snack_poruka_do' },
+                       
+                   
+                        ]
+        });
+        var tblAplikacije_en = $('#tblAplikacije_en').DataTable({
+     
+                scrollY: "17vh",
+                paging: false,
+                scrollX: true,
+               // "autoWidth": false,
+                //scrollCollapse: true,
+                select:true,
+                searching:false,
+        
+                ajax:{
+                    url:  urlAplikacije,
+                        "type": "GET",
+                        data:function(){
+                          //id:1
+                                       },
+                        dataSrc: ''
+                    },
+                columns:[
+                        { data: 'aplikacija' },
+                        { data: 'prikazni_naziv' },
+                         { data: 'jezik' }
+                       
                        
                    
                         ]
@@ -1659,7 +1816,7 @@
             if (pickedupAplikacije != null) {
                               pickedupAplikacije.css( "background-color", "#ffffff" );
                           }
-                          $( this ).css( "background-color", "#17A2B8" );
+                          $( this ).css( "background-color", "#B0BED9" );
                           pickedupAplikacije = $( this );
 
             urlTab = '{{ route('androidTabovi', ['aplikacija' =>':aplikacija']) }}';
@@ -1669,6 +1826,37 @@
             $("#modIzmeniAplikaciju").trigger('click');
         
             });
+
+
+            $('#tblAplikacije_en tbody').on('click','tr',function(event){
+
+            selektovanaAplikacija = $(this).find('td').eq($('#tblSelAplikacijaNaziv_en').index()).html();
+            aplikacijeBrisanjeAplikacija = $(this).find('td').eq(0).html();
+            $('#prikaziSetAplikacijaTekst').text('->'+selektovanaAplikacija);
+            $('#prikaziSetTabovaTekst').text('');
+            $('#TAB_AND_APLIKACIJE_PK_UNOS').val(selektovanaAplikacija);
+            $('#TAB_STAVKE_APLIKACIJE_UNOS').val(selektovanaAplikacija);
+            $("#selektovanaAplikacija").text(selektovanaAplikacija).show();
+
+            // popuni polja modala
+                appPrikazniNaziv = $(this).find('td').eq(1).html();
+           
+            //
+
+            if (pickedupAplikacije != null) {
+                              pickedupAplikacije.css( "background-color", "#ffffff" );
+                          }
+                          $( this ).css( "background-color", "#B0BED9" );
+                          pickedupAplikacije = $( this );
+
+            urlTab = '{{ route('androidTabovi', ['aplikacija' =>':aplikacija']) }}';
+
+                        urlTab = urlTab.replace(':aplikacija', selektovanaAplikacija);
+                                    tblTabovi.ajax.url(urlTab).load();
+           modIzmeniAplikaciju_en();
+        
+            });
+
               urlTab = "{{ route('androidTabovi', ['aplikacija' =>'n']) }}"
         var tblTabovi = $('#tblTabovi').DataTable({
      
@@ -1712,27 +1900,51 @@
              // popuni polja modala
                 tabId = $(this).find('td').eq(0).html();
                 tabNaziv = $(this).find('td').eq(2).html();
-                
+              
            
             //
 
             if (pickedupTab != null) {
                               pickedupTab.css( "background-color", "#ffffff" );
                           }
-                          $( this ).css( "background-color", "#17A2B8" );
+                          $( this ).css( "background-color", "#B0BED9" );
                           pickedupTab = $( this );
 
-            urlTabStavka = '{{ route('androidTaboviStavke', ['aplikacija' =>':aplikacija','br_taba' =>':br_taba']) }}';
+            urlTabStavka = '{{ route('androidTaboviStavke', ['aplikacija' =>':aplikacija','br_taba' =>':br_taba','jezik' =>':jezik']) }}';
 
                         urlTabStavka = urlTabStavka.replace(':aplikacija', selektovanaAplikacija);
                         urlTabStavka = urlTabStavka.replace(':br_taba', selektovaniTab);
+        urlTabStavka = urlTabStavka.replace(':jezik', $('#TAB_STAVKE_JEZIK_PRIMENE').val());
                                     tblTaboviStavke.ajax.url(urlTabStavka).load();
                                     $("#modIzmenaTaba").trigger('click');
         
         
         
             });
-         urlTabStavka = "{{ route('androidTaboviStavke', ['aplikacija' =>'n','br_taba' =>'9999']) }}"
+         urlTabStavka = "{{ route('androidTaboviStavke', ['aplikacija' =>'n','br_taba' =>'9999','jezik' =>'SRB']) }}";
+         $('#TAB_STAVKE_JEZIK_PRIMENE').change(function(){
+             urlTabStavka = '{{ route('androidTaboviStavke', ['aplikacija' =>':aplikacija','br_taba' =>':br_taba','jezik' =>':jezik']) }}';
+
+                        urlTabStavka = urlTabStavka.replace(':aplikacija', selektovanaAplikacija);
+                        urlTabStavka = urlTabStavka.replace(':br_taba', selektovaniTab);
+        urlTabStavka = urlTabStavka.replace(':jezik', $('#TAB_STAVKE_JEZIK_PRIMENE').val());
+            if ($('#TAB_STAVKE_JEZIK_PRIMENE').val()=='SRB')
+            {   
+                alert(urlTabStavka);
+                $('#tblTaboviStavke_enD').hide();
+                $('#tblTaboviStavkeD').show();
+                 tblTaboviStavke.ajax.url(urlTabStavka).load();
+            }
+            else
+            {
+                
+                $('#tblTaboviStavke_enD').show();
+                $('#tblTaboviStavkeD').hide();
+                 tblTaboviStavke_en.ajax.url(urlTabStavka).load();
+            }
+           
+         });
+         $('#tblTaboviStavke_enD').hide();
          var tblTaboviStavke = $('#tblTaboviStavke').DataTable({
      
                 scrollY: "17vh",
@@ -1741,7 +1953,7 @@
                 select:true,
                 searching:false,
                 ajax:{
-                    url:  urlTab,
+                    url: '{{ route('androidTabovi', ['aplikacija' =>'Administracij']) }}',
                         "type": "GET",
                         data:function(){
                           //id:1
@@ -1781,6 +1993,54 @@
                                             targets: "_all"
                                     }]
         });
+         var tblTaboviStavke_en = $('#tblTaboviStavke_en').DataTable({
+     
+                scrollY: "17vh",
+                paging: false,
+                scrollX: true,
+                select:true,
+                searching:false,
+                ajax:{
+                    url: '{{ route('androidTabovi', ['aplikacija' =>'Administracij']) }}',
+                        "type": "GET",
+                        data:function(){
+                          //id:1
+                                       },
+                        dataSrc: ''
+                    },
+                columns:[
+                        { data: 'aplikacija' },
+                        { data: 'stavka' },
+                     
+                       
+                  
+                        { data: 'serija1_naziv' },
+                        { data: 'serija2_naziv' },
+                        { data: 'serija3_naziv' },
+                        { data: 'naziv_isvestaja' },
+
+                        { data: 'serija4_naziv' },
+                        { data: 'serija5_naziv' },
+                     
+               
+                        { data: 'dd_serija1_naziv' },
+                        { data: 'dd_serija2_naziv' },
+                        { data: 'dd_serija3_naziv' },
+                        { data: 'dd_serija4_naziv' },
+                        { data: 'dd_serija5_naziv' },
+                        { data: 'dd_naziv_izvestaja' },
+                        { data: 'jezik' }
+
+                                     
+                        ],
+                         columnDefs: [{
+                                            data: null,
+                                            defaultContent: '',
+                                            targets: "_all"
+                                    }]
+        });
+
+
          var tabStavkeBrisanjeAplikacija = '';
          var tabStavkeBrisanjeBroj = '';
         // var tabStavkeBrisanjeStavka = '';
@@ -1825,11 +2085,99 @@
             if (pickedupTabStavka != null) {
                               pickedupTabStavka.css( "background-color", "#ffffff" );
                           }
-                          $( this ).css( "background-color", "#17A2B8" );
+                          $( this ).css( "background-color", "#B0BED9" );
                           pickedupTabStavka = $( this );
         
          $("#modIzmeniStavkuTaba").trigger('click');
             });
+
+
+
+         function modIzmeniStavkuTaba_en(){
+            // $('#tabStavkeUnos').hide();
+            // $('#tabStavkeIzmena').show();
+
+        if (tabStavkeBrisanjeAplikacija=='')
+            {
+                alert('Niste selektovali stavku za izmenu!!!!');
+                // $('#modalUnosMeni').modal('toggle');
+                e.stopPropagation();//ne otvaraj modal ako nije red selektovan
+            }
+           
+            $('#TAB_STAVKE_APLIKACIJE_UNOS').prop('disabled', true);
+            $('#TAB_STAVKE_BR_TABA_UNOS').prop('disabled', true);
+
+            $('#TAB_STAVKE_APLIKACIJE_UNOS').val(tabStavkeBrisanjeAplikacija);
+            $('#TAB_STAVKE_STAVKA_UNOS').val(tabStavkaStavkaUnos);
+            //$('#TAB_STAVKE_GRAFIK_UNOS').val(tabStavkaGrafikUnos);
+            //$('#TAB_STAVKE_BROJ_SERIJA_UNOS').val(tabStavkaBrojSerijaUnos);
+            $('#TAB_STAVKE_SERIJA1_NAZIV_UNOS').val(tabStavkaSerija1NazivUnos);
+            $('#TAB_STAVKE_SERIJA2_NAZIV_UNOS').val(tabStavkaSerija2NazivUnos);
+            $('#TAB_STAVKE_SERIJA3_NAZIV_UNOS').val(tabStavkaSerija3NazivUnos);
+            $('#TAB_STAVKE_NAZIV_IZVESTAJA_UNOS').val(tabStavkaNazivIsvestajaUnos);
+            $('#TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS').val(tabStavkaDDNazivIzvestaja);
+            //$('#TAB_STAVKE_DD_WEB_SERVIS_UNOS').val(tabStavkaDdWebServis);
+            //$('#TAB_STAVKE_WEB_SERVIS_UNOS').val(tabStavkaWebServisUnos);
+            $('#TAB_SERIJA4_NAZIV_UNOS').val(tabStavkaSerija4NazivUnos);
+            $('#TAB_SERIJA5_NAZIV_UNOS').val(tabStavkaSerija5NazivUnos);
+            //$('#TAB_DD_STAVKA_UNOS').val(tabStavkaDDStavkaUnos);
+            //$('#TAB_DD_GRAFIK_UNOS').val(tabStavkaDDGrafikUnos);
+           // $('#TAB_DD_BR_SERIJA_UNOS').val(tabStavkaDdBrSerijaUnos);
+            $('#TAB_DD_SERIJA1_NAZIV_UNOS').val(tabStavkaDdSerija1NazivUnos);
+            $('#TAB_DD_SERIJA2_NAZIV_UNOS').val(tabStavkaDdSerija2NazivUnos);
+            $('#TAB_DD_SERIJA3_NAZIV_UNOS').val(tabStavkaDdSerija3NazivUnos);
+            $('#TAB_DD_SERIJA4_NAZIV_UNOS').val(tabStavkaDdSerija4NazivUnos);
+            $('#TAB_DD_SERIJA5_NAZIV_UNOS').val(tabStavkaDdSerija5NazivUnos);
+           
+            
+        };
+
+
+          $('#tblTaboviStavke_en tbody').on('click','tr',function(event){
+
+
+
+            tabStavkeBrisanjeAplikacija = $(this).find('td').eq(0).html();
+            //tabStavkeBrisanjeBroj = $(this).find('td').eq(2).html();
+
+            $('#prikaziSetStavkiTekst').text('->'+$(this).find('td').eq(1).html());
+
+            //$('#uspesnostTabStavka').load();
+            // popuni polja modala
+            tabStavkaStavkaUnos = $(this).find('td').eq(1).html();
+           // tabStavkaGrafikUnos = $(this).find('td').eq(3).html();
+            //tabStavkaBrojSerijaUnos = $(this).find('td').eq(4).html();
+            tabStavkaSerija1NazivUnos = $(this).find('td').eq(2).html();
+            tabStavkaSerija2NazivUnos = $(this).find('td').eq(3).html();
+            tabStavkaSerija3NazivUnos = $(this).find('td').eq(4).html();
+            tabStavkaNazivIsvestajaUnos = $(this).find('td').eq(5).html();
+            //tabStavkaWebServisUnos = $(this).find('td').eq(9).html();
+            tabStavkaSerija4NazivUnos = $(this).find('td').eq(6).html();
+            tabStavkaSerija5NazivUnos = $(this).find('td').eq(7).html();
+            //tabStavkaDDStavkaUnos = $(this).find('td').eq(12).html();
+            //tabStavkaDDGrafikUnos = $(this).find('td').eq(13).html();
+            //tabStavkaDdBrSerijaUnos = $(this).find('td').eq(14).html();
+            tabStavkaDdSerija1NazivUnos = $(this).find('td').eq(8).html();
+            tabStavkaDdSerija2NazivUnos = $(this).find('td').eq(9).html();
+            tabStavkaDdSerija3NazivUnos = $(this).find('td').eq(10).html();
+            tabStavkaDdSerija4NazivUnos = $(this).find('td').eq(11).html();
+            tabStavkaDdSerija5NazivUnos = $(this).find('td').eq(12).html();
+            tabStavkaDDNazivIzvestaja = $(this).find('td').eq(13).html();
+            //tabStavkaDdWebServis = $(this).find('td').eq(21).html();
+                
+                
+           
+            //
+
+            if (pickedupTabStavka != null) {
+                              pickedupTabStavka.css( "background-color", "#ffffff" );
+                          }
+                          $( this ).css( "background-color", "#B0BED9" );
+                          pickedupTabStavka = $( this );
+      modIzmeniStavkuTaba_en();
+       //  $("#modIzmeniStavkuTaba_en").trigger('click');
+            });
+            
      </script>
 
 @stop

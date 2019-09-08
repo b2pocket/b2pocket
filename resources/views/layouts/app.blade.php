@@ -37,10 +37,13 @@
  
 
      {{-- @endguest --}}
-
+    <link rel="stylesheet" href="{{ asset("assets/stylesheets/jquery.datetimepicker.min.css") }}" />
     <!-- Portal CSS - MILOS -->
     {{-- @auth --}}
     <link rel="stylesheet" href="{{ asset("assets/stylesheets/style4.css") }}" />
+
+    <link rel="stylesheet" href="{{ asset("assets/stylesheets/mojcss.css") }}" />
+    <link rel="stylesheet" href="{{ asset("assets/stylesheets/sb-admin-2.css") }}" />
 
      <link rel="stylesheet" href="{{ asset("assets/stylesheets/styleMilos.css") }}" />
      <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css" />
@@ -63,25 +66,23 @@
     {{-- <script src="{{ asset("assets/scripts/jquery-ui.min.js") }}" type="text/javascript"></script> --}}
     <script src="{{ asset("assets/scripts/jquery.dataTables.min.js") }}" type="text/javascript"></script>
 
+    <script src="{{ asset("assets/scripts/notify.min.js") }}" type="text/javascript"></script>
    
+    <script src="{{ asset("assets/scripts/jquery.datetimepicker.full.min.js") }}" type="text/javascript"></script>
 
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="{{ asset("assets/scripts/bootstrap.min.js") }}" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
     
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+    
     {{-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/sc-1.5.0/datatables.min.js"></script> --}}
 
     {{-- <script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script> --}}
 
     
-    
-
-    
- 
-
-
-
 
         {{-- !!!!!! --}}
 
@@ -90,7 +91,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{-- {{ config('app.name') }} --}}
-                    B2B PORTAL
+                    WEB PORTAL
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -128,10 +129,11 @@
      
     </div>
 
-    <footer class="footer fixed-bottom">
+ {{--    <footer class="footer fixed-bottom">
         <div class="container " style="background-color: #E9E9E9;">
             <span class="text-muted">Copyright @2019 | Designed With by B2ME</span>
         </div>
-    </footer>
+    </footer> --}}
+    <script src="{{ asset("assets/scripts/sb-admin-2.js") }}" type="text/javascript"></script>
 </body>
 </html>
