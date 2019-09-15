@@ -638,7 +638,12 @@
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">GRAFIK</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="GRAFIK..." class="form-control input-lg" name="TAB_STAVKE_GRAFIK_UNOS" id="TAB_STAVKE_GRAFIK_UNOS" value="">
+                                                {{-- <input type="text" placeholder="GRAFIK..." class="form-control input-lg" name="TAB_STAVKE_GRAFIK_UNOS" id="TAB_STAVKE_GRAFIK_UNOS" value=""> --}}
+                                                 <select name="TAB_STAVKE_GRAFIK_UNOS" class="form-control col-7 mojFont" id="TAB_STAVKE_GRAFIK_UNOS">
+                                                      @foreach ($graficiKolekcija as $grafik)
+                                                        <option value="{{$grafik->id}}">{{$grafik->naziv}}</option>
+                                                        @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
@@ -724,7 +729,13 @@
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3  mojFont">DD GRAFIK</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="DD GRAFIK..." class="form-control input-lg" name="TAB_DD_GRAFIK_UNOS" id="TAB_DD_GRAFIK_UNOS" value="">
+                                                {{-- <input type="text" placeholder="DD GRAFIK..." class="form-control input-lg" name="TAB_DD_GRAFIK_UNOS" id="TAB_DD_GRAFIK_UNOS" value=""> --}}
+                                                 <select name="TAB_DD_GRAFIK_UNOS" class="form-control col-7 mojFont" id="TAB_DD_GRAFIK_UNOS">
+                                                      @foreach ($graficiDDKolekcija as $grafik)
+                                                        <option value="{{$grafik->id}}">{{$grafik->naziv}}</option>
+                                                        @endforeach
+                                                </select>
+                                               
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
@@ -803,7 +814,12 @@
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">GRAFIK</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="GRAFIK..." class="form-control input-lg" name="TAB_STAVKE_GRAFIK_UNOS" id="TAB_STAVKE_GRAFIK_UNOS2" value="">
+                                                {{-- <input type="text" placeholder="GRAFIK..." class="form-control input-lg" name="TAB_STAVKE_GRAFIK_UNOS" id="TAB_STAVKE_GRAFIK_UNOS2" value=""> --}}
+                                                 <select name="TAB_STAVKE_GRAFIK_UNOS" class="form-control col-7 mojFont" id="TAB_STAVKE_GRAFIK_UNOS2">
+                                                      @foreach ($graficiKolekcija as $grafik)
+                                                        <option value="{{$grafik->id}}">{{$grafik->naziv}}</option>
+                                                        @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
@@ -889,7 +905,12 @@
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3  mojFont">DD GRAFIK</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="DD GRAFIK..." class="form-control input-lg" name="TAB_DD_GRAFIK_UNOS" id="TAB_DD_GRAFIK_UNOS2" value="">
+                                                {{-- <input type="text" placeholder="DD GRAFIK..." class="form-control input-lg" name="TAB_DD_GRAFIK_UNOS" id="TAB_DD_GRAFIK_UNOS2" value=""> --}}
+                                                  <select name="TAB_DD_GRAFIK_UNOS" class="form-control col-7 mojFont" id="TAB_DD_GRAFIK_UNOS2">
+                                                      @foreach ($graficiDDKolekcija as $grafik)
+                                                        <option value="{{$grafik->id}}">{{$grafik->naziv}}</option>
+                                                        @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">

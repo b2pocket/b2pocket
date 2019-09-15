@@ -215,11 +215,20 @@
 									    	// console.log(this.scrollHeight);
 
 									    })
-									     
-									//$('#inputModal').modal('show');
+
 								}
 									    
     							});
+			                $('html').on('click', function(e) {
+	  						var prom = e.target.className;//
+	  						//alert(prom.parentNode);
+	  						//if  (e.target.className != 'popover-body' && e.target.id != 'textPolja')
+		  						if  (e.target.tagName == 'DIV')
+			  						{
+			  							$('.popover').popover('hide');
+			  						}
+			                	
+			                })
 			            });
 
  

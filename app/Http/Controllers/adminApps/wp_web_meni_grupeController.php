@@ -417,65 +417,68 @@ class wp_web_meni_grupeController extends Controller
 		            $crud = crudSettings::where('tabela','=',$nazivTabele)->where('tip_kolone','=','UPDATE_KEY')->get();
 		            if (count($crud)>0)
 		            {
-		            $update_keys = array();  
-		           	foreach ($crud as $crud) 
-		           		{
-						    array_push($update_keys,$crud->kolona);
-						}
-						//print_r($update_keys);
-					foreach($jsonVrednost as $key => $value) 
-		               	{
-		               		if (in_array($key, $update_keys))
-		               		{
-		               			 $uslovi[] = [$key,'=',$value];
-
-		               		}
-		               	}
-		           	$updated_values = array();       
-		              foreach($jsonVrednost as $key => $value) 
-		               	{
-		               		if (!in_array($key, $update_keys))
-		               		{
-               				if($value)
-		               			{
-		               				$updated_values[$key] = $value;
-		               			}
-		               		else
+			            $update_keys = array();  
+			           	foreach ($crud as $crud) 
+			           		{
+							    array_push($update_keys,$crud->kolona);
+							}
+							//print_r($update_keys);
+						foreach($jsonVrednost as $key => $value) 
+			               	{
+			               		if (in_array($key, $update_keys))
 			               		{
-			               			$updated_values[$key] = null;
-			               		}
-		               		}
-					        
-					    }
-					 //   $postojiPk = helset::where($uslovi)->first();
-					    $vratiGresku = array();
-					    $editModel = new $this->modelName;
-					     $editModel->setTable($this->sema.'.'.$this->tabela);
-					     $mod = $editModel->where($uslovi)->get();
-					     if(count($mod)>1)
-					     {
-					     
-					     		$vratiGresku = array();
-					   	$vratiGresku['greska'] = "Postoji vise od jednog reda za izmenu, proverite!!";
-					    $vratiGresku['klasa'] = 'error';
-					   return $vratiGresku;
-					     }
-					         if(count($mod)<1)
-					     {
-					     
-					     		$vratiGresku = array();
-					   	$vratiGresku['greska'] = "Ne postoji red za izmenu, proverite kljuceve!!";
-					    $vratiGresku['klasa'] = 'error';
-					   return $vratiGresku;
-					     }
+			               			 $uslovi[] = [$key,'=',$value];
 
-	          		$editModel->where($uslovi)->update($updated_values);
-					     $vratiGresku = array();
-	           		$vratiGresku['greska'] = "Uspesna izmena";
-					    $vratiGresku['klasa'] = 'success';
-					   return $vratiGresku;
+			               		}
+			               	}
+			           	$updated_values = array();       
+			              foreach($jsonVrednost as $key => $value) 
+			               	{
+			               		if (!in_array($key, $update_keys))
+			               		{
+			               			// echo $key.'--'.$value;
+	               				if($value=='')
+			               			{
+			               				// echo "prazna\n";	
+				               			$updated_values[$key] = null;
+			               			}
+			               		else
+				               		{
+				               			// echo "Ima vrednost\n";
+				               			$updated_values[$key] = $value;
+				               		}
+			               		}
+						        
+						    }
+						 //   $postojiPk = helset::where($uslovi)->first();
+						    $vratiGresku = array();
+						    $editModel = new $this->modelName;
+						     $editModel->setTable($this->sema.'.'.$this->tabela);
+						     $mod = $editModel->where($uslovi)->get();
+						     if(count($mod)>1)
+						     {
+						     
+						     		$vratiGresku = array();
+								   	$vratiGresku['greska'] = "Postoji vise od jednog reda za izmenu, proverite!!";
+								    $vratiGresku['klasa'] = 'error';
+								    return $vratiGresku;
+						     }
+						         if(count($mod)<1)
+						     {
+						     
+						     		$vratiGresku = array();
+								   	$vratiGresku['greska'] = "Ne postoji red za izmenu, proverite kljuceve!!";
+								    $vratiGresku['klasa'] = 'error';
+								    return $vratiGresku;
+						     }
+						     //print_r($updated_values);
+		          		$editModel->where($uslovi)->update($updated_values);
+						     $vratiGresku = array();
+		           		$vratiGresku['greska'] = "Uspesna izmena";
+						    $vratiGresku['klasa'] = 'success';
+						   return $vratiGresku;
 					}
-					   else
+					else
 					   {
 					   	$vratiGresku = array();
 					   	$vratiGresku['greska'] = "Morate podesiti kljuceve za Izmenu!!";

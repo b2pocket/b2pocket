@@ -24,8 +24,20 @@ class aplikacijeController extends Controller
                   select jezik,jezik_naziv from andr.and_jezik
 
             ");
+          $graficiKolekcija =  DB::select("
+                 
+                  
+              SELECT naziv as id,naziv FROM andr.and_stavka_grafik_sifarnik order by 1
+
+            ");
+           $graficiDDKolekcija =  DB::select("
+                 
+                  
+              SELECT naziv as id,naziv FROM andr.and_stavka_grafik_sifarnik where dd_stavka is not null order by 1
+
+            ");
            
-        return view('admin/android_manipulacija/aplikacije',compact('jeziciKolekcija'));     
+        return view('admin/android_manipulacija/aplikacije',compact('jeziciKolekcija','graficiKolekcija','graficiDDKolekcija'));     
     
     }
      public function androidMeniji()
