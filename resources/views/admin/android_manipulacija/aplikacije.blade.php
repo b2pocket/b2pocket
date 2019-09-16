@@ -630,12 +630,6 @@
                                             {{-- </div> --}}
                                         </div>
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">STAVKA</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="STAVKA..." class="form-control input-lg" name="TAB_STAVKE_STAVKA_UNOS" id="TAB_STAVKE_STAVKA_UNOS" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">GRAFIK</label>
                                             <div class="col-9">
                                                 {{-- <input type="text" placeholder="GRAFIK..." class="form-control input-lg" name="TAB_STAVKE_GRAFIK_UNOS" id="TAB_STAVKE_GRAFIK_UNOS" value=""> --}}
@@ -646,6 +640,13 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">STAVKA</label>
+                                            <div class="col-9">
+                                                <input type="text" placeholder="STAVKA..." class="form-control input-lg" name="TAB_STAVKE_STAVKA_UNOS" id="TAB_STAVKE_STAVKA_UNOS" value="">
+                                            </div>
+                                        </div>
+                                        
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">BROJ SERIJA</label>
                                             <div class="col-9">
@@ -721,12 +722,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">DD STAVKA</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="DD STAVKA..." class="form-control input-lg" name="TAB_DD_STAVKA_UNOS" id="TAB_DD_STAVKA_UNOS" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mb-1">
                                             <label class="control-label col-3  mojFont">DD GRAFIK</label>
                                             <div class="col-9">
                                                 {{-- <input type="text" placeholder="DD GRAFIK..." class="form-control input-lg" name="TAB_DD_GRAFIK_UNOS" id="TAB_DD_GRAFIK_UNOS" value=""> --}}
@@ -738,6 +733,13 @@
                                                
                                             </div>
                                         </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">DD STAVKA</label>
+                                            <div class="col-9">
+                                                <input type="text" placeholder="DD STAVKA..." class="form-control input-lg" name="TAB_DD_STAVKA_UNOS" id="TAB_DD_STAVKA_UNOS" value="">
+                                            </div>
+                                        </div>
+                                        
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">DD BR SERIJA</label>
                                             <div class="col-9">
@@ -806,12 +808,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">STAVKA</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="STAVKA..." class="form-control input-lg" name="TAB_STAVKE_STAVKA_UNOS" id="TAB_STAVKE_STAVKA_UNOS2" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">GRAFIK</label>
                                             <div class="col-9">
                                                 {{-- <input type="text" placeholder="GRAFIK..." class="form-control input-lg" name="TAB_STAVKE_GRAFIK_UNOS" id="TAB_STAVKE_GRAFIK_UNOS2" value=""> --}}
@@ -822,6 +818,13 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">STAVKA</label>
+                                            <div class="col-9">
+                                                <input type="text" placeholder="STAVKA..." class="form-control input-lg" name="TAB_STAVKE_STAVKA_UNOS" id="TAB_STAVKE_STAVKA_UNOS2" value="">
+                                            </div>
+                                        </div>
+                                        
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">BROJ SERIJA</label>
                                             <div class="col-9">
@@ -896,13 +899,7 @@
                                                 <input type="text" placeholder="SERIJA5 NAZIV..." class="form-control input-lg" name="TAB_SERIJA5_NAZIV_UNOS" id="TAB_SERIJA5_NAZIV_UNOS2" value="">
                                             </div>
                                         </div>
-                                        <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">DD STAVKA</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="DD STAVKA..." class="form-control input-lg" name="TAB_DD_STAVKA_UNOS" id="TAB_DD_STAVKA_UNOS2" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mb-1">
+                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3  mojFont">DD GRAFIK</label>
                                             <div class="col-9">
                                                 {{-- <input type="text" placeholder="DD GRAFIK..." class="form-control input-lg" name="TAB_DD_GRAFIK_UNOS" id="TAB_DD_GRAFIK_UNOS2" value=""> --}}
@@ -913,6 +910,13 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">DD STAVKA</label>
+                                            <div class="col-9">
+                                                <input type="text" placeholder="DD STAVKA..." class="form-control input-lg" name="TAB_DD_STAVKA_UNOS" id="TAB_DD_STAVKA_UNOS2" value="">
+                                            </div>
+                                        </div>
+                                       
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">DD BR SERIJA</label>
                                             <div class="col-9">
@@ -1099,6 +1103,11 @@
         var pickedupTab;
      </script>
      <script>
+            $.ajaxSetup({
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+            });
         $('#modUnosStavkuTaba').click(function(){
             // $('#tabStavkeUnos').show();
             // $('#tabStavkeIzmena').hide();
@@ -1110,6 +1119,95 @@
             
 
         });
+
+
+
+
+
+
+
+        $('#TAB_STAVKE_GRAFIK_UNOS').change(function(){
+            $.ajax({
+           type:'GET',
+           url:'{{ route('pronadjiGrafikStavku') }}',
+           data:{
+            naziv:$('#TAB_STAVKE_GRAFIK_UNOS').val()
+        },
+           success:function(data){
+
+              var json = JSON.parse(data);
+              $('#TAB_STAVKE_STAVKA_UNOS').val(json[0].dd_stavka);
+              // console.log(json[0].dd_stavka);
+
+           }
+
+        });
+        });
+        $('#TAB_STAVKE_GRAFIK_UNOS').trigger('change');
+
+         $('#TAB_DD_GRAFIK_UNOS').change(function(){
+            $.ajax({
+           type:'GET',
+           url:'{{ route('pronadjiGrafikStavku') }}',
+           data:{
+            naziv:$('#TAB_STAVKE_GRAFIK_UNOS').val()
+        },
+           success:function(data){
+
+              var json = JSON.parse(data);
+              $('#TAB_DD_STAVKA_UNOS').val(json[0].dd_stavka);
+              // console.log(json[0].dd_stavka);
+
+           }
+
+        });
+        });
+        $('#TAB_DD_GRAFIK_UNOS').trigger('change');
+
+
+
+             $('#TAB_STAVKE_GRAFIK_UNOS2').change(function(){
+            $.ajax({
+           type:'GET',
+           url:'{{ route('pronadjiGrafikStavku') }}',
+           data:{
+            naziv:$('#TAB_STAVKE_GRAFIK_UNOS2').val()
+        },
+           success:function(data){
+
+              var json = JSON.parse(data);
+              $('#TAB_STAVKE_STAVKA_UNOS2').val(json[0].dd_stavka);
+              // console.log(json[0].dd_stavka);
+
+           }
+
+        });
+        });
+        $('#TAB_STAVKE_GRAFIK_UNOS2').trigger('change');
+        
+         $('#TAB_DD_GRAFIK_UNOS2').change(function(){
+            $.ajax({
+           type:'GET',
+           url:'{{ route('pronadjiGrafikStavku') }}',
+           data:{
+            naziv:$('#TAB_STAVKE_GRAFIK_UNOS2').val()
+        },
+           success:function(data){
+
+              var json = JSON.parse(data);
+              $('#TAB_DD_STAVKA_UNOS2').val(json[0].dd_stavka);
+              // console.log(json[0].dd_stavka);
+
+           }
+
+        });
+        });
+        $('#TAB_DD_GRAFIK_UNOS2').trigger('change');
+
+
+
+
+
 
         $('#modIzmeniStavkuTaba').click(function(e){
             // $('#tabStavkeUnos').hide();

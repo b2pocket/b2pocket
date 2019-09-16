@@ -61,6 +61,13 @@ class aplikacijeController extends Controller
     	    // return json_encode($meniji);
   	
     }
+     public function pronadjiGrafikStavku(request $request)
+    {
+        $stavka = DB::select("SELECT dd_stavka FROM andr.and_stavka_grafik_sifarnik where naziv = '$request->naziv'");
+
+           return json_encode($stavka);
+    
+    }
     public function androidAplikacije(request $request)
     {
     		if ($request->jezik == 'SRB')

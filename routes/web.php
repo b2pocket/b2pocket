@@ -44,6 +44,7 @@ Route::get('tableDetailStanja', 'bilansiStanjeController@tableDetailStanja')->na
 		//Aplikacije
 			Route::get('aplikacijeIndex', 'aplikacijeController@aplikacijeIndex');
 			Route::get('androidMeniji', 'aplikacijeController@androidMeniji')->name('androidMeniji');
+			Route::get('pronadjiGrafikStavku', 'aplikacijeController@pronadjiGrafikStavku')->name('pronadjiGrafikStavku');
 			Route::get('androidAplikacije/{meni}/{jezik}', 'aplikacijeController@androidAplikacije')->name('androidAplikacije');
 			Route::get('androidSveAPlikacije', 'aplikacijeController@androidSveAPlikacije')->name('androidSveAPlikacije');
 			Route::get('androidTabovi/{aplikacija}', 'aplikacijeController@androidTabovi')->name('androidTabovi');
