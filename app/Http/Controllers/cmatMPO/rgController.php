@@ -12,31 +12,39 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\cmatMPOApps\nivelacije\artikal as artikal;
 use Laravel\cmatMPOApps\robnegrupe as robnegrupe;
 use Laravel\cmatMPOApps\robnegrupe_view as robnegrupe_view;
+use Laravel\Traits\BindsDynamically;
 
 class rgController extends Controller
 {
+      use BindsDynamically;
+  
      public function rgIndex()
     {
+       $firme =  DB::select("
+        select pg_sema as id,naziv from sis.firme
+
+            ");
       
-        return view('cmatMPO/rgArtikal');      
+        return view('cmatMPO/rgArtikal',compact('firme'));      
     
     }
      public function artikliSpisak(request $request)
     {	
     	$param = $request->filter;
+      $sema = $request->sema;
     	if ($param == 'SVI'){
-    		$zaposlenja = DB::table('cmat.artikal')
-    	 ->join('cmat.robnegrupe', 'cmat.artikal.robnagrupa', '=', 'cmat.robnegrupe.sifra')->where('cmat.artikal.robnagrupa','<>','-1')
+    		$zaposlenja = DB::table("$sema.artikal")
+    	 ->join("$sema.robnegrupe", "$sema.artikal.robnagrupa", "=", "$sema.robnegrupe.sifra")->where("$sema.artikal.robnagrupa","<>","-1")
     	  
-    	    ->select('cmat.artikal.*', 'cmat.robnegrupe.naziv as rg_naziv')
+    	    ->select("$sema.artikal.*", "$sema.robnegrupe.naziv as rg_naziv")
     	    ->get();
 
     	}
     	else {
-    	$zaposlenja = DB::table('cmat.artikal')
-    	 ->join('cmat.robnegrupe', 'cmat.artikal.robnagrupa', '=', 'cmat.robnegrupe.sifra')->where('cmat.artikal.robnagrupa',$param)
+    	$zaposlenja = DB::table("cmat.artikal")
+    	 ->join("cmat.robnegrupe", "cmat.artikal.robnagrupa", "=", "cmat.robnegrupe.sifra")->where("cmat.artikal.robnagrupa",$param)
     	  
-    	    ->select('cmat.artikal.*', 'cmat.robnegrupe.naziv as rg_naziv')
+    	    ->select("cmat.artikal.*", "cmat.robnegrupe.naziv as rg_naziv")
     	    ->get();
     	}
 
@@ -55,8 +63,11 @@ class rgController extends Controller
             // $andUser = artikal::find($request->post('SIFRA'));
             // echo $request->robGrupa;
 
-            //    $izmena = 
-            artikal::where('sifra','=',$request->sifra)
+            //    $izmena =
+            $artikalModel = new artikal;
+            $artikalModel->setTable($request->sema.'.artikal');
+           // print_r($artikalModel);
+            $artikalModel->where('sifra','=',$request->sifra)
             ->update(['robnagrupa'=>$request->robGrupa]);
 
           }
@@ -67,13 +78,15 @@ class rgController extends Controller
       
          //return $request->korisnik;
       }
-      public function robneGrupeSpisak()
+      public function robneGrupeSpisak(request $request)
     {
             
             $andr = new robnegrupe_view;
             $apps = $andr::all();
-
-             return json_encode($apps);
+            $rg =  DB::select("  
+                select * from {$request->sema}.v_rg4
+              ");
+             return json_encode($rg);
     
     }
 }

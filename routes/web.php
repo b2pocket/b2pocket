@@ -15,7 +15,7 @@
 Route::get('setovanje_bilansa_uspeha', 'bilansiUspehaController@setovanje_bilansa_uspeha');
 Route::get('zaglavljeKonta', 'bilansiUspehaController@zaglavljeKonta')->name('zaglavljeKonta');
 Route::get('neklasifikovanaKonta', 'bilansiUspehaController@neklasifikovanaKonta')->name('neklasifikovanaKonta');
-Route::get('tableDetail/{klasaKonta}', 'bilansiUspehaController@tableDetail')->name('tableDetail');
+Route::get('tableDetail', 'bilansiUspehaController@tableDetail')->name('tableDetail');
 
 Route::get('klasifikujKonto','bilansiUspehaController@klasifikujKonto');
 Route::get('obrisiKlasifikacijuKonta','bilansiUspehaController@obrisiKlasifikacijuKonta');
@@ -26,7 +26,7 @@ Route::get('obrisiKlasifikacijuKonta','bilansiUspehaController@obrisiKlasifikaci
 Route::get('setovanje_bilansa_stanja', 'bilansiStanjeController@setovanje_bilansa_stanja');
 Route::get('zaglavljeKontaStanja', 'bilansiStanjeController@zaglavljeKontaStanja')->name('zaglavljeKontaStanja');
 Route::get('neklasifikovanaKontaStanja', 'bilansiStanjeController@neklasifikovanaKontaStanja')->name('neklasifikovanaKontaStanja');
-Route::get('tableDetailStanja/{klasaKonta2}', 'bilansiStanjeController@tableDetailStanja')->name('tableDetailStanja');
+Route::get('tableDetailStanja', 'bilansiStanjeController@tableDetailStanja')->name('tableDetailStanja');
 
 // --------!!!!!!!!-------------
 

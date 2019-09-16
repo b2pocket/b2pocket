@@ -4,12 +4,21 @@
 @section('section')
 
 <div class="container-fluid">
+<div class="row col-12 form-group">
+  <label class="mr-2">Firma:</label>
+  <select class="form-control col-2 mb-1" id="firma">
+
+          @foreach ($firme as $firma)
+            <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+            @endforeach
+    </select>
+</div>
 <div class="row">
     	<div class="col-sm-12 col-xs-12">
     	   
     			<div class="card card-default">
     					  
-    				<div class="card-header" style="background-color: #7386D5;">
+    				<div class="card-header" style="background-color: #2850C3;">
     						<h3 class="card-title" class="m_responsive_header">Pregled zaglavlje</h3>
     					
     				</div>
@@ -36,7 +45,7 @@
     		<div class="col-md-6 col-xs-12">
     			<div class="card card-default">
     					  
-    				<div class="card-header" style="background-color: #7386D5;">
+    				<div class="card-header" style="background-color: #2850C3;">
     						<h3 class="card-title">Pregled neklasifikovanih konta</h3>
     					
     				</div>
@@ -59,7 +68,7 @@
     		<div class="col-md-6 col-xs-12">
     			<div class="card card-default">
     					  
-    				<div class="card-header" style="background-color: #7386D5;">
+    				<div class="card-header" style="background-color: #2850C3;">
     						<h3 class="card-title">Konta selektovane klase</h3>
     					
     				</div>
@@ -85,6 +94,11 @@
 </div>
 
 	<script>
+      $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
 	var pickedup ;
 	var pickedup2 ;
 	var selektovanoZaglavlje = '';
@@ -95,15 +109,19 @@
         scrollY: "200px",
         paging: false,
         scrollX: true,
+        "processing": true,
         select:true,
         searching:false,
         ajax:{
           	url:  "{{ route('zaglavljeKontaStanja') }}",
           		"type": "GET",
-          		data:function(){
-                  //id:1
+          		data:function(d){
+                  d.sema = $('#firma').val();
             					},
-            	dataSrc: ''
+            	"dataSrc": function ( json ) {
+                   //console.log(json);
+                   return json;
+              }
         	},
         columns:[
                 { data: 'klasa_konta' },
@@ -115,7 +133,8 @@
                 ]
     });
 
-	var url = '{{ route('tableDetailStanja', ['klasaKonta2' => '99999999']) }}';
+
+	var url = '{{ route('tableDetailStanja') }}';
     var tableDetail = $('#tableDetail').DataTable({
         //processing: true,
         //serverSide: true,
@@ -130,9 +149,15 @@
         ajax:{
           	url:  url,
           		type: "GET",
-          		data:function(){
+          		data:function(d){
+                //alert($('#firma').val()+'---'+selektovanoZaglavlje);
+                d.sema = $('#firma').val();
+                d.klasaKonta = selektovanoZaglavlje;
             					},
-            	dataSrc: ''
+            	"dataSrc": function ( json ) {
+                  //console.log(json+'\n'+url);
+                   return json;
+              }
         	},
         columns:[
                 { data: 'konto' },
@@ -151,8 +176,9 @@
         ajax:{
           	url:  nek,
           		"type": "GET",
-          		data:function(){
-          		
+          		data:function(d){
+                
+                    d.sema = $('#firma').val();
             					},
             	dataSrc: ''
         	},
@@ -162,7 +188,12 @@
         
                 ]
     });
-
+  $('#firma').change(function(){
+    selektovanoZaglavlje = '';
+    zaglavljeKonta.ajax.reload();
+    tableDetail.ajax.reload();
+    tableNeklasifikovanih.ajax.reload();
+  })
 
 
       $(document).ready(function(){

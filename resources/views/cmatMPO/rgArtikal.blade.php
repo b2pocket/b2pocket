@@ -2,13 +2,22 @@
 
 
 
-@section('page_heading','MAPIRANJE ARTIKAL')
+@section('page_heading','MAPIRANJE ARTIKALA')
 @section('section')
 
 
-
+                    
             <div class="row col-12">
+                 <div class="row col-12 form-group">
+                    <label class="mr-2">Firma:</label>
+                    <select class="form-control col-2 mb-1" id="firma">
 
+                              @foreach ($firme as $firma)
+                                <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                @endforeach
+                        </select>
+                     
+                 </div>
             	 <div class="col-md-4  col-xs-12 mb-2">
                     <form  id='forma'>
                         <div >
@@ -95,6 +104,7 @@
                         data:function(d){
 
                           d.filter = $('#filterStatus').val();
+                          d.sema = $('#firma').val();
                                        },
                         dataSrc: ''
                     },
@@ -114,8 +124,9 @@
                             targets: "_all"
                             }]
         });
-        $('#filterStatus').change(function(){
+        $('#filterStatus,#firma').change(function(){
         	tblArtikal.ajax.reload();
+            popuniRg();
         });
         var selektovaniArtikalSifra = '';
           $('#tblArtikal tbody').on('click','tr',function(event){
@@ -136,13 +147,14 @@
 		            
 		            	 $.get("{{ route('artikalVeza') }}",{
 		                sifra : selektovaniArtikalSifra,
-		                robGrupa : $('#rgSel').val()
+		                robGrupa : $('#rgSel').val(),
+                        sema : $('#firma').val()
 		      
 		                 
 		            },function(d){
 		                if (d != ''){
 		                  alert(d);
-		                  console.log(d);
+		               //   console.log(d);
 		                }
 		        //alert(d);
 		                tblArtikal.ajax.reload();
@@ -157,7 +169,7 @@
             {
                 //alert($('#selektovaniRed').text());
                 $.get("robneGrupeSpisak",{
-                //korisnik: $('#selektovaniRed').text(),
+                sema: $('#firma').val(),
        
              
             },function(result){

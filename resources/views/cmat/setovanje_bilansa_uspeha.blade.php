@@ -3,14 +3,23 @@
 
 @section('section')
 
+<div class="row col-12 form-group">
+  <label class="mr-2">Firma:</label>
+  <select class="form-control col-2 mb-1" id="firma">
 
+          @foreach ($firme as $firma)
+            <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+            @endforeach
+    </select>
+</div>
 
 	<div class="row text-center justify-content-start">
+      
     <div class=" col-12 col-xs-12">
-	
+	   
     			<div class="card text-center">
     					  
-          				<div class="card-header" style="background-color: #7386D5;">
+          				<div class="card-header" style="background-color: #2850C3;">
           						<h3 class="card-title">Pregled zaglavlje</h3>
           					
           				</div>
@@ -47,7 +56,7 @@
     		<div class="col-md-5 col-sm-12">
     			<div class="card text-center">
     					  
-            <div class="card-header" style="background-color: #7386D5;">
+            <div class="card-header" style="background-color: #2850C3;">
                 <h3 class="card-title">Pregled neklasifikovanih konta</h3>
               
             </div>
@@ -73,7 +82,7 @@
     		</div>
     		    <div class="col-md-5 col-sm-12">
               			<div class="card text-center">
-                                <div class="card-header" style="background-color: #7386D5;">
+                                <div class="card-header" style="background-color: #2850C3;">
                                     <h3 class="card-title">Konta selektovane klase</h3>
                                   
                                 </div>
@@ -99,6 +108,11 @@
 </div>
 
 	<script>
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
 	var pickedup ;
 	var pickedup2 ;
 	var selektovanoZaglavlje = '';
@@ -120,8 +134,8 @@
         ajax:{
           	url:  "{{ route('zaglavljeKonta') }}",
           		"type": "GET",
-          		data:function(){
-                  //id:1
+          		data:function(d){
+                  d.sema = $('#firma').val();
 
             					},
             	dataSrc: ''
@@ -138,7 +152,7 @@
   
 
 
-	var url = '{{ route('tableDetail', ['klasaKonta' => '99999999']) }}';
+	var url = '{{ route('tableDetail') }}';
     var tableDetail = $('#tableDetail').DataTable({
         //processing: true,
         //serverSide: true,
@@ -153,7 +167,9 @@
         ajax:{
           	url:  url,
           		type: "GET",
-          		data:function(){
+          		data:function(d){
+                d.sema = $('#firma').val();
+                d.klasaKonta = selektovanoZaglavlje;
             					},
             	dataSrc: ''
         	},
@@ -174,6 +190,10 @@
         ajax:{
           	url:  nek,
           		"type": "GET",
+              data:function(d){
+                
+                    d.sema = $('#firma').val();
+                      },
               dataSrc: function (json) {
                     var obj = JSON.parse(json);
                     console.log(obj);
@@ -190,7 +210,12 @@
                 ]
     });
 
-
+  $('#firma').change(function(){
+    selektovanoZaglavlje = '';
+    zaglavljeKonta.ajax.reload();
+    tableDetail.ajax.reload();
+    tableNeklasifikovanih.ajax.reload();
+  })
 
       $(document).ready(function(){
             $('#zaglavljeKonta tbody').on('click','tr',function(event){
@@ -250,16 +275,21 @@
       	}
      	$.get("klasifikujKonto",{
                 selektovanoZaglavlje: selektovanoZaglavlje,
-                selektovaniNeklasifikovani: selektovaniNeklasifikovani
+                selektovaniNeklasifikovani: selektovaniNeklasifikovani,
+                sema:  $('#firma').val()
              
             },function(result){
                 // alert(result);
                 //alert(url);
-                       tableDetail.clear().draw();
-                tableNeklasifikovanih.clear().draw();
+                //        tableDetail.clear().draw();
+                // tableNeklasifikovanih.clear().draw();
                 
-                tableDetail.ajax.url(url).load();
-                tableNeklasifikovanih.ajax.url(nek).load();
+                // tableDetail.ajax.url(url).load();
+                // tableNeklasifikovanih.ajax.url(nek).load();
+                console.log(result);
+                 zaglavljeKonta.ajax.reload();
+    tableDetail.ajax.reload();
+    tableNeklasifikovanih.ajax.reload();
                 //table2.ajax.reload();
           
             });
@@ -275,14 +305,13 @@
 
      	$.get("obrisiKlasifikacijuKonta",{
                 selektovanoZaglavlje: selektovanoZaglavlje,
-                klasifikovaniKonto: klasifikovaniKonto
+                klasifikovaniKonto: klasifikovaniKonto,
+                sema:  $('#firma').val()
              
             },function(result){
-                tableDetail.clear().draw();
-                tableNeklasifikovanih.clear().draw();
-
-                tableDetail.ajax.url(url).load();
-                tableNeklasifikovanih.ajax.url(nek).load();
+                zaglavljeKonta.ajax.reload();
+    tableDetail.ajax.reload();
+    tableNeklasifikovanih.ajax.reload();
                 //table2.ajax.reload();
           
             });
