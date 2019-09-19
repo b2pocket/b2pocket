@@ -40,6 +40,11 @@ class HomeController extends Controller
          //    return view('cmatRADNJA/home');
              return view('admin/home');
         }
+         else if (Auth::user()->role == 'admin')
+        {
+         //    return view('cmatRADNJA/home');
+             return view('admin/homeAdmin');
+        }
         else
         {
             return view('admin/home');

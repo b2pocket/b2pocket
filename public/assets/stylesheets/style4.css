@@ -251,10 +251,12 @@ font-size: calc(12px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
     }
      .karticaNaziv {
         font-size: 20px;
+        color: black;
     }
     .selektovano {
         font-size: 10px;
         font-weight: bold;
+        color: black;
         background-color:#17A2B8;
     }
       .doleZalepljen {

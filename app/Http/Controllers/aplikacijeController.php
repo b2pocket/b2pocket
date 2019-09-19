@@ -24,6 +24,17 @@ class aplikacijeController extends Controller
                   select jezik,jezik_naziv from andr.and_jezik
 
             ");
+         $firmeKolekcija =  DB::select("
+                 
+                  select id,naziv from sis.firme
+
+            ");
+         $aplikacijeKolekcija =  DB::select("
+                 
+                  
+select aplikacija,aplikacija from andr.and_aplikacija
+
+            ");
           $graficiKolekcija =  DB::select("
                  
                   
@@ -37,7 +48,7 @@ class aplikacijeController extends Controller
 
             ");
            
-        return view('admin/android_manipulacija/aplikacije',compact('jeziciKolekcija','graficiKolekcija','graficiDDKolekcija'));     
+        return view('admin/android_manipulacija/aplikacije',compact('jeziciKolekcija','graficiKolekcija','graficiDDKolekcija','firmeKolekcija','aplikacijeKolekcija'));     
     
     }
      public function androidMeniji()
@@ -68,22 +79,49 @@ class aplikacijeController extends Controller
            return json_encode($stavka);
     
     }
+        public function androidKopiranjeStavke(request $request)
+    {
+      try {
+        $stavka = DB::select("
+          SELECT 
+          sis.kopiraj_stavku_aplikacije('$request->aplikacija_s','$request->aplikacija_n' ,'$request->stavka', $request->firma_s,$request->firma_n,$request->tab_br)");
+        // $query = "SELECT 
+        //    sis.kopiraj_stavku_aplikacije('$request->aplikacija_s','$request->aplikacija_n' ,'$request->stavka', $request->firma_s,$request->firma_n,$request->tab_br)";
+       // print_r($query);
+        $array = array();
+        $vratiGresku['greska'] = "Uspesno kopiranje";
+              $vratiGresku['klasa'] = 'success';
+              return $vratiGresku;
+      }
+       catch(Exception $e){
+       // do task when error
+       echo $e->getMessage();   // insert query
+    }
+    
+      // print_r($request->all());
+
+    }
     public function androidAplikacije(request $request)
     {
     		if ($request->jezik == 'SRB')
           {
-        		$andr = new allApp;
-        		$apps = $andr::where('podsistem',$request->meni)->get();
+            $apps = DB::select("select aplikacija,prikazni_naziv,android_maska,podsistem,ws_parametar,ws_parametar2,snack_poruka_do,firma, f.naziv as firma_naziv,'' as jezik
+              from andr.and_aplikacija a, sis.firme f
+              where f.id = a.firma and podsistem = '$request->meni' and a.firma = $request->firma");
+        		//$andr = new allApp;
+        		//$apps = $andr::where('podsistem',$request->meni)->get();
           }
           else
           {
             $andr = new allApp_en;
             // $apps = $andr::where('podsistem',$request->meni)->where('jezik',$request->jezik)->get();
             $apps = DB::select("
-                select e.* from andr.and_aplikacija_en e,andr.and_aplikacija a
+                select e.*,a.firma, f.naziv as firma_naziv from andr.and_aplikacija_en e,andr.and_aplikacija a, sis.firme f
               where a.aplikacija = e.aplikacija
+              and f.id = a.firma
               and a.podsistem= '$request->meni'
               and e.jezik = '$request->jezik'
+              and a.firma = $request->firma
 
               ");
           }
@@ -118,30 +156,63 @@ class aplikacijeController extends Controller
            return json_encode($tab);
     
     }
+      public function taboviFirmaAplikacija(request $request)
+    {
+        
+        $andr = new andTab;
+       //$tab = $andr::distinct()->orderBy('tab_br','asc')->get(['tab_br']);
+        $tabs = $andr::where('and_aplikacije_pk',$request->aplikacija)->get();
+
+           return json_encode($tabs);
+    
+    }
+       public function taboviCopyPopuniNovuFirmu(request $request)
+    {
+        
+        // $andr = new andTab;
+
+      $tabs = DB::select("select firma from andr.and_aplikacija where aplikacija ='$request->aplikacija'");
+      
+
+           return json_encode($tabs);
+    
+    }
        public function androidTaboviStavke(request $request)
     {
+      if (!empty($request->br_taba))
+      {
          if ($request->jezik == 'SRB')
           {
-        $andr = new andTabStavke;
-        $tabStavke = $andr::where('aplikacija',$request->aplikacija)->where('broj_taba',$request->br_taba)->get();
-            }
-            else
-            {
-               $andr = new andTabStavke_en;
-               $tabStavke = DB::select("
-                select a.* from andr.and_aplikacija_stavka l,andr.and_aplikacija_stavka_en  a
-                where a.aplikacija = l.aplikacija
-                and a.stavka = l.stavka
-                and l.broj_taba =$request->br_taba
-                and a.jezik ='$request->jezik'
-                and a.aplikacija = '$request->aplikacija'
+            $andr = new andTabStavke;
+            $tabStavke = $andr::where('aplikacija',$request->aplikacija)->where('broj_taba',$request->br_taba)->where('firma',$request->firma)->get();
+                }
+                else
+                {
+                   $andr = new andTabStavke_en;
+                   $tabStavke = DB::select("
+                    select a.* from andr.and_aplikacija_stavka l,andr.and_aplikacija_stavka_en  a
+                    where a.aplikacija = l.aplikacija
+                    and a.stavka = l.stavka
+                    and l.broj_taba =$request->br_taba
+                    and a.jezik ='$request->jezik'
+                    and a.aplikacija = '$request->aplikacija'
+                    and l.firma = $request->firma
 
-                ");
-            /*  $tabStavke = $andr::where('aplikacija',$request->aplikacija)->where('broj_taba',$request->br_taba)->where('jezik',$request->jezik)->get();*/
-            }
+                    ");
+                /*  $tabStavke = $andr::where('aplikacija',$request->aplikacija)->where('broj_taba',$request->br_taba)->where('jezik',$request->jezik)->get();*/
+                }
 
-           return json_encode($tabStavke);
-    
+               return json_encode($tabStavke);
+          }
+          else
+          {
+                return '{
+                    "sEcho": 1,
+                    "iTotalRecords": "0",
+                    "iTotalDisplayRecords": "0",
+                    "aaData": []
+                }';
+          }
     }
         public function meniUnos(request $request)
     {
@@ -465,11 +536,12 @@ class aplikacijeController extends Controller
       try{
           if ($request->jezik == 'SRB')
           {
-            $res=andTabStavke::where('stavka',$request->stavka)->where('aplikacija',$request->aplikacija)->delete();
+            $res=andTabStavke::where('stavka',$request->stavka)->where('aplikacija',$request->aplikacija)->where('firma',$request->firma)->delete();
           }
           else
           {
             $res=andTabStavke_en::where('stavka',$request->stavka)->where('aplikacija',$request->aplikacija)->where('jezik',$request->jezik)->delete();
+
           }
          
            }

@@ -3,6 +3,9 @@
 
 @section('section')
     
+
+
+
 <div class="container-fluid">
 <div class="row">
     {{-- Tabela za menije --}}
@@ -31,8 +34,10 @@
                 @endif
                 <div class="card card-default">
                           
-                    <div class="card-header" style="background-color: #7386D5;">
-                            <h3 style="float: right;" class="card-title karticaNaziv" class="m_responsive_header">Meniji</h3>
+                    <div class="card-header" style="background-color: #4E73DF;">
+                            <div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
+                                <h3  class="card-title karticaNaziv" class="">Meniji</h3>
+                            </div>
                             <div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena" data-toggle="modal"  id="modIzmeniMeni" data-target="#modalUnosMeni"><i class="fas fa-user-edit"></i></button>
                             </div>
@@ -156,7 +161,7 @@
                 @endif
                 <div class="card card-default">
                           
-                    <div class="card-header" style="background-color: #7386D5;">
+                    <div class="card-header" style="background-color: #4E73DF;">
                             <h3 style="float: right;" class="card-title karticaNaziv" class="m_responsive_header">Aplikacije</h3>
                             <div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena" data-toggle="modal"  id="modIzmeniAplikaciju" data-target="#modalUnosAplikacije"><i class="fas fa-user-edit"></i></button>
@@ -168,10 +173,17 @@
                               <button class="btnUnosIzmena"  data-toggle="modal" id="btnBrisanjeAplikacije" ><i class="fas fa-trash" style="color: red;"></i></button>
                             </div>
 
-                            <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
+                            <div class="btn-group ml-2" style="float: left;" role="group" aria-label="Basic example">
                               <select  class=" form-control mb-2" id="APP_JEZIK_UNOS">
                                         @foreach ($jeziciKolekcija as $jezik)
                                         <option value="{{$jezik->jezik}}">{{$jezik->jezik_naziv}}</option>
+                                        @endforeach  
+                            </select>
+                            </div>
+                            <div class="btn-group ml-2" style="float: left;" role="group" aria-label="Basic example">
+                              <select  class=" form-control mb-2" id="APP_FIRMA_UNOS">
+                                        @foreach ($firmeKolekcija as $firma)
+                                        <option value="{{$firma->id}}">{{$firma->naziv}}</option>
                                         @endforeach  
                             </select>
                             </div>
@@ -193,6 +205,8 @@
                                         <th>WS PARAMETAR</th>
                                         <th>WS PARAMETAR2</th>
                                         <th>SNACK POR</th>
+                                        <th>FIRMA</th>
+                                        <th>FIRMA ID</th>
                                     </tr>
                                 </thead>
                             </table>         
@@ -369,7 +383,7 @@
                 @endif
             <div class="card card-default">
                           
-                    <div class="card-header" style="background-color: #7386D5;">
+                    <div class="card-header" style="background-color: #4E73DF;">
                             <h3 style="float: right;" class="card-title karticaNaziv" class="m_responsive_header">Tabovi</h3>
                             <div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena" data-toggle="modal"  id="modIzmenaTaba" data-target="#modalUnosTaba"><i class="fas fa-user-edit"></i></button>
@@ -509,10 +523,86 @@
                     </script>
 
                 @endif
+
+                <!-- Modal -->
+                    <div class="modal fade" id="modalKopirajStavkuTaba" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Kopiraj selektovanu stavku</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row p-2">
+                            {{-- <form id="kopirajStavkuForma"> --}}
+                                        <div class="form-group col-12">
+                                            <label>Stara aplikacija</label>
+                                             <select  class=" form-control mb-2 ml-2" id="COPY_TAB_STAVKA_STARA_APLIKACIJA" readonly disabled>
+                                                @foreach ($aplikacijeKolekcija as $aplikacija)
+                                                <option value="{{$aplikacija->aplikacija}}">{{$aplikacija->aplikacija}}</option>
+                                                @endforeach
+                                                  
+                                              </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Nova aplikacija</label>
+                                            <select  class=" form-control mb-2 ml-2" id="COPY_TAB_STAVKA_NOVA_APLIKACIJA">
+                                                @foreach ($aplikacijeKolekcija as $aplikacija)
+                                                <option value="{{$aplikacija->aplikacija}}">{{$aplikacija->aplikacija}}</option>
+                                                @endforeach
+                                                  
+                                              </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Stavka</label>
+                                            <input type="text" class="form-control"  id="COPY_TAB_STAVKA_STAVKA" readonly />
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Stara firma</label>
+                                             <select  class=" form-control mb-2 ml-2" id="COPY_TAB_STAVKA_STARA_FIRMA" readonly disabled>
+                                                @foreach ($firmeKolekcija as $firma)
+                                                <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                                @endforeach
+                                                  
+                                              </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Nova firma</label>
+                                             <select  class=" form-control mb-2 ml-2" id="COPY_TAB_STAVKA_NOVA_FIRMA" disabled>
+                                                @foreach ($firmeKolekcija as $firma)
+                                                <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                                @endforeach
+                                                  
+                                              </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Tab</label>
+                                            {{-- <input type="text" class="form-control"  id="COPY_TAB_STAVKA_BROJ_TABA" /> --}}
+                                            <select  class=" form-control mb-2 ml-2"  id="COPY_TAB_STAVKA_BROJ_TABA">
+
+
+                                                </select>
+                                        </div>
+                                      
+                                {{-- </form> --}}
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="iskopirajStavku">Potvrdi</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                 <div class="card card-default">
                           
-                    <div class="card-header" style="background-color: #7386D5;">
-                            <h3 style="float: right;" class="card-title karticaNaziv" class="m_responsive_header">Stavke taba</h3>
+                    <div class="card-header" style="background-color: #4E73DF;">
+                            <div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
+                                <h3 style="float: right;" class="card-title karticaNaziv" class="m_responsive_header">Stavke taba</h3>
+                            </div>
                             <div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena" data-toggle="modal"  id="modIzmeniStavkuTaba" data-target="#modalUnosTabStavke"><i class="fas fa-user-edit"></i></button>
                             </div>
@@ -524,12 +614,26 @@
                             </div>
                             <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
                             
-                             <select  class=" form-control mb-2" id="TAB_STAVKE_JEZIK_PRIMENE">
+                             <select  class=" form-control mb-2 ml-2" id="TAB_STAVKE_JEZIK_PRIMENE">
                                         @foreach ($jeziciKolekcija as $jezik)
                                         <option value="{{$jezik->jezik}}">{{$jezik->jezik_naziv}}</option>
                                         @endforeach
                                           
                                       </select>
+                            </div>
+                            <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
+                            
+                            <select  class=" form-control mb-2 ml-2" id="TAB_STAVKE_FIRMA">
+                                        @foreach ($firmeKolekcija as $firma)
+                                        <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                        @endforeach  
+                            </select>
+                            </div>
+                            <div class="btn-group float-right"  role="group" aria-label="Basic example">
+                            
+                                <button type="button" class="btn btn-success" id="modalKopirajStavkuTabaBtn">
+                                  Kopiraj stavku
+                                </button>
                             </div>
                             <button id="selektovanaStavka" class="btn ml-2  selektovano"></button>
                         
@@ -671,24 +775,27 @@
                                                 <input type="text" placeholder="SERIJA3 NAZIV..." class="form-control input-lg" name="TAB_STAVKE_SERIJA3_NAZIV_UNOS" id="TAB_STAVKE_SERIJA3_NAZIV_UNOS" value="">
                                             </div>
                                         </div>
+                                  
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">NAZIV IZVESTAJA</label>
+                                            <label class="control-label col-3 mojFont">SERIJA4 NAZIV</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_NAZIV_IZVESTAJA_UNOS" value="">
+                                                <input type="text" placeholder="SERIJA4 NAZIV..." class="form-control input-lg" name="TAB_SERIJA4_NAZIV_UNOS" id="TAB_SERIJA4_NAZIV_UNOS" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">DD NAZIV IZVESTAJA</label>
+                                            <label class="control-label col-3 mojFont">SERIJA5 NAZIV</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="DD NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS" value="">
+                                                <input type="text" placeholder="SERIJA5 NAZIV..." class="form-control input-lg" name="TAB_SERIJA5_NAZIV_UNOS" id="TAB_SERIJA5_NAZIV_UNOS" value="">
                                             </div>
                                         </div>
-                                        <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">DD WEB SERVIS</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="DD WEB SERVIS..." class="form-control input-lg" name="TAB_STAVKE_DD_WEB_SERVIS_UNOS" id="TAB_STAVKE_DD_WEB_SERVIS_UNOS" value="">
+                                              <div class="form-group row mb-1">
+                                                <label class="control-label col-3 mojFont">NAZIV IZVESTAJA</label>
+                                                <div class="col-9">
+                                                    <input type="text" placeholder="NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_NAZIV_IZVESTAJA_UNOS" value="">
+                                                </div>
                                             </div>
-                                        </div>
+                                     
+
                                         <div class="form-group row mb-1">
                                             <div class="row col-12">
                                                 <label class="control-label col-3 mojFont">BR TABA</label>
@@ -709,18 +816,19 @@
                                                 <input type="text" placeholder="WEB SERVIS..." class="form-control input-lg" name="TAB_STAVKE_WEB_SERVIS_UNOS" id="TAB_STAVKE_WEB_SERVIS_UNOS" value="">
                                             </div>
                                         </div>
-                                        <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">SERIJA4 NAZIV</label>
+                                           <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">DD NAZIV IZVESTAJA</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="SERIJA4 NAZIV..." class="form-control input-lg" name="TAB_SERIJA4_NAZIV_UNOS" id="TAB_SERIJA4_NAZIV_UNOS" value="">
+                                                <input type="text" placeholder="DD NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">SERIJA5 NAZIV</label>
+                                            <label class="control-label col-3 mojFont">DD WEB SERVIS</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="SERIJA5 NAZIV..." class="form-control input-lg" name="TAB_SERIJA5_NAZIV_UNOS" id="TAB_SERIJA5_NAZIV_UNOS" value="">
+                                                <input type="text" placeholder="DD WEB SERVIS..." class="form-control input-lg" name="TAB_STAVKE_DD_WEB_SERVIS_UNOS" id="TAB_STAVKE_DD_WEB_SERVIS_UNOS" value="">
                                             </div>
                                         </div>
+                                        
                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3  mojFont">DD GRAFIK</label>
                                             <div class="col-9">
@@ -849,22 +957,24 @@
                                                 <input type="text" placeholder="SERIJA3 NAZIV..." class="form-control input-lg" name="TAB_STAVKE_SERIJA3_NAZIV_UNOS" id="TAB_STAVKE_SERIJA3_NAZIV_UNOS2" value="">
                                             </div>
                                         </div>
+                                       
+                                   
                                         <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">SERIJA4 NAZIV</label>
+                                            <div class="col-9">
+                                                <input type="text" placeholder="SERIJA4 NAZIV..." class="form-control input-lg" name="TAB_SERIJA4_NAZIV_UNOS" id="TAB_SERIJA4_NAZIV_UNOS2" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">SERIJA5 NAZIV</label>
+                                            <div class="col-9">
+                                                <input type="text" placeholder="SERIJA5 NAZIV..." class="form-control input-lg" name="TAB_SERIJA5_NAZIV_UNOS" id="TAB_SERIJA5_NAZIV_UNOS2" value="">
+                                            </div>
+                                        </div>
+                                         <div class="form-group row mb-1">
                                             <label class="control-label col-3 mojFont">NAZIV IZVESTAJA</label>
                                             <div class="col-9">
                                                 <input type="text" placeholder="NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_NAZIV_IZVESTAJA_UNOS2" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">DD NAZIV IZVESTAJA</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="DD NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS2" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">DD WEB SERVIS</label>
-                                            <div class="col-9">
-                                                <input type="text" placeholder="DD WEB SERVIS..." class="form-control input-lg" name="TAB_STAVKE_DD_WEB_SERVIS_UNOS" id="TAB_STAVKE_DD_WEB_SERVIS_UNOS2" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
@@ -887,18 +997,19 @@
                                                 <input type="text" placeholder="WEB SERVIS..." class="form-control input-lg" name="TAB_STAVKE_WEB_SERVIS_UNOS" id="TAB_STAVKE_WEB_SERVIS_UNOS2" value="">
                                             </div>
                                         </div>
-                                        <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">SERIJA4 NAZIV</label>
+                                             <div class="form-group row mb-1">
+                                            <label class="control-label col-3 mojFont">DD NAZIV IZVESTAJA</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="SERIJA4 NAZIV..." class="form-control input-lg" name="TAB_SERIJA4_NAZIV_UNOS" id="TAB_SERIJA4_NAZIV_UNOS2" value="">
+                                                <input type="text" placeholder="DD NAZIV IZVESTAJA..." class="form-control input-lg" name="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS" id="TAB_STAVKE_DD_NAZIV_IZVESTAJA_UNOS2" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-1">
-                                            <label class="control-label col-3 mojFont">SERIJA5 NAZIV</label>
+                                            <label class="control-label col-3 mojFont">DD WEB SERVIS</label>
                                             <div class="col-9">
-                                                <input type="text" placeholder="SERIJA5 NAZIV..." class="form-control input-lg" name="TAB_SERIJA5_NAZIV_UNOS" id="TAB_SERIJA5_NAZIV_UNOS2" value="">
+                                                <input type="text" placeholder="DD WEB SERVIS..." class="form-control input-lg" name="TAB_STAVKE_DD_WEB_SERVIS_UNOS" id="TAB_STAVKE_DD_WEB_SERVIS_UNOS2" value="">
                                             </div>
                                         </div>
+                                        
                                          <div class="form-group row mb-1">
                                             <label class="control-label col-3  mojFont">DD GRAFIK</label>
                                             <div class="col-9">
@@ -1512,7 +1623,8 @@
 
         aplikacija: tabStavkeBrisanjeAplikacija,
         stavka: tabStavkaStavkaUnos,
-        jezik: $('#TAB_STAVKE_JEZIK_PRIMENE').val()
+        jezik: $('#TAB_STAVKE_JEZIK_PRIMENE').val(),
+        firma: $('#TAB_STAVKE_FIRMA').val()
               
             },function(result){
                   //  alert(result);
@@ -1814,38 +1926,44 @@
                           }
                           $( this ).css( "background-color", "#B0BED9" );
                           pickedupMeni = $( this );
+                              tblAplikacije.ajax.reload();
+             // urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni','jezik' =>':jezik']) }}';
 
-             urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni','jezik' =>':jezik']) }}';
-
-                        urlAplikacije = urlAplikacije.replace(':meni', selektovaniMeni);
-                    urlAplikacije = urlAplikacije.replace(':jezik', $('#APP_JEZIK_UNOS').val());
-                                    tblAplikacije.ajax.url(urlAplikacije).load();
+             //            urlAplikacije = urlAplikacije.replace(':meni', selektovaniMeni);
+             //        urlAplikacije = urlAplikacije.replace(':jezik', $('#APP_JEZIK_UNOS').val());
+             //                        tblAplikacije.ajax.url(urlAplikacije).load();
 
 
                                     $("#modIzmeniMeni").trigger('click');
         
             });
-        urlAplikacije = "{{ route('androidAplikacije', ['meni' =>'n','jezik' =>'SRB']) }}";
+        urlAplikacije = "{{ route('androidAplikacije') }}";
         $('#tblAplikacije_enD').hide();
+        $('#APP_FIRMA_UNOS').change(function(){
+            tblAplikacije.ajax.reload();
+            tblAplikacije_en.ajax.reload();
+        });
         $('#APP_JEZIK_UNOS').change(function(){
-            urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni','jezik' =>':jezik']) }}';
+            // urlAplikacije = '{{ route('androidAplikacije', ['meni' =>':meni','jezik' =>':jezik']) }}';
 
-                        urlAplikacije = urlAplikacije.replace(':meni', selektovaniMeni);
-                    urlAplikacije = urlAplikacije.replace(':jezik', $('#APP_JEZIK_UNOS').val());
+            //             urlAplikacije = urlAplikacije.replace(':meni', selektovaniMeni);
+            //         urlAplikacije = urlAplikacije.replace(':jezik', $('#APP_JEZIK_UNOS').val());
                                    
             if ($('#APP_JEZIK_UNOS').val()=='SRB')
             {
                 $('#tblAplikacije_enD').hide();
                 $('#tblAplikacijeD').show();
 
-                 tblAplikacije.ajax.url(urlAplikacije).load();
+                 //tblAplikacije.ajax.url(urlAplikacije).load();
+                 tblAplikacije.ajax.reload();
             }
             else
             {
                 $('#tblAplikacije_enD').show();
                 $('#tblAplikacijeD').hide();
 
-                 tblAplikacije_en.ajax.url(urlAplikacije).load();
+                // tblAplikacije_en.ajax.url(urlAplikacije).load();
+                  tblAplikacije_en.ajax.reload();
             }
         })
         var tblAplikacije = $('#tblAplikacije').DataTable({
@@ -1861,8 +1979,10 @@
                 ajax:{
                     url:  urlAplikacije,
                         "type": "GET",
-                        data:function(){
-                          //id:1
+                        data:function(d){
+                          d.meni = selektovaniMeni;
+                          d.jezik = $('#APP_JEZIK_UNOS').val();
+                          d.firma = $('#APP_FIRMA_UNOS').val();
                                        },
                         dataSrc: ''
                     },
@@ -1874,9 +1994,16 @@
                         { data: 'ws_parametar' },
                         { data: 'ws_parametar2' },
                         { data: 'snack_poruka_do' },
+                        { data: 'firma_naziv' },
+                        { data: 'firma' },
                        
                    
-                        ]
+                        ],
+                         columnDefs: [{
+                data: null,
+                defaultContent: '',
+                targets: "_all"
+            }]
         });
         var tblAplikacije_en = $('#tblAplikacije_en').DataTable({
      
@@ -1891,9 +2018,10 @@
                 ajax:{
                     url:  urlAplikacije,
                         "type": "GET",
-                        data:function(){
-                          //id:1
-                                       },
+                        data:function(d){
+                            d.meni = selektovaniMeni;
+                            d.jezik = $('#APP_JEZIK_UNOS').val();
+                            d.firma = $('#APP_FIRMA_UNOS').val();        },
                         dataSrc: ''
                     },
                 columns:[
@@ -1903,7 +2031,12 @@
                        
                        
                    
-                        ]
+                        ],
+                         columnDefs: [{
+                data: null,
+                defaultContent: '',
+                targets: "_all"
+            }]
         });
         var selektovanaAplikacija = '';
         var appPrikazniNaziv = '';
@@ -1938,10 +2071,11 @@
                           $( this ).css( "background-color", "#B0BED9" );
                           pickedupAplikacije = $( this );
 
-            urlTab = '{{ route('androidTabovi', ['aplikacija' =>':aplikacija']) }}';
+            // urlTab = '{{ route('androidTabovi', ['aplikacija' =>':aplikacija']) }}';
 
-                        urlTab = urlTab.replace(':aplikacija', selektovanaAplikacija);
-                                    tblTabovi.ajax.url(urlTab).load();
+            //             urlTab = urlTab.replace(':aplikacija', selektovanaAplikacija);
+            //                         tblTabovi.ajax.url(urlTab).load();
+            tblTabovi.ajax.reload();
             $("#modIzmeniAplikaciju").trigger('click');
         
             });
@@ -1968,15 +2102,16 @@
                           $( this ).css( "background-color", "#B0BED9" );
                           pickedupAplikacije = $( this );
 
-            urlTab = '{{ route('androidTabovi', ['aplikacija' =>':aplikacija']) }}';
+            // urlTab = '{{ route('androidTabovi', ['aplikacija' =>':aplikacija']) }}';
 
-                        urlTab = urlTab.replace(':aplikacija', selektovanaAplikacija);
-                                    tblTabovi.ajax.url(urlTab).load();
+            //             urlTab = urlTab.replace(':aplikacija', selektovanaAplikacija);
+            //                         tblTabovi.ajax.url(urlTab).load();
+                                    tblTabovi.ajax.reload();
            modIzmeniAplikaciju_en();
         
             });
 
-              urlTab = "{{ route('androidTabovi', ['aplikacija' =>'n']) }}"
+              urlTab = "{{ route('androidTabovi') }}"
         var tblTabovi = $('#tblTabovi').DataTable({
      
                 scrollY: "17vh",
@@ -1987,8 +2122,8 @@
                 ajax:{
                     url:  urlTab,
                         "type": "GET",
-                        data:function(){
-                          //id:1
+                        data:function(d){
+                          d.aplikacija = selektovanaAplikacija;
                                        },
                         dataSrc: ''
                     },
@@ -2029,37 +2164,39 @@
                           $( this ).css( "background-color", "#B0BED9" );
                           pickedupTab = $( this );
 
-            urlTabStavka = '{{ route('androidTaboviStavke', ['aplikacija' =>':aplikacija','br_taba' =>':br_taba','jezik' =>':jezik']) }}';
+        //     urlTabStavka = '{{ route('androidTaboviStavke', ['aplikacija' =>':aplikacija','br_taba' =>':br_taba','jezik' =>':jezik']) }}';
 
-                        urlTabStavka = urlTabStavka.replace(':aplikacija', selektovanaAplikacija);
-                        urlTabStavka = urlTabStavka.replace(':br_taba', selektovaniTab);
-        urlTabStavka = urlTabStavka.replace(':jezik', $('#TAB_STAVKE_JEZIK_PRIMENE').val());
-                                    tblTaboviStavke.ajax.url(urlTabStavka).load();
+        //                 urlTabStavka = urlTabStavka.replace(':aplikacija', selektovanaAplikacija);
+        //                 urlTabStavka = urlTabStavka.replace(':br_taba', selektovaniTab);
+        // urlTabStavka = urlTabStavka.replace(':jezik', $('#TAB_STAVKE_JEZIK_PRIMENE').val());
+                                    tblTaboviStavke.ajax.reload();
                                     $("#modIzmenaTaba").trigger('click');
         
         
         
             });
-         urlTabStavka = "{{ route('androidTaboviStavke', ['aplikacija' =>'n','br_taba' =>'9999','jezik' =>'SRB']) }}";
+         // urlTabStavka = "{{ route('androidTaboviStavke', ['aplikacija' =>'n','br_taba' =>'9999','jezik' =>'SRB']) }}";
+          $('#TAB_STAVKE_FIRMA').change(function(){
+                tblTaboviStavke.ajax.reload();
+                tblTaboviStavke_en.ajax.reload();
+          });
          $('#TAB_STAVKE_JEZIK_PRIMENE').change(function(){
-             urlTabStavka = '{{ route('androidTaboviStavke', ['aplikacija' =>':aplikacija','br_taba' =>':br_taba','jezik' =>':jezik']) }}';
-
-                        urlTabStavka = urlTabStavka.replace(':aplikacija', selektovanaAplikacija);
-                        urlTabStavka = urlTabStavka.replace(':br_taba', selektovaniTab);
-        urlTabStavka = urlTabStavka.replace(':jezik', $('#TAB_STAVKE_JEZIK_PRIMENE').val());
+     
             if ($('#TAB_STAVKE_JEZIK_PRIMENE').val()=='SRB')
             {   
-                alert(urlTabStavka);
+                //alert(urlTabStavka);
                 $('#tblTaboviStavke_enD').hide();
                 $('#tblTaboviStavkeD').show();
-                 tblTaboviStavke.ajax.url(urlTabStavka).load();
+                 // tblTaboviStavke.ajax.url(urlTabStavka).load();
+                 tblTaboviStavke.ajax.reload();
             }
             else
             {
                 
                 $('#tblTaboviStavke_enD').show();
                 $('#tblTaboviStavkeD').hide();
-                 tblTaboviStavke_en.ajax.url(urlTabStavka).load();
+                 // tblTaboviStavke_en.ajax.url(urlTabStavka).load();
+                  tblTaboviStavke_en.ajax.reload();
             }
            
          });
@@ -2072,12 +2209,21 @@
                 select:true,
                 searching:false,
                 ajax:{
-                    url: '{{ route('androidTabovi', ['aplikacija' =>'Administracij']) }}',
+                    url: '{{ route('androidTaboviStavke') }}',
                         "type": "GET",
-                        data:function(){
-                          //id:1
+                        data:function(d){
+                          d.aplikacija = selektovanaAplikacija;
+                          d.br_taba = selektovaniTab;
+                          d.jezik = $('#TAB_STAVKE_JEZIK_PRIMENE').val();
+                          d.firma = $('#TAB_STAVKE_FIRMA').val();
                                        },
-                        dataSrc: ''
+                       "dataSrc": function (json) {
+                         //comm_status = json.data.queryStatus;
+                         //mails = json.recordsTotal;
+                        //alert(selektovanaAplikacija+'---'+selektovaniTab+'---'+$('#TAB_STAVKE_JEZIK_PRIMENE').val()+'---'+$('#TAB_STAVKE_FIRMA').val());
+                        // console.log(json);
+                         return json;
+                         }
                     },
                 columns:[
                         { data: 'aplikacija' },
@@ -2120,10 +2266,13 @@
                 select:true,
                 searching:false,
                 ajax:{
-                    url: '{{ route('androidTabovi', ['aplikacija' =>'Administracij']) }}',
+                    url: '{{ route('androidTaboviStavke') }}',
                         "type": "GET",
-                        data:function(){
-                          //id:1
+                        data:function(d){
+                          d.aplikacija = selektovanaAplikacija;
+                          d.br_taba = selektovaniTab;
+                          d.jezik = $('#TAB_STAVKE_JEZIK_PRIMENE').val();
+                          d.firma = $('#TAB_STAVKE_FIRMA').val();
                                        },
                         dataSrc: ''
                     },
@@ -2296,6 +2445,112 @@
       modIzmeniStavkuTaba_en();
        //  $("#modIzmeniStavkuTaba_en").trigger('click');
             });
+
+
+          $('#modalKopirajStavkuTabaBtn').click(function(){
+            // $('#TAB_STAVKE_FIRMA').val() - stara firma
+            //stara app tabStavkeBrisanjeAplikacija;
+            if (tabStavkeBrisanjeAplikacija)
+            {
+                $('#COPY_TAB_STAVKA_STARA_APLIKACIJA').val(tabStavkeBrisanjeAplikacija);
+                $('#COPY_TAB_STAVKA_STAVKA').val(tabStavkaStavkaUnos);
+                $('#COPY_TAB_STAVKA_STARA_FIRMA').val($('#TAB_STAVKE_FIRMA').val());
+                copyPopuniBrojTaba();
+                $('#modalKopirajStavkuTaba').modal('show');
+            }
+            else
+            {
+                  $.notify( 'Selektujte stavku!!',
+                                    {
+                                        className: 'error',
+                                        globalPosition: 'bottom right'
+                                    });
+            }
+          });
+
+
+          function copyPopuniBrojTaba()
+          {
+            //alert($('#COPY_TAB_STAVKA_NOVA_APLIKACIJA').val());
+              $.ajax({
+                   type:'GET',
+                   url:'{{ route('taboviFirmaAplikacija') }}',
+                   data:{
+                    aplikacija:$('#COPY_TAB_STAVKA_NOVA_APLIKACIJA').val()
+                },
+                   success:function(data){
+
+                      var json = JSON.parse(data);
+                    
+                var brRedova=json.length;
+             
+                        
+                         $("#COPY_TAB_STAVKA_BROJ_TABA").empty();
+                       for (var i = 0; i < brRedova; i++) 
+                        {
+
+
+                                $("#COPY_TAB_STAVKA_BROJ_TABA").append(
+                                                    $("<option></option>") 
+                                                        .text(json[i].tab_naziv)
+                                                        .val(json[i].tab_br)
+                                                   ); 
+                                                 
+                        }
+                   }
+
+                });
+          }
+          function copyPopuniNovuFirum()
+          {
+            //alert($('#COPY_TAB_STAVKA_NOVA_APLIKACIJA').val());
+              $.ajax({
+                   type:'GET',
+                   url:'{{ route('taboviCopyPopuniNovuFirmu') }}',
+                   data:{
+                    aplikacija:$('#COPY_TAB_STAVKA_NOVA_APLIKACIJA').val()
+                },
+                   success:function(data){
+
+                      var json = JSON.parse(data);
+                        
+                       $('#COPY_TAB_STAVKA_NOVA_FIRMA').val(json[0].firma);
+                   }
+
+                });
+          }
+
+          $('#COPY_TAB_STAVKA_NOVA_APLIKACIJA').change(function(){
+
+            copyPopuniBrojTaba();
+            copyPopuniNovuFirum();
+          })
+          $('#iskopirajStavku').click(function(){
+
+             $.ajax({
+                   type:'GET',
+                   url:'{{ route('androidKopiranjeStavke') }}',
+                   data:{
+                    aplikacija_s:$('#COPY_TAB_STAVKA_STARA_APLIKACIJA').val(),
+                    aplikacija_n:$('#COPY_TAB_STAVKA_NOVA_APLIKACIJA').val(),
+                    stavka:$('#COPY_TAB_STAVKA_STAVKA').val(),
+                    firma_s:$('#COPY_TAB_STAVKA_STARA_FIRMA').val(),
+                    firma_n:$('#COPY_TAB_STAVKA_NOVA_FIRMA').val(),
+                    tab_br:$('#COPY_TAB_STAVKA_BROJ_TABA').val()
+                },
+                   success:function(data){
+                    $.notify( data['greska'],
+                                    {
+                                        className: data['klasa'],
+                                        globalPosition: 'bottom right'
+                                    });
+
+                   }
+
+                });
+
+          });
+
             
      </script>
 

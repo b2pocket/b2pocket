@@ -45,11 +45,14 @@ Route::get('tableDetailStanja', 'bilansiStanjeController@tableDetailStanja')->na
 			Route::get('aplikacijeIndex', 'aplikacijeController@aplikacijeIndex');
 			Route::get('androidMeniji', 'aplikacijeController@androidMeniji')->name('androidMeniji');
 			Route::get('pronadjiGrafikStavku', 'aplikacijeController@pronadjiGrafikStavku')->name('pronadjiGrafikStavku');
-			Route::get('androidAplikacije/{meni}/{jezik}', 'aplikacijeController@androidAplikacije')->name('androidAplikacije');
+			Route::get('androidAplikacije', 'aplikacijeController@androidAplikacije')->name('androidAplikacije');
 			Route::get('androidSveAPlikacije', 'aplikacijeController@androidSveAPlikacije')->name('androidSveAPlikacije');
-			Route::get('androidTabovi/{aplikacija}', 'aplikacijeController@androidTabovi')->name('androidTabovi');
+			Route::get('androidTabovi', 'aplikacijeController@androidTabovi')->name('androidTabovi');
 			Route::get('androidSviTabovi', 'aplikacijeController@androidSviTabovi')->name('androidSviTabovi');
-			Route::get('androidTaboviStavke/{aplikacija}/{br_taba}/{jezik}', 'aplikacijeController@androidTaboviStavke')->name('androidTaboviStavke');
+			Route::get('taboviFirmaAplikacija', 'aplikacijeController@taboviFirmaAplikacija')->name('taboviFirmaAplikacija');
+			Route::get('taboviCopyPopuniNovuFirmu', 'aplikacijeController@taboviCopyPopuniNovuFirmu')->name('taboviCopyPopuniNovuFirmu');
+			Route::get('androidKopiranjeStavke', 'aplikacijeController@androidKopiranjeStavke')->name('androidKopiranjeStavke');
+			Route::get('androidTaboviStavke', 'aplikacijeController@androidTaboviStavke')->name('androidTaboviStavke');
 			Route::get('meniUnos','aplikacijeController@meniUnos')->name('meniUnos');
 			Route::get('meniIzmena','aplikacijeController@meniIzmena')->name('meniIzmena');
 			Route::get('aplikacijaUnos','aplikacijeController@aplikacijaUnos')->name('aplikacijaUnos');
@@ -187,4 +190,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 // --------!!!!!!!!-------------
