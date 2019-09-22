@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Http\Controllers\adminApps;
+namespace Laravel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Http\Controllers\Controller;
@@ -15,7 +15,7 @@ use Laravel\Traits\BindsDynamically;
 
 
 
-class wp_web_meni_grupeController extends Controller
+class finParametriController extends Controller
 {
 	 use BindsDynamically;
 	//public $sema='';
@@ -34,7 +34,7 @@ class wp_web_meni_grupeController extends Controller
 		$this->tabelSaSemom = $request->sema.'.'.$request->tabela; 
 	
 	}
-     public function wp_web_meni_grupeV(Request $request)
+     public function fin_parametriV(Request $request)
     {
 
          $koloneThead =  DB::select("
@@ -54,6 +54,11 @@ class wp_web_meni_grupeController extends Controller
 				where table_schema = '".$this->sema."' and table_name = '".$this->tabela."'
 
 			");
+          $firmeKolekcija =  DB::select("
+                 
+                  select pg_sema_gk as id,naziv from sis.firme
+
+            ");
          foreach($koloneLista as $obj){
 			   $param2 =  $obj->kolone;
 			  
@@ -81,11 +86,11 @@ class wp_web_meni_grupeController extends Controller
 			// $andr = new $this->modelName;
 			// $andr->setTable($this->sema.'.'.$this->tabela);
 			// print_r($andr->get());
-        return view('admin/wp_web_meni_grupe',compact('param','param2','naslovAplikacije','sema','tabela'));	
+        return view('admin/fin_parametri',compact('param','param2','naslovAplikacije','sema','tabela','firmeKolekcija'));	
     
     }
 
-    public function wp_web_meni_grupeR(Request $request)
+    public function fin_parametriR(Request $request)
     {
     		// $andr = new $this->modelName;
     		// $andr->setTable($this->sema.'.'.$this->tabela);
@@ -207,7 +212,7 @@ class wp_web_meni_grupeController extends Controller
 
 
 
-    public function wp_web_meni_grupeM(Request $request)
+    public function fin_parametriM(Request $request)
     {
 
 		    	$modalPrviDeo = "<div class=\"modal\" id=\"myModal\">
@@ -437,7 +442,7 @@ class wp_web_meni_grupeController extends Controller
 		    	 return $modalceo;
   	
     }
-    public function wp_web_meni_grupeE(request $request)
+    public function fin_parametriE(request $request)
     	{	
         	try
 	        	{ 
@@ -528,7 +533,7 @@ class wp_web_meni_grupeController extends Controller
 		        }
 
     	}
-    public function wp_web_meni_grupeI(request $request)
+    public function fin_parametriI(request $request)
     	{	
         	try
 	        	{ 

@@ -188,8 +188,8 @@
   </div>
   <script>
          var url = '{{url('kreirajMeni')}}';
-         $.ajaxSetup({timeout:2000});
-         $.ajaxSetup({async: false});
+         // $.ajaxSetup({timeout:2000});
+         // $.ajaxSetup({async: false});
   	  	 $.get(url,{
                 //pretraga:param,
             		},function(result){

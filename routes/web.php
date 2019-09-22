@@ -92,6 +92,14 @@ Route::post('b2me_amdinsI', 'adminApps\setovanjeB2meAdminsController@helenaInser
 
 // --------!!!!!!!!-------------
 
+// SETOVANJE B2ME ADMINS
+
+// --------!!!!!!!!-------------
+Route::get('fin_parametriV/{sema}/{tabela}', 'finParametriController@fin_parametriV')->name('fin_parametriV');
+Route::get('fin_parametriR/{sema}/{tabela}', 'finParametriController@fin_parametriR')->name('fin_parametriR');
+Route::get('fin_parametriM/{sema}/{tabela}', 'finParametriController@fin_parametriM')->name('fin_parametriM');
+Route::post('fin_parametriE/{sema}/{tabela}', 'finParametriController@fin_parametriE')->name('fin_parametriE');
+Route::post('fin_parametriI/{sema}/{tabela}', 'finParametriController@fin_parametriI')->name('fin_parametriI');
 // SETOVANJE WP_WEB_MENI_GRUPE
 Route::get('wp_web_meni_grupeV/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeV')->name('wp_web_meni_grupeV');
 Route::get('wp_web_meni_grupeR/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeController@wp_web_meni_grupeR')->name('wp_web_meni_grupeR');

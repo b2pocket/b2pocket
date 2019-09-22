@@ -9,7 +9,14 @@
 
 
 <div class="row no-gutters">
-	
+	<div class="col-auto">
+		<select  class=" form-control mb-2" id="firma">
+                                        @foreach ($firmeKolekcija as $firma)
+                                        <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                        @endforeach  
+                            </select>
+		
+	</div>
 	<div class="col-12 no-gutters">
 		<table class="table table-bordered  mojeTabele" style="width: 100%;"  id="tblSetovanja">
 				<thead>
@@ -51,18 +58,20 @@
 	// $.ajaxSetup({timeout:2000});
 	 // $.ajaxSetup({async: false});
 
-	         
-              		
+	$('#firma').change(function(){
+		refresTabele();
+	});     
+              	
 
 	function popuniElemente()
 
             {
-            	var url = '{{url('wp_web_meni_grupeR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+            	//var url = '{{url('fin_parametriR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
 
-                $.get(url,{
+                $.get("{{url('fin_parametriR')}}"+"/"+$('#firma').val()+"/{!!$tabela!!}",{
                 //pretraga:param,
             		},function(result){
-
+            			
             	$("#tblSetovanja tbody").empty();
                $("#tblSetovanja tbody").append(result);
                    tblSetovanja = $('#tblSetovanja').DataTable({
@@ -144,7 +153,7 @@
 
   function refresModala(kojiTip)
 			    {
-			    		var url = '{{url('wp_web_meni_grupeM')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+			    		var url ="{{url('fin_parametriM')}}"+"/"+$('#firma').val()+"/{!!$tabela!!}";
 	            return $.get(url,{
 	                	tip_modala:kojiTip
 				            		},function(result){
@@ -236,7 +245,7 @@
             refresModala('FILTRIRANJE');
     function refresTabele()
 		    {
-		    	var url = '{{url('wp_web_meni_grupeR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
+		    	var url = "{{url('fin_parametriR')}}"+"/"+$('#firma').val()+"/{!!$tabela!!}";
 		    	$.ajax({
 		            url:url,
 		            type: 'get',
@@ -348,7 +357,8 @@
 						  $myForm.find(':submit').click();
 						  return false();
 						}
-						var url = '{{url('wp_web_meni_grupeE')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
+						var url = "{{url('fin_parametriE')}}"+"/"+$('#firma').val()+"/{!!$tabela!!}";
+						// alert(url);
             			$.post(url,{
 
                 			jsonEditValues: jsonEditValues
@@ -386,7 +396,7 @@
 						
 						  return false();
 						}
-						var url = '{{url('wp_web_meni_grupeI')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+						var url = "{{url('fin_parametriI')}}"+"/"+$('#firma').val()+"/{!!$tabela!!}";
             			$.post(url,{
 
                 			jsonEditValues: jsonEditValues

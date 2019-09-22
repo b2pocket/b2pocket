@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
-   <link rel="icon" href="../resources/views/layouts/icon.ico" type="image/x-icon">
+   <link rel="icon" href="http://b2me.rs/b2pocket/resources/views/layouts/icon.ico" type="image/x-icon">
     <title>B2ME</title>
 
     <!-- Scripts -->
