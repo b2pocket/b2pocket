@@ -8,6 +8,7 @@ use Laravel\andr_and_user_Model as andr;
 use Laravel\cmat\and_v_prava_na_app as prava;
 use Laravel\cmat\and_aplikacija as allApp;
 use DB;
+use Illuminate\Database\QueryException as excp;
 use Exception;
 
 
@@ -15,16 +16,22 @@ class korisniciIPravaController extends Controller
 {
         public function korisnici_i_prava()
     {
+        $firmeKolekcija =  DB::select("
+                 
+                  select id,naziv from sis.firme
+
+            ");
       
-        return view('admin/android_manipulacija/korisnici_i_prava');      
+        return view('admin/android_manipulacija/korisnici_i_prava',compact('firmeKolekcija'));      
     
     }
        public function androidUsers()
     {
     		$andr = new andr;
     		$korisnici = $andr::all();
-
-    	     return json_encode($korisnici);
+            $andr = DB::select('select a.*,f.naziv from andr.and_user a, sis.firme f
+where f.id = a.firma');
+    	     return json_encode($andr);
   	
     }
     public function androidAppsForUser($korisnik)
@@ -80,7 +87,7 @@ $userprava = prava::where('korisnik',$korisnik)->get();
 
      public function upisAndUSer(Request $request)
     {
-        
+         try {
         $andUser= new andr;
         $andUser->imei=$request->post('IMEI');
         $andUser->korisnik=$request->post('KORISNIK');
@@ -92,6 +99,8 @@ $userprava = prava::where('korisnik',$korisnik)->get();
         $andUser->email=$request->post('EMAIL');
         $andUser->blokiran=$request->post('BLOKIRAN');
         $andUser->promet_uzivo=$request->post('PROMET_UZIVO');
+        $andUser->jezik=$request->post('JEZIK');
+        $andUser->firma=$request->post('FIRMA');
        
         //$date=date_create($request->get('date'));
         //$format = date_format($date,"Y-m-d");
@@ -101,6 +110,9 @@ $userprava = prava::where('korisnik',$korisnik)->get();
         $andUser->save();
         
         return redirect('korisnici_i_prava')->with('success', 'Korisnik je upisan');
+        } catch (Exception $e) {
+          return redirect('korisnici_i_prava')->with('error', 'Korisnik nije upisan');
+        }
     }
 
 
@@ -109,7 +121,8 @@ $userprava = prava::where('korisnik',$korisnik)->get();
         
         //$andUser= new andr;
         //$andUser = andr::where('korisnik',$request->post('KORISNIK'))->find(1);
-         $andUser = andr::find($request->post('KORISNIK'));
+        try {
+             $andUser = andr::find($request->post('KORISNIK'));
         //$firstModel = $andUser->first();
         $andUser->imei=$request->post('IMEI');
        
@@ -121,10 +134,17 @@ $userprava = prava::where('korisnik',$korisnik)->get();
         $andUser->email=$request->post('EMAIL');
         $andUser->blokiran=$request->post('BLOKIRAN');
         $andUser->promet_uzivo=$request->post('PROMET_UZIVO');
+        $andUser->jezik=$request->post('JEZIK');
+        $andUser->firma=$request->post('FIRMA');
         
         $andUser->save();
      //return $andUser->all();
         return redirect('korisnici_i_prava')->with('success','PODACI SU IZMENJENI');
+            
+        } catch (Exception $e) {
+          //echo $e->getMessage();  
+        }
+        
     }
     public function deleteAndUser(Request $request)
     {

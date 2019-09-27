@@ -41,10 +41,10 @@ class rgController extends Controller
 
     	}
     	else {
-    	$zaposlenja = DB::table("cmat.artikal")
-    	 ->join("cmat.robnegrupe", "cmat.artikal.robnagrupa", "=", "cmat.robnegrupe.sifra")->where("cmat.artikal.robnagrupa",$param)
+    	$zaposlenja = DB::table("$sema.artikal")
+    	 ->join("$sema.robnegrupe", "$sema.artikal.robnagrupa", "=", "$sema.robnegrupe.sifra")->where("$sema.artikal.robnagrupa",$param)
     	  
-    	    ->select("cmat.artikal.*", "cmat.robnegrupe.naziv as rg_naziv")
+    	    ->select("$sema.artikal.*", "$sema.robnegrupe.naziv as rg_naziv")
     	    ->get();
     	}
 

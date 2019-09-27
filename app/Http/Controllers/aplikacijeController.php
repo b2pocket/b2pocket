@@ -371,7 +371,9 @@ select aplikacija,aplikacija from andr.and_aplikacija
 
           if ($request->jezik == 'SRB')
           {
-            $obj = new andTabStavke;     
+            // echo "usao";
+            $obj = new andTabStavke;    
+            
             $obj ->aplikacija = $request->aplikacija;
             $obj ->stavka = $request->stavka; 
             $obj ->grafik = $request->grafik; 
@@ -394,11 +396,18 @@ select aplikacija,aplikacija from andr.and_aplikacija
             $obj ->dd_serija3_naziv = $request->dd_serija3_naziv; 
             $obj ->dd_serija4_naziv = $request->dd_serija4_naziv; 
             $obj ->dd_serija5_naziv = $request->dd_serija5_naziv; 
-     
-            $obj->save();
+            $obj ->firma = $request->firma; 
+              try {
+
+                  $obj->save();
+              } catch (Exception $e) {
+                  echo $e->getMessage(); 
+              }
+          
           }
           else
           {
+
             $obj = new andTabStavke_en;     
             $obj ->aplikacija = $request->aplikacija;
             $obj ->stavka = $request->stavka; 
@@ -442,7 +451,7 @@ select aplikacija,aplikacija from andr.and_aplikacija
        
    if ($request->jezik == 'SRB')
           {
-        $izmena = andTabStavke::where('aplikacija','=',$request->aplikacija)->where('stavka','=',$request->stavka)
+        $izmena = andTabStavke::where('aplikacija','=',$request->aplikacija)->where('stavka','=',$request->stavka)->where('firma','=',$request->firma)
                 ->update([
                    'stavka'=>$request->stavka,
                   'grafik'=>$request->grafik,

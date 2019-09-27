@@ -29,7 +29,7 @@
                 @endif
     			<div class="card card-default">
     					  
-    				<div class="card-header" style="background-color: #7386D5;">
+    				<div class="card-header" style="background-color: #4E73DF;">
     						<h3 class="card-title" class="m_responsive_header">Korisnici</h3>
     						<div class="btn-group mr-1" style="float: left;" role="group" aria-label="Basic example">
     						  <button class="btnUnosIzmena" data-toggle="modal"  id="btnIzmena" data-target="#ModalExample2"><i class="fas fa-user-edit"></i></button>
@@ -40,7 +40,7 @@
                             <div class="btn-group" style="float: left;" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena"  data-toggle="modal" id="btnBrisanje" ><i class="fas fa-trash" style="color: red;"></i></button>
                             </div>
-                            <button id="selektovaniRed" class="btn ml-2" style="background-color:#17A2B8;"></button>
+                            <button id="selektovaniRed" class="btn ml-2" style="background-color:#B0BED9"></button>
     					
     				</div>
     						
@@ -56,6 +56,9 @@
     									<th>PROMET_UZIVO</th>
     									<th>PIN</th>
     									<th>BLOKIRAN</th>
+                                        <th>JEZIK</th>
+                                        <th>FIRMA</th>
+                                        <th>NAZIV</th>
     								</tr>
     							</thead>
     						</table>			
@@ -69,7 +72,7 @@
             <div class="col-sm-4 col-xs-12">
                 <div class="card card-default">
                           
-                    <div class="card-header" style="background-color: #7386D5;">
+                    <div class="card-header" style="background-color: #4E73DF;">
                             <h3 class="card-title" class="m_responsive_header">Prava</h3>
                             <div class="btn-group mr-1" role="group" aria-label="Basic example">
                               <button class="btnUnosIzmena" id="obrisiPravoNaApp"><i class="fas fa-trash" style="color: red;"></i></button>
@@ -173,6 +176,23 @@
                             <input type="text" placeholder="EMAIL..." class="form-control input-lg" name="EMAIL" id="EMAIL" value="">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label">JEZIK</label>
+                        <div>
+                            <input type="text" placeholder="JEZIK..." class="form-control input-lg" name="JEZIK" id="JEZIK" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">FIRMA</label>
+                        <div>
+                            <select  class=" form-control" name="FIRMA" id="FIRMA">
+                                                @foreach ($firmeKolekcija as $firma)
+                                                <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                                @endforeach
+                                                  
+                                              </select>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <div>
@@ -260,7 +280,23 @@
                             <input type="text" placeholder="EMAIL..." class="form-control input-lg" name="EMAIL" id="EMAIL2" value="">
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label class="control-label">JEZIK</label>
+                        <div>
+                            <input type="text" placeholder="JEZIK..." class="form-control input-lg" name="JEZIK" id="JEZIK2" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">FIRMA</label>
+                        <div>
+                            <select  class=" form-control" name="FIRMA" id="FIRMA2">
+                                                @foreach ($firmeKolekcija as $firma)
+                                                <option value="{{$firma->id}}">{{$firma->naziv}}</option>
+                                                @endforeach
+                                                  
+                                              </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div>
                             <label class="control-label">PROMET UZIVO</label>
@@ -453,9 +489,19 @@ else
                 { data: 'promet_uzivo' },
                 { data: 'pin' },
               
-                { data: 'blokiran' }
+                { data: 'blokiran' },
+                { data: 'jezik' },
+                { data: 'firma' },
+                { data: 'naziv' },
            
-                ]
+                ],
+                 "columnDefs": [
+        {
+            "targets": [9],
+            "visible": false,
+            "searchable": true
+        }
+    ]
     });
     urlDin = "{{ route('androidAppsForUser', ['korisnik' =>'n']) }}"
   var pravaNaApp = $('#pravaNaApp').DataTable({
@@ -487,7 +533,7 @@ else
                         if (pickedup != null) {
                               pickedup.css( "background-color", "#ffffff" );
                           }
-                          $( this ).css( "background-color", "#17A2B8" );
+                          $( this ).css( "background-color", "#B0BED9" );
                           pickedup = $( this );
 
                         urlDin = '{{ route('androidAppsForUser', ['korisnik' =>':korisnik']) }}';
@@ -506,7 +552,9 @@ else
                           $('#PIN2').val($(this).find('td').eq(6).html());
                           $('#BLOKIRAN2').val($(this).find('td').eq(7).html());
                           $('#PROMET_UZIVO2').val($(this).find('td').eq(5).html());
-
+                          $('#JEZIK2').val(zaglavljeKonta.row(this).data()['jezik']);
+                          $('#FIRMA2').val(zaglavljeKonta.row(this).data()['firma']);
+                          //console.log(zaglavljeKonta.row(this).data()['firma']);
                           $('#KORISNIK_PRAVO').val($(this).find('td').eq(0).html());
 
                             popuniSelectUsera();
@@ -518,7 +566,7 @@ else
                 if (pickedup2 != null) {
                               pickedup2.css( "background-color", "#ffffff" );
                           }
-                          $( this ).css( "background-color", "#17A2B8" );
+                          $( this ).css( "background-color", "#B0BED9" );
                           pickedup2 = $( this );
 
              });

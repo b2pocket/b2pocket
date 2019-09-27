@@ -1237,35 +1237,36 @@
 
 
 
-        $('#TAB_STAVKE_GRAFIK_UNOS').change(function(){
-            $.ajax({
-           type:'GET',
-           url:'{{ route('pronadjiGrafikStavku') }}',
-           data:{
-            naziv:$('#TAB_STAVKE_GRAFIK_UNOS').val()
-        },
-           success:function(data){
+        // $('#TAB_STAVKE_GRAFIK_UNOS').change(function(){
+        //     $.ajax({
+        //    type:'GET',
+        //    url:'{{ route('pronadjiGrafikStavku') }}',
+        //    data:{
+        //     naziv:$('#TAB_STAVKE_GRAFIK_UNOS').val()
+        // },
+        //    success:function(data){
 
-              var json = JSON.parse(data);
-              $('#TAB_STAVKE_STAVKA_UNOS').val(json[0].dd_stavka);
-              // console.log(json[0].dd_stavka);
+        //       var json = JSON.parse(data);
+        //       $('#TAB_STAVKE_STAVKA_UNOS').val(json[0].dd_stavka);
+        //       // console.log(json[0].dd_stavka);
 
-           }
+        //    }
 
-        });
-        });
-        $('#TAB_STAVKE_GRAFIK_UNOS').trigger('change');
+        // });
+        // });
+        // $('#TAB_STAVKE_GRAFIK_UNOS').trigger('change');
 
          $('#TAB_DD_GRAFIK_UNOS').change(function(){
             $.ajax({
            type:'GET',
            url:'{{ route('pronadjiGrafikStavku') }}',
            data:{
-            naziv:$('#TAB_STAVKE_GRAFIK_UNOS').val()
+            naziv:$('#TAB_DD_GRAFIK_UNOS').val()
         },
            success:function(data){
 
               var json = JSON.parse(data);
+              // alert(json[0].dd_stavka);
               $('#TAB_DD_STAVKA_UNOS').val(json[0].dd_stavka);
               // console.log(json[0].dd_stavka);
 
@@ -1277,31 +1278,31 @@
 
 
 
-             $('#TAB_STAVKE_GRAFIK_UNOS2').change(function(){
-            $.ajax({
-           type:'GET',
-           url:'{{ route('pronadjiGrafikStavku') }}',
-           data:{
-            naziv:$('#TAB_STAVKE_GRAFIK_UNOS2').val()
-        },
-           success:function(data){
+        //      $('#TAB_STAVKE_GRAFIK_UNOS2').change(function(){
+        //     $.ajax({
+        //    type:'GET',
+        //    url:'{{ route('pronadjiGrafikStavku') }}',
+        //    data:{
+        //     naziv:$('#TAB_STAVKE_GRAFIK_UNOS2').val()
+        // },
+        //    success:function(data){
 
-              var json = JSON.parse(data);
-              $('#TAB_STAVKE_STAVKA_UNOS2').val(json[0].dd_stavka);
-              // console.log(json[0].dd_stavka);
+        //       var json = JSON.parse(data);
+        //       $('#TAB_STAVKE_STAVKA_UNOS2').val(json[0].dd_stavka);
+        //       // console.log(json[0].dd_stavka);
 
-           }
+        //    }
 
-        });
-        });
-        $('#TAB_STAVKE_GRAFIK_UNOS2').trigger('change');
+        // });
+        // });
+        // $('#TAB_STAVKE_GRAFIK_UNOS2').trigger('change');
         
          $('#TAB_DD_GRAFIK_UNOS2').change(function(){
             $.ajax({
            type:'GET',
            url:'{{ route('pronadjiGrafikStavku') }}',
            data:{
-            naziv:$('#TAB_STAVKE_GRAFIK_UNOS2').val()
+            naziv:$('#TAB_DD_GRAFIK_UNOS2').val()
         },
            success:function(data){
 
@@ -1509,7 +1510,8 @@
         dd_serija3_naziv: $("#TAB_DD_SERIJA3_NAZIV_UNOS2").val(),
         dd_serija4_naziv: $("#TAB_DD_SERIJA4_NAZIV_UNOS2").val(),
         dd_serija5_naziv: $("#TAB_DD_SERIJA5_NAZIV_UNOS2").val(),
-        jezik : $("#TAB_STAVKE_JEZIK_PRIMENE").val()
+        jezik : $("#TAB_STAVKE_JEZIK_PRIMENE").val(),
+        firma : $("#TAB_STAVKE_FIRMA").val()
               
             },function(result){
                    console.log(result);
@@ -1545,7 +1547,8 @@
         dd_serija3_naziv: $("#TAB_DD_SERIJA3_NAZIV_UNOS").val(),
         dd_serija4_naziv: $("#TAB_DD_SERIJA4_NAZIV_UNOS").val(),
         dd_serija5_naziv: $("#TAB_DD_SERIJA5_NAZIV_UNOS").val(),
-        jezik: $("#TAB_STAVKE_JEZIK_PRIMENE").val()
+        jezik: $("#TAB_STAVKE_JEZIK_PRIMENE").val(),
+        firma : $("#TAB_STAVKE_FIRMA").val()
               
             },function(result){
                   console.log(result);
@@ -1642,7 +1645,7 @@
                 and_aplikacije_pk: $("#TAB_AND_APLIKACIJE_PK_UNOS2").val()
               
             },function(result){
-                    alert(result);
+                    // alert(result);
                     tblTabovi.ajax.reload();
                     $('#modalUnosTaba').modal('toggle');
                     popuniSelectTabovi();
