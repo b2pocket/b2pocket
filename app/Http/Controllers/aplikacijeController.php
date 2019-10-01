@@ -133,7 +133,7 @@ select aplikacija,aplikacija from andr.and_aplikacija
     {
             
             $andr = new allApp;
-            $apps = $andr::all();
+            $apps = $andr->orderby('aplikacija','ASC')->get();
 
              return json_encode($apps);
     
