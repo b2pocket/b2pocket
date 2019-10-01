@@ -1681,7 +1681,8 @@
                 ws_parametar2: $("#APP_WS_PARAMETAR2_UNOS2").val(),
                 snack_poruka_do: $("#APP_SNACK_PORUKA_DO_UNOS2").val(),
                 podsistem: $("#APP_MENI_UNOS2").val(),
-                jezik: $("#APP_JEZIK_UNOS").val()
+                jezik: $("#APP_JEZIK_UNOS").val(),
+                firma: $("#APP_FIRMA_UNOS").val()
 
             },function(result){
                    // alert(result);
@@ -1703,7 +1704,9 @@
                 ws_parametar2: $("#APP_WS_PARAMETAR2_UNOS").val(),
                 snack_poruka_do: $("#APP_SNACK_PORUKA_DO_UNOS").val(),
                 podsistem: $("#APP_MENI_UNOS").val(),
-                jezik: $("#APP_JEZIK_UNOS").val()
+                jezik: $("#APP_JEZIK_UNOS").val(),
+                firma: $("#APP_FIRMA_UNOS").val()
+
               
              
             },function(result){

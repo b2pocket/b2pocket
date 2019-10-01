@@ -264,6 +264,7 @@ select aplikacija,aplikacija from andr.and_aplikacija
               $obj ->ws_parametar2 = $request->ws_parametar2; 
               $obj ->snack_poruka_do = $request->snack_poruka_do; 
               $obj ->podsistem = $request->podsistem;   
+              $obj ->firma = $request->firma; 
               
               $obj->save();
             }
