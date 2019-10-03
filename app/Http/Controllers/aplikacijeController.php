@@ -32,7 +32,7 @@ class aplikacijeController extends Controller
          $aplikacijeKolekcija =  DB::select("
                  
                   
-select aplikacija,aplikacija from andr.and_aplikacija
+select aplikacija,aplikacija from andr.and_aplikacija order by aplikacija asc
 
             ");
           $graficiKolekcija =  DB::select("
