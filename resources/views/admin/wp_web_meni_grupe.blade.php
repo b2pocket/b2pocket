@@ -177,10 +177,10 @@
 											//$('.zaAppend').find("#myModal").data('popover').css("z-index", 1060);
 							                $('input').click(function(e){
 							                	var selektorPolja= $(this);
-							                	if (selektorPolja[0].type == "text" && !selektorPolja[0].classList.contains('datumVreme','datum'))
+							                	if (selektorPolja[0].type == "text" && !selektorPolja[0].classList.contains('datumVreme') && !selektorPolja[0].classList.contains('datum'))
 							                	{
 							                
-
+							               
 													    var value = $(this).val();
 													    var size  = value.length;
 													   
@@ -408,7 +408,7 @@
 				            			globalPosition: 'bottom right'
 				            		});
 
-				               // console.log(result);
+				                // console.log(result);
 				                if (result['klasa'] == 'success' )
 				                {
 				                	refresTabele();

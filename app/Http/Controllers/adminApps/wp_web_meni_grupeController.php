@@ -147,12 +147,12 @@ class wp_web_meni_grupeController extends Controller
     		
            $broj = count($as);
                 if ($broj < 1){
-                    return '{
-                    "sEcho": 1,
-                    "iTotalRecords": "0",
-                    "iTotalDisplayRecords": "0",
-                    "aaData": []
-                }';
+                //     return '{
+                //     "sEcho": 1,
+                //     "iTotalRecords": "0",
+                //     "iTotalDisplayRecords": "0",
+                //     "aaData": []
+                // }';
                 } 
                 else 
                 {
@@ -540,7 +540,7 @@ class wp_web_meni_grupeController extends Controller
 		            $nazivTabele = $this->sema.'.'.$this->tabela; 
 		            $proveriInsertKey = crudSettings::where('tabela','=',$nazivTabele)->where('tip_kolone','=','INSERT_KEY')->get();
 		            $proveriInsertValue = crudSettings::where('tabela','=',$nazivTabele)->where('tip_kolone','=','INSERT_VALUE')->get();
-		            //$update_keys = array();  
+		           
 		            if (count($proveriInsertKey)>0){
 
 		           	foreach ($proveriInsertKey as $red) 
@@ -556,17 +556,27 @@ class wp_web_meni_grupeController extends Controller
 								foreach($nizKluceva as $vrednost) //loop over values
 								{	
 									$prom = "$vrednost";
+									if (!$jsonVrednost->$prom)
+									{
+										$jsonVrednost->$prom = null;
+									}
+									
 									$uslovZaProveru[] = [$vrednost,'=',$jsonVrednost->$prom];
 								}
+
 							 $postojiPk = new $this->modelName;
 					   			$postojiPk->setTable($this->sema.'.'.$this->tabela);
+					   			
 		           			$newPostojiPK = $postojiPk->where($uslovZaProveru)->first();
+		           			
 		           			if ($newPostojiPK != null && count($proveriInsertValue)<1) 
 		           			{
+
 							   $vratiGresku['greska'] = "Postoji red po kljucu: $kljuc";
 							   $vratiGresku['klasa'] = 'error';
 							   return $vratiGresku;
 							}
+
 						}
 					}
 						$insertObjekat = new $this->modelName;    
@@ -574,6 +584,10 @@ class wp_web_meni_grupeController extends Controller
        
 					foreach($jsonVrednost as $key => $value) 
 		               	{
+		               		if (!$value)
+		               		{
+		               			$value = null;
+		               		}
 		               		if (count($proveriInsertValue)>0)
 		               		{
 		               		foreach ($proveriInsertValue as $val) 
@@ -599,8 +613,8 @@ class wp_web_meni_grupeController extends Controller
 		               		}
 		               		
 		               	}
-		               	// print_r($insertObjekat);
-		        
+		              //  print_r($insertObjekat);
+		        	//return $insertObjekat;
 	           			$insertObjekat->save();
 	           			$vratiGresku['greska'] = "Uspesno insertovanje";
 					    $vratiGresku['klasa'] = 'success';
