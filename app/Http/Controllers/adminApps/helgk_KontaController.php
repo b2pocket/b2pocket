@@ -15,7 +15,7 @@ use Laravel\Traits\BindsDynamically;
 
 
 
-class wp_web_meni_grupeController extends Controller
+class helgk_KontaController extends Controller
 {
 	 use BindsDynamically;
 	//public $sema='';
@@ -34,7 +34,7 @@ class wp_web_meni_grupeController extends Controller
 		$this->tabelSaSemom = $request->sema.'.'.$request->tabela; 
 	
 	}
-     public function wp_web_meni_grupeV(Request $request)
+     public function helgk_KontaV(Request $request)
     {
 
          $koloneThead =  DB::select("
@@ -83,11 +83,11 @@ class wp_web_meni_grupeController extends Controller
 			// $andr->setTable($this->sema.'.'.$this->tabela);
 			// print_r($andr->get());
 			
-        return view('admin/wp_web_meni_grupe',compact('param','param2','naslovAplikacije','sema','tabela'));	
+        return view('admin/helgk_Konta',compact('param','param2','naslovAplikacije','sema','tabela'));	
     
     }
 
-    public function wp_web_meni_grupeR(Request $request)
+    public function helgk_KontaR(Request $request)
     {
     		// $andr = new $this->modelName;
     		// $andr->setTable($this->sema.'.'.$this->tabela);
@@ -124,7 +124,7 @@ class wp_web_meni_grupeController extends Controller
     		{
 				   $meniji = new $this->modelName;
 				   $meniji->setTable($this->sema.'.'.$this->tabela);
-				   $as = $meniji->get();
+				   $as = $meniji->where('sifra','like','5%')->get();
 			}
 			else 
 			{
@@ -140,7 +140,7 @@ class wp_web_meni_grupeController extends Controller
 		    		}
 		    		$meniji = new $this->modelName;
 		    		$meniji->setTable($this->sema.'.'.$this->tabela);
-				 	$as = $meniji->orderBy($parametar1, $parametar2)->get();
+				 	$as = $meniji->where('sifra','like','5%')->orderBy($parametar1, $parametar2)->get();
 				 	//print_r(count($as));
 
 			}
@@ -209,7 +209,7 @@ class wp_web_meni_grupeController extends Controller
 
 
 
-    public function wp_web_meni_grupeM(Request $request)
+    public function helgk_KontaM(Request $request)
     {
 
 		    	$modalPrviDeo = "<div class=\"modal\" id=\"myModal\">
@@ -439,7 +439,7 @@ class wp_web_meni_grupeController extends Controller
 		    	 return $modalceo;
   	
     }
-    public function wp_web_meni_grupeE(request $request)
+    public function helgk_KontaE(request $request)
     	{	
         	try
 	        	{ 
@@ -530,7 +530,7 @@ class wp_web_meni_grupeController extends Controller
 		        }
 
     	}
-    public function wp_web_meni_grupeI(request $request)
+    public function helgk_KontaI(request $request)
     	{	
         	try
 	        	{ 

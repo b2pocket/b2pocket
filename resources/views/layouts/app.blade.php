@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,6 +65,7 @@
 
 
     <script src="{{ asset("assets/scripts/jquery-3.3.1.min.js") }}" type="text/javascript"></script>
+
     {{-- <script src="{{ asset("assets/scripts/jquery-ui.min.js") }}" type="text/javascript"></script> --}}
     <script src="{{ asset("assets/scripts/jquery.dataTables.min.js") }}" type="text/javascript"></script>
 
@@ -70,13 +73,17 @@
    
     <script src="{{ asset("assets/scripts/jquery.datetimepicker.full.min.js") }}" type="text/javascript"></script>
 
-   
+       
+<script src="{{ asset("assets/scripts/dataTables.cellEdit.js") }}" type="text/javascript"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="{{ asset("assets/scripts/bootstrap.min.js") }}" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
     
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+    {{-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> --}}
     
     {{-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/sc-1.5.0/datatables.min.js"></script> --}}
 

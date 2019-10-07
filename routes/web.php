@@ -109,6 +109,16 @@ Route::post('wp_web_meni_grupeI/{sema}/{tabela}', 'adminApps\wp_web_meni_grupeCo
 
 // --------!!!!!!!!-------------
 
+// SETOVANJE helgk_KontaController
+Route::get('helgk_KontaV/{sema}/{tabela}', 'adminApps\helgk_KontaController@helgk_KontaV')->name('helgk_KontaV');
+Route::get('helgk_KontaR/{sema}/{tabela}', 'adminApps\helgk_KontaController@helgk_KontaR')->name('helgk_KontaR');
+Route::get('helgk_KontaM/{sema}/{tabela}', 'adminApps\helgk_KontaController@helgk_KontaM')->name('helgk_KontaM');
+Route::post('helgk_KontaE/{sema}/{tabela}', 'adminApps\helgk_KontaController@helgk_KontaE')->name('helgk_KontaE');
+Route::post('helgk_KontaI/{sema}/{tabela}', 'adminApps\helgk_KontaController@helgk_KontaI')->name('helgk_KontaI');
+
+// --------!!!!!!!!-------------
+
+
 
 // --------!!!!!!!!-------------
 // BRISANJE KALKULACIJA

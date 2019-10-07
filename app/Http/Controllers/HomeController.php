@@ -42,8 +42,19 @@ class HomeController extends Controller
         }
          else if (Auth::user()->role == 'admin')
         {
-         //    return view('cmatRADNJA/home');
-             return view('admin/homeAdmin');
+                // $matea = DB::select ("  select round(sum(a.iznos_bez_pdv)) as  ukupno_godina
+                //                 from hel.agg_prodaja_orgjed a
+                //                 where EXTRACT(YEAR from  a.datum) = EXTRACT(YEAR from  CURRENT_DATE)
+                //                 and datum <= CURRENT_DATE");
+
+
+                     $result[] = ['Year','HelenaGraf','Matea'];
+                    // foreach ($visitor as $key => $value) {
+                    //     $result[++$key] = [$value->year, (int)$value->total_click, (int)$value->total_viewer];
+                    // }
+                    $result[] = ['2018', (int)200, (int)300];
+                    $result[] = ['2019', 111147378,232442738];
+             return view('admin/homeAdmin')->with('visitor',json_encode($result));;
         }
         else
         {

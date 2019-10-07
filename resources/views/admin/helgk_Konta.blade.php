@@ -56,7 +56,7 @@
 	function popuniElemente()
 
             {
-            	var url = '{{url('wp_web_meni_grupeR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+            	var url = '{{url('helgk_KontaR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
 
                 $.get(url,{
                 //pretraga:param,
@@ -154,7 +154,7 @@
 
   function refresModala(kojiTip)
 			    {
-			    		var url = '{{url('wp_web_meni_grupeM')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+			    		var url = '{{url('helgk_KontaM')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
 	            return $.get(url,{
 	                	tip_modala:kojiTip
 				            		},function(result){
@@ -246,7 +246,7 @@
             refresModala('FILTRIRANJE');
     function refresTabele()
 		    {
-		    	var url = '{{url('wp_web_meni_grupeR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
+		    	var url = '{{url('helgk_KontaR')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
 		    	$.ajax({
 		            url:url,
 		            type: 'get',
@@ -358,7 +358,7 @@
 						  $myForm.find(':submit').click();
 						  return false();
 						}
-						var url = '{{url('wp_web_meni_grupeE')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
+						var url = '{{url('helgk_KontaE')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
             			$.post(url,{
 
                 			jsonEditValues: jsonEditValues
@@ -396,7 +396,7 @@
 						
 						  return false();
 						}
-						var url = '{{url('wp_web_meni_grupeI')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+						var url = '{{url('helgk_KontaI')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
             			$.post(url,{
 
                 			jsonEditValues: jsonEditValues
