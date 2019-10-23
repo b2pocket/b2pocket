@@ -239,7 +239,7 @@
                     <select id="filterStatus" class="form-control d-md-inline d-sm-block col-2 text-gray-900"   style="width:100%!important;">
                         <option value="SVI">Svi tenderi</option>
                         <option value="UN">Kreirani tenderi</option>
-                        <option value="P">Potvrdejni tenderi</option>
+                        <option value="P">Potvrdjeni tenderi</option>
                         <option value="Z">Zavrseni tenderi</option>
                     </select>  
         </div>
@@ -273,7 +273,7 @@
                 </div>
                 <div class="card text-center d-none d-sm-block d-md-block d-xs-inline col-12 p-0 mt-2" style="width: 18rem;">
                   <div class="card-body">
-                    <h5 class="card-title bg-primary text-white">Zatvaranje tendera</h5>
+                    <h5 class="card-title ">Zatvaranje tendera</h5>
                     <p class="card-text">Zatvaranje se vrsi nakon dodeljivanja dobitnika tendera</p>
                     <button class="btn btn-primary" id="zatvaranjeTendera">Zatvori</button>
                   </div>

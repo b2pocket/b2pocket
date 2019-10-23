@@ -286,6 +286,14 @@ class tenderiController extends Controller
                     "aaData": []
                 }';
                 }
+                if (!$request->ucesnik) {
+                     return '{
+                    "sEcho": 1,
+                    "iTotalRecords": "0",
+                    "iTotalDisplayRecords": "0",
+                    "aaData": []
+                }';
+                }
                   $as = DB::select("
                     SELECT s.*,ar.naziv, z1.naziv as naziv_z1,z1.sifra as sifra_z1, z2.naziv as naziv_z2, z2.sifra as sifra_z2,u.id as id_ucesnik, u.naziv as naziv_ucesnik,
                         '<input type=\"number\" value=\"'||coalesce(CAST(s.prod_cena AS text),'')||'\" id = \"unosProdajneStavkeKonk\" class=\"form-control\" placeholder=\"prodajna\">' as prodajna_vred
@@ -319,6 +327,13 @@ class tenderiController extends Controller
     }
     public function tenderUnosStavki(request $request)
     {
+        if (!$request->artikal || !$request->kolicina || !$request->nab_cena)
+        {
+                    $vratiGresku = array();
+                    $vratiGresku['greska'] = "Morate selektovati artikal, kolicinu i nabavnu cenu!";
+                    $vratiGresku['klasa'] = 'error';
+                    return $vratiGresku; 
+        }
             try{
                     $obj = new $this->modelName;
                     $obj->setTable($this->sema.'.'.$this->tabela); 
@@ -345,6 +360,13 @@ class tenderiController extends Controller
     }
     public function tenderUnosStavkiKonk(request $request)
     {
+        if (!$request->artikal || !$request->ucesnik)
+        {
+                    $vratiGresku = array();
+                    $vratiGresku['greska'] = "Morate selektovati artikal i konkurenta!";
+                    $vratiGresku['klasa'] = 'error';
+                    return $vratiGresku; 
+        }
             try{
                     $obj = new $this->modelName;
                     $obj->setTable($this->sema.'.'.$this->tabela); 
@@ -363,6 +385,7 @@ class tenderiController extends Controller
                     return $vratiGresku; 
        
                 }
+        
         catch(\Illuminate\Database\QueryException $e){
            // do task when error
            echo $e->getMessage();   // insert query
