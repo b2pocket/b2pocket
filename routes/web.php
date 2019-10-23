@@ -92,6 +92,35 @@ Route::post('b2me_amdinsI', 'adminApps\setovanjeB2meAdminsController@helenaInser
 
 // --------!!!!!!!!-------------
 
+// TENDERI
+Route::get('tenderiIndex/{sema}/{tabela}', 'tenderiController@tenderiIndex')->name('tenderiIndex');
+Route::get('tenderiPrelged/{sema}/{tabela}', 'tenderiController@tenderiPrelged')->name('tenderiPrelged');
+Route::post('tenderUnos/{sema}/{tabela}', 'tenderiController@tenderUnos')->name('tenderUnos');
+Route::post('tenderIzmena/{sema}/{tabela}', 'tenderiController@tenderIzmena')->name('tenderIzmena');
+Route::post('tenderBrisanje/{sema}/{tabela}', 'tenderiController@tenderBrisanje')->name('tenderBrisanje');
+			// TENDERI STAVKE
+				Route::get('tenderiPrelgedStavke/{sema}/{tabela}', 'tenderiController@tenderiPrelgedStavke')->name('tenderiPrelgedStavke');
+				Route::post('tenderUnosStavki/{sema}/{tabela}', 'tenderiController@tenderUnosStavki')->name('tenderUnosStavki');
+				Route::post('tenderStavkaBrisanje/{sema}/{tabela}', 'tenderiController@tenderStavkaBrisanje')->name('tenderStavkaBrisanje');
+				Route::post('tenderUnosProdajneCene/{sema}/{tabela}', 'tenderiController@tenderUnosProdajneCene')->name('tenderUnosProdajneCene');
+
+			// --------!!!!!!!!-------------
+			// TENDERI STAVKE KONKURENT
+				Route::get('tenderiPrelgedStavkeKonk/{sema}/{tabela}', 'tenderiController@tenderiPrelgedStavkeKonk')->name('tenderiPrelgedStavkeKonk');
+				Route::post('tenderUnosStavkiKonk/{sema}/{tabela}', 'tenderiController@tenderUnosStavkiKonk')->name('tenderUnosStavkiKonk');
+
+				// Route::post('tenderUnosStavkiKonk/{sema}/{tabela}', 'tenderiController@tenderUnosStavkiKonk')->name('tenderUnosStavkiKonk');
+				// Route::post('tenderStavkaBrisanjeKonk/{sema}/{tabela}', 'tenderiController@tenderStavkaBrisanjeKonk')->name('tenderStavkaBrisanjeKonk');
+				// Route::post('tenderUnosProdajneCeneKonk/{sema}/{tabela}', 'tenderiController@tenderUnosProdajneCeneKonk')->name('tenderUnosProdajneCeneKonk');
+
+			// --------!!!!!!!!-------------
+Route::post('tenderPotvrda/{sema}/{tabela}', 'tenderiController@tenderPotvrda')->name('tenderPotvrda');
+Route::post('tenderZatvaranje/{sema}/{tabela}', 'tenderiController@tenderZatvaranje')->name('tenderZatvaranje');
+
+// --------!!!!!!!!-------------
+
+
+
 // SETOVANJE B2ME ADMINS
 
 // --------!!!!!!!!-------------

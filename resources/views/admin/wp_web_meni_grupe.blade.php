@@ -408,7 +408,7 @@
 				            			globalPosition: 'bottom right'
 				            		});
 
-				                // console.log(result);
+				               // console.log(result);
 				                if (result['klasa'] == 'success' )
 				                {
 				                	refresTabele();

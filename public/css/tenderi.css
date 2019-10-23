@@ -1,0 +1,35 @@
+    .tabelaTender th{
+        font-size: 12px;
+        white-space: nowrap;
+        table-layout:fixed;
+        background-color:#2A52C4;
+        color: white;
+    }
+     .tabelaTender td{
+        font-size: 12px;
+        white-space: nowrap;
+        color: black;
+    }
+
+    .tenderiTekst {
+
+    }
+
+
+       .btn-floating-container {
+        right: 25px;
+        bottom: 25px;
+        position: fixed;
+    }
+
+    .btn-floating {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(245, 245, 245, 0.075);
+        text-align: center;
+        padding: 0px;
+        font-size: 24px;
+    }
+    

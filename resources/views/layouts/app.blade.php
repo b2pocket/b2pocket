@@ -56,7 +56,7 @@
 
 
     {{-- @endauth --}}
-
+    @yield('mojCss')
 </head>
 <body>
     <div id="app">
@@ -88,7 +88,7 @@
     {{-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/sc-1.5.0/datatables.min.js"></script> --}}
 
     {{-- <script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script> --}}
-
+    @yield('mojJs')
     
 
         {{-- !!!!!! --}}
@@ -142,5 +142,6 @@
         </div>
     </footer> --}}
     <script src="{{ asset("assets/scripts/sb-admin-2.js") }}" type="text/javascript"></script>
+    
 </body>
 </html>

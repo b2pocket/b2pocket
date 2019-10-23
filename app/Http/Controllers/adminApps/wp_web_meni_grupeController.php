@@ -196,6 +196,7 @@ class wp_web_meni_grupeController extends Controller
 									}
 									
 								}
+							// $stringTabela = $stringTabela.'<td><button class = "btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>';
 									
 	                       	$stringTabela = $stringTabela.'</tr>';
 	                	
@@ -592,27 +593,47 @@ class wp_web_meni_grupeController extends Controller
 		               		{
 		               		foreach ($proveriInsertValue as $val) 
 		               			{
-		               				
-		               				if ($val->kolona == $key)
-		               				{
-		               					$novaVrednostArr = DB::Select($val->insert_query)[0];
-		               					$novaVred = reset($novaVrednostArr);
-		               					$insertObjekat->$key =  $novaVred;
+		               				//if (!isset($insertObjekat->$key)) {
+							               				if ($val->kolona == $key)
+							               				{
+							               					try {
+
+							               						$novaVrednostArr = DB::Select($val->insert_query)[0];
+
+							               					$novaVred = reset($novaVrednostArr);
+							               					} catch (Exception $e) {
+							               						return $e->getMessage();
+
+							               					}
+							               					
+							               						$insertObjekat->$key =  $novaVred;
+								               					if (isset($insertObjekat->$key))
+								               					{
+								               						break;
+								               					}
+							               				
+							               				}
+							               				else
+							               				{
+							               						$insertObjekat->$key =  $value;
+							               				
+							               				
+							               				}
+
+
+				               				//}
+		               					
 		               				}
-		               				else
-		               				{
-		               						$insertObjekat->$key =  $value;
-		               				
-		               				}
-		               			
-		               			}
+
 		               		}
 		               		else
 		               		{
 		               				$insertObjekat->$key =  $value;
+		               			
 		               		}
-		               		
+		               
 		               	}
+		               	//return json_encode($insertObjekat);
 		              //  print_r($insertObjekat);
 		        	//return $insertObjekat;
 	           			$insertObjekat->save();
