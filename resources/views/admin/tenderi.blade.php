@@ -499,7 +499,7 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                                                 }
 
                                                 
-                                                console.log(vrednost_tendera+', a vrednost uneta je '+ukupnaProdajnaCena);
+                                               // console.log(vrednost_tendera+', a vrednost uneta je '+ukupnaProdajnaCena);
                                                 // alert(Math.floor((parseInt(ukupnaProdajnaCena)/parseInt(vrednost_tendera))*100)); //w00t!
                                                 var procenat = Math.floor((parseInt(ukupnaProdajnaCena)/parseInt(vrednost_tendera))*100);
                                                 $('#progresVrednostiTendera').text(ukupnaProdajnaCena+'('+procenat+'%) od '+selektovani_podaci.vrednost_tendera_sep);
@@ -611,6 +611,9 @@ var tblTenderiStavkeKonk = $('#tblTenderiStavkeKonk').DataTable({
                             targets: "_all"
                             }]
         });
+$('#ucesniciStavke').change(function(){
+    tblTenderiStavkeKonk.ajax.reload();
+})
 
 $('#filterStatus,#partneri').change(function(){
     tblTenderi.ajax.reload();
@@ -623,12 +626,12 @@ $('#tblTenderi tbody').on('click','tr',function(event){
 
          selektovani_podaci =tblTenderi.row(this).data();
          //console.log(selektovani_podaci);
-        $('#cardInfoTitle').text('Partner: '+selektovani_podaci.naziv_partnera);
+        $('#cardInfoTitle').text('Partner: '+selektovani_podaci.naziv_partnera+'('+selektovani_podaci.id+')');
         $('#cardInfoDatumi').text('Datum od: '+selektovani_podaci.datum_od+' do '+selektovani_podaci.datum_do);
         $('#cardInfoVrednostTendera').text('Vrednost tendera: '+selektovani_podaci.vrednost_tendera_sep);
         $('#cardInfoValutaBrojDana').text('Valuta broj dana: '+selektovani_podaci.valuta_broj_dana);
 
-        $('#cardInfoTitleKonk').text('Partner: '+selektovani_podaci.naziv_partnera);
+        $('#cardInfoTitleKonk').text('Partner: '+selektovani_podaci.naziv_partnera+'('+selektovani_podaci.id+')');
         $('#cardInfoDatumiKonk').text('Datum od: '+selektovani_podaci.datum_od+' do '+selektovani_podaci.datum_do);
         $('#cardInfoVrednostTenderaKonk').text('Vrednost tendera: '+selektovani_podaci.vrednost_tendera_sep);
         $('#cardInfoValutaBrojDanaKonk').text('Valuta broj dana: '+selektovani_podaci.valuta_broj_dana);
