@@ -25,7 +25,7 @@
                         <h4 class="card-title " id="cardInfoTitleKonk">Sun Gone</h4>
                       </div>
                     <div class="card-body ">
-                        
+                        <p class="card-text text-dark" id="cardInfoInterniIdKonk">Here are the top resources for all things related to the Sun.</p>
                         <p class="card-text text-dark" id="cardInfoDatumiKonk">Here are the top resources for all things related to the Sun.</p>
                         <p class="card-text text-dark" id="cardInfoVrednostTenderaKonk">Here are the top resources for all things related to the Sun.</p>
                         <p class="card-text text-dark" id="cardInfoValutaBrojDanaKonk">Here are the top resources for all things related to the Sun.</p>
@@ -128,7 +128,7 @@
                         <h4 class="card-title " id="cardInfoTitle">Sun Gone</h4>
                       </div>
                     <div class="card-body ">
-                        
+                        <p class="card-text text-dark" id="cardInfoInterniId">Here are the top resources for all things related to the Sun.</p>    
                         <p class="card-text text-dark" id="cardInfoDatumi">Here are the top resources for all things related to the Sun.</p>
                         <p class="card-text text-dark" id="cardInfoVrednostTendera">Here are the top resources for all things related to the Sun.</p>
                         <p class="card-text text-dark" id="cardInfoValutaBrojDana">Here are the top resources for all things related to the Sun.</p>
@@ -144,18 +144,18 @@
                                     <select id="stavkeArtikal" class="form-control col-md-12"  style="width:100%!important;max-width: 100%;" required>
                                         <option value="">Odabir artikla</option>
                                         @foreach ($artikli as $artikal)
-                                                <option value="{{$artikal->sifra}}">{{$artikal->naziv}}</option>>
+                                                <option value="{{$artikal->sifra}}">{{$artikal->naziv}}({{$artikal->sifra}})</option>>
                                         @endforeach
                                     </select>
                                 
                             </div>
                             <div class="form-group row col-md-12 my-0">
                                     <label class="col-md-12"   for="">Kolicina: </label>
-                                    <input class="form-control text-dark col-md-12" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeKolicina" placeholder="kolicina" required/>
+                                    <input class="form-control text-dark col-md-12" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeKolicina" step="any" placeholder="kolicina" required/>
                             </div>
                             <div class="form-group row col-md-12 my-0">
                                 <label class="col-md-12" for="">Nabanva cena: </label>
-                                <input class="form-control text-dark col-md-12" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeNabCena" placeholder="nabavna cena" required>
+                                <input class="form-control text-dark col-md-12" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeNabCena" step="any" placeholder="nabavna cena" required>
                             </div>
                            {{--  <div class="d-inline  col-md-2 col-6 p-1">
                                 <input class="form-control text-dark" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeProdCena" placeholder="prodajna cena">
@@ -184,6 +184,7 @@
                     <div class="form-inline   ml-1 mb-0 mt-2">
                        
                                 <button type="button"  id="unosStavkiHelena" class="d-inline mr-2 col-auto mb-2 mb-md-0  btn btn-primary" ><i class="fa fa-plus mr-1" aria-hidden="true" ></i>Unos</button>
+                                <button type="button"  id="izmenaStavkiHelena" class="d-inline mr-2 col-auto mb-2 mb-md-0  btn btn-warning" ><i class="fa fa-edit mr-1" aria-hidden="true" ></i>Izmena</button>
                                 <button type="button" id="brisanjeStavkiHelena" class="d-inline btn btn-danger" ><i class="fa fa-trash mr-1" aria-hidden="true" ></i>Brisanje</button>
 
 
@@ -204,6 +205,7 @@
                 </div>
                 <table class="table tabelaTender" id="tblTenderiStavke" style="width: 100%;">
                     <thead>
+                        <th>Sifra artikla</th>
                        <th>Artikal</th>
                        <th>Kolicina</th>
                        <th>Nabavna cena</th>
@@ -318,7 +320,7 @@
             </div>
             <div class="form-row mb-2">
                 <label>Datum zatvaranja: </label>
-                <input  class="form-control bg-white" type="text" id="tenderDatumZatvaranja" pattern="(0[1-9]|1[012]).(0[1-9]|1[0-9]|2[0-9]|3[01]).[0-9]{4}" required>
+                <input  class="form-control bg-white" type="text" id="tenderDatumZatvaranja" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" required>
             </div>
            
         
@@ -356,11 +358,11 @@
             </div>
             <div class="form-row mb-2">
                 <label>Datum od: </label>
-                <input  class="form-control bg-white" type="text" id="tenderDatumOd" pattern="(0[1-9]|1[012]).(0[1-9]|1[0-9]|2[0-9]|3[01]).[0-9]{4}" required>
+                <input  class="form-control bg-white" type="text" id="tenderDatumOd" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" required>
             </div>
             <div  class="form-row mb-2">
                         <label>Datum do: </label>
-                        <input class="form-control bg-white" type="text" id="tenderDatumDo" pattern="(0[1-9]|1[012]).(0[1-9]|1[0-9]|2[0-9]|3[01]).[0-9]{4}" required>
+                        <input class="form-control bg-white" type="text" id="tenderDatumDo" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" required>
             </div>
             <div  class="form-row mb-2">
                         <label>Vrednost tendera: </label>
@@ -517,6 +519,7 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                     },
 
                 columns:[
+                        { data: 'sif_art' },
                         { data: 'naziv' },
                         { data: 'kolicina' },
                         { data: 'nab_cena' },
@@ -626,21 +629,34 @@ $('#tblTenderi tbody').on('click','tr',function(event){
 
          selektovani_podaci =tblTenderi.row(this).data();
          //console.log(selektovani_podaci);
-        $('#cardInfoTitle').text('Partner: '+selektovani_podaci.naziv_partnera+'('+selektovani_podaci.id+')');
+        $('#cardInfoTitle').text('Partner: '+selektovani_podaci.naziv_partnera+'('+selektovani_podaci.komitent+')');
         $('#cardInfoDatumi').text('Datum od: '+selektovani_podaci.datum_od+' do '+selektovani_podaci.datum_do);
         $('#cardInfoVrednostTendera').text('Vrednost tendera: '+selektovani_podaci.vrednost_tendera_sep);
         $('#cardInfoValutaBrojDana').text('Valuta broj dana: '+selektovani_podaci.valuta_broj_dana);
+        $('#cardInfoInterniId').text('Interni id: '+selektovani_podaci.id);
 
-        $('#cardInfoTitleKonk').text('Partner: '+selektovani_podaci.naziv_partnera+'('+selektovani_podaci.id+')');
+        $('#cardInfoTitleKonk').text('Partner: '+selektovani_podaci.naziv_partnera+'('+selektovani_podaci.komitent+')');
         $('#cardInfoDatumiKonk').text('Datum od: '+selektovani_podaci.datum_od+' do '+selektovani_podaci.datum_do);
         $('#cardInfoVrednostTenderaKonk').text('Vrednost tendera: '+selektovani_podaci.vrednost_tendera_sep);
         $('#cardInfoValutaBrojDanaKonk').text('Valuta broj dana: '+selektovani_podaci.valuta_broj_dana);
+        $('#cardInfoInterniIdKonk').text('Interni id: '+selektovani_podaci.id);
         //$('#selektovaniTenderInfoCard').collapse('toggle');
         //$('#tenderiPrelged').collapse('toggle');
 });
 $('#tblTenderiStavke tbody').on('click','tr',function(event){
 
          selektovani_podaci_stavke =tblTenderiStavke.row(this).data();
+    
+              $('#stavkeArtikal').val(selektovani_podaci_stavke.sif_art);
+              $('#stavkeArtikal').select2().trigger('change');
+              $('#stavkeNabCena').val(selektovani_podaci_stavke.nab_cena);
+              $('#stavkeKolicina').val(selektovani_podaci_stavke.kolicina);
+              $('#stavkeArtikalZ1').val(selektovani_podaci_stavke.sifra_z1);
+              $('#stavkeArtikalZ2').val(selektovani_podaci_stavke.sifra_z2);
+              $('#stavkeArtikalZ1').select2().trigger('change');
+              $('#stavkeArtikalZ2').select2().trigger('change');
+
+            
      
 });
 $('#tblTenderiStavkeKonk tbody').on('click','tr',function(event){
@@ -686,7 +702,7 @@ $('#kreirajTender').click(function(){
           $myForm.find(':submit').click();
            return false;
         }
-        var url = '{{url('tenderUnos')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';;
+        var url = '{{url('tenderUnos')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
                         $.post(url,{
 
                             partner:$('#modalPartneri').val(),
@@ -701,7 +717,7 @@ $('#kreirajTender').click(function(){
                                         className: result['klasa'],
                                         globalPosition: 'bottom right'
                                     });
-                                //console.log(result);
+                            //   console.log(result);
 
                             tblTenderi.ajax.reload();
                             $('#filterStatus').val('UN').trigger('change');
@@ -1010,6 +1026,44 @@ $('#unosStavkiHelena').click(function(){
                           
                         });
 });
+$('#izmenaStavkiHelena').click(function(){
+        var $myForm = $('#formaStavke');
+        if(! $myForm[0].checkValidity()) {     
+          $('<input type="submit">').hide().appendTo($myForm).click().remove();
+          $myForm.find(':submit').click();
+           return false;
+        }
+           if(!selektovani_podaci_stavke)
+            {
+                 Swal.fire({
+                      type: 'error',
+                      title: 'Selektujte artikal za izmenu!'
+                    });
+                 return false;
+            }
+        var url = '{{url('tenderIzmenaStavki')}}'+'/{!!$sema!!}'+'/tenderi_stavke';;
+                        $.post(url,{
+
+                            id:selektovani_podaci_stavke.id,
+                            artikal:$('#stavkeArtikal').val(),
+                            kolicina:$('#stavkeKolicina').val(),
+                            nab_cena:$('#stavkeNabCena').val(),
+                            // prod_cena:$('#stavkeProdCena').val(),
+                            artikal_z1:$('#stavkeArtikalZ1').val(),
+                            artikal_z2:$('#stavkeArtikalZ2').val()
+            
+                            },function(result){
+                                $.notify( result['greska'],
+                                    {
+                                        className: result['klasa'],
+                                        globalPosition: 'bottom right'
+                                    });
+                                //console.log(result);
+
+                            tblTenderiStavke.ajax.reload();
+                          
+                        });
+});
 $('#unosStavkiHelenaKonk').click(function(){
         var $myForm = $('#formaStavkeKonk');
         if(! $myForm[0].checkValidity()) {     
@@ -1033,7 +1087,6 @@ $('#unosStavkiHelenaKonk').click(function(){
                                         globalPosition: 'bottom right'
                                     });
                                 //console.log(result);
-
                             tblTenderiStavkeKonk.ajax.reload();
                           
                         });
@@ -1170,7 +1223,7 @@ $("#tenderDatumOd, #tenderDatumDo,#tenderDatumZatvaranja").datepicker({ onSelect
 
                  monthNamesShort: [ "Januar", "Februar", "Mart", "April", "Maj", "Juni", "Juli", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar" ],
         dayNamesMin: ['Ned', 'Pon', 'Uto', 'Sre', 'Čet', 'Pet', 'Sub'],
-        dateFormat: "mm.dd.yy",
+        dateFormat: "dd.mm.yy",
         yearRange: '1910:2025',
         firstDay: 1,    
         numberOfMonths: 1,

@@ -101,6 +101,7 @@ Route::post('tenderBrisanje/{sema}/{tabela}', 'tenderiController@tenderBrisanje'
 			// TENDERI STAVKE
 				Route::get('tenderiPrelgedStavke/{sema}/{tabela}', 'tenderiController@tenderiPrelgedStavke')->name('tenderiPrelgedStavke');
 				Route::post('tenderUnosStavki/{sema}/{tabela}', 'tenderiController@tenderUnosStavki')->name('tenderUnosStavki');
+				Route::post('tenderIzmenaStavki/{sema}/{tabela}', 'tenderiController@tenderIzmenaStavki')->name('tenderIzmenaStavki');
 				Route::post('tenderStavkaBrisanje/{sema}/{tabela}', 'tenderiController@tenderStavkaBrisanje')->name('tenderStavkaBrisanje');
 				Route::post('tenderUnosProdajneCene/{sema}/{tabela}', 'tenderiController@tenderUnosProdajneCene')->name('tenderUnosProdajneCene');
 

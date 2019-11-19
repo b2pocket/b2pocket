@@ -10,6 +10,7 @@ use DB;
 use Illuminate\Database\QueryException as excp;
 use Exception;
 use Laravel\Traits\BindsDynamically;
+use Carbon\Carbon;
 
 class tenderiController extends Controller
 {
@@ -52,7 +53,7 @@ class tenderiController extends Controller
 				// $as = $meniji->get();
 
 				$as = DB::select("
-                    select a.id,a.sis_datum,a.korisnik,a.komitent,to_char(a.datum_od,'mm.dd.yyyy') as datum_od,to_char(a.datum_do,'mm.dd.yyyy') as datum_do,a.vrednost_tendera, to_char(a.vrednost_tendera, '999,999,990') vrednost_tendera_sep,a.valuta_broj_dana,a.status,a.dobitnik_tendera_fk,a.naziv_partnera,u.naziv as naziv_dobitnika from (
+                    select a.id,a.sis_datum,a.korisnik,a.komitent,to_char(a.datum_od,'dd.mm.yyyy') as datum_od,to_char(a.datum_do,'dd.mm.yyyy') as datum_do,a.vrednost_tendera, to_char(a.vrednost_tendera, '999,999,990') vrednost_tendera_sep,a.valuta_broj_dana,a.status,a.dobitnik_tendera_fk,a.naziv_partnera,u.naziv as naziv_dobitnika from (
                 select s.*,m.naziv  as naziv_partnera--, u.naziv as naziv_dobitnika
                 from {$this->sema}.tenderi_zaglavlje s, {$this->sema}.mddob m--, {$this->sema}.tenderi_ucesnici u
                 where s.komitent = m.sifra
@@ -87,6 +88,8 @@ class tenderiController extends Controller
     public function tenderUnos(request $request)
     {
             try{
+                        $formDatum_od = Carbon::createFromFormat('d.m.Y', $request->datum_od)->format('Y-m-d');
+                   $formDatum_do = Carbon::createFromFormat('d.m.Y', $request->datum_do)->format('Y-m-d');
                     $obj = new $this->modelName;
                     $obj->setTable($this->sema.'.'.$this->tabela); 
                     $obj->id = DB::raw("nextval('{$this->sema}.seq_tenderi_zaglavlje')");
@@ -94,22 +97,23 @@ class tenderiController extends Controller
                     $obj ->sis_datum = DB::raw("current_timestamp");
                     $obj ->korisnik = \Auth::user()->id;
                     //$obj ->prikazni_naziv = $request->prikazni_naziv; 
-                    $obj ->datum_od = $request->datum_od; 
-                    $obj ->datum_do = $request->datum_do; 
+                    $obj ->datum_od = $formDatum_od;
+                    $obj ->datum_do = $formDatum_do;
                     $obj ->status = 'UN'; 
                     $obj ->vrednost_tendera = $request->vrednost_tendera; 
                     $obj ->valuta_broj_dana = $request->valuta_broj_dana; 
-
-                     
+                    // print_r($formDatum_od);
+                    //  echo "string";
                     
-                    $obj->save();
+                    
+                   $obj->save();
                     $vratiGresku = array();
                     $vratiGresku['greska'] = "Uspesno kreiranje";
                     $vratiGresku['klasa'] = 'success';
                     return $vratiGresku; 
        
                 }
-        catch(Exception $e){
+        catch(\Illuminate\Database\QueryException $e){
            // do task when error
            echo $e->getMessage();   // insert query
         }
@@ -117,6 +121,8 @@ class tenderiController extends Controller
      public function tenderIzmena(request $request)
       {
             try{
+                $formDatum_od = Carbon::createFromFormat('d.m.Y', $request->datum_od)->format('Y-m-d');
+                   $formDatum_do = Carbon::createFromFormat('d.m.Y', $request->datum_do)->format('Y-m-d');
             $obj = new $this->modelName;
             $obj->setTable($this->sema.'.'.$this->tabela); 
 
@@ -124,8 +130,8 @@ class tenderiController extends Controller
             $obj->where('id','=',$request->id)
             ->update(['vrednost_tendera'=>$request->vrednost_tendera,
                         'komitent'=>$request->partner,
-                        'datum_od'=>$request->datum_od,
-                        'datum_do'=>$request->datum_do,
+                        'datum_od'=>$formDatum_od,
+                        'datum_do'=>$formDatum_do,
                       'valuta_broj_dana'=>$request->valuta_broj_dana]
                   );
             $vratiGresku = array();
@@ -180,6 +186,7 @@ class tenderiController extends Controller
       public function tenderZatvaranje(request $request)
       {
             try{
+                $formDatum = Carbon::createFromFormat('d.m.Y', $request->datum)->format('Y-m-d');
             $obj = new $this->modelName;
             $obj->setTable($this->sema.'.'.$this->tabela); 
 
@@ -189,7 +196,7 @@ class tenderiController extends Controller
                         'sis_datum_zatvaranja'=> DB::raw("current_timestamp"),
                         'korisnik_zatvorio'=>\Auth::user()->id,
                         'dobitnik_tendera_fk'=>$request->ucesnik,
-                        'datum_zatvaranja'=>$request->datum
+                        'datum_zatvaranja'=>$formDatum
                     ]
                   );
             $vratiGresku = array();
@@ -334,6 +341,7 @@ class tenderiController extends Controller
                     $vratiGresku['klasa'] = 'error';
                     return $vratiGresku; 
         }
+
             try{
                     $obj = new $this->modelName;
                     $obj->setTable($this->sema.'.'.$this->tabela); 
@@ -358,6 +366,43 @@ class tenderiController extends Controller
            echo $e->getMessage();   // insert query
         }
     }
+    public function tenderIzmenaStavki(request $request)
+      {
+
+        if (!$request->artikal || !$request->kolicina || !$request->nab_cena)
+        {
+                    $vratiGresku = array();
+                    $vratiGresku['greska'] = "Morate selektovati artikal, kolicinu i nabavnu cenu!";
+                    $vratiGresku['klasa'] = 'error';
+                    return $vratiGresku; 
+        }
+            try{
+
+            $obj = new $this->modelName;
+            $obj->setTable($this->sema.'.'.$this->tabela); 
+            $izmena = 
+            $obj->where('id','=',$request->id)
+            ->update(['sif_art'=>$request->artikal,
+                        'kolicina'=>$request->kolicina,
+                        'nab_cena'=>$request->nab_cena,
+                        'zamenski_artikal1'=>$request->artikal_z1,
+                      'zamenski_artikal2'=>$request->artikal_z2]
+                  );
+            $vratiGresku = array();
+            $vratiGresku['greska'] = "Uspesna izmena";
+            $vratiGresku['klasa'] = 'success';
+            return $vratiGresku;
+            }
+        catch(\Illuminate\Database\QueryException $e){
+           // do task when error
+          // echo $e->getMessage();   // insert query
+           $vratiGresku = array();
+            $vratiGresku['greska'] = "Greska pri izmeni";
+            $vratiGresku['klasa'] = 'error';
+            return $vratiGresku;
+        }
+
+      }
     public function tenderUnosStavkiKonk(request $request)
     {
         if (!$request->artikal || !$request->ucesnik)
