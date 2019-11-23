@@ -257,7 +257,12 @@ class tenderiController extends Controller
 
                     '<input type=\"number\" value=\"'||coalesce(CAST(s.prod_cena AS text),'')||'\" id = \"unosProdajneStavke\" class=\"form-control\" placeholder=\"prodajna\">' as prodajna_vred,
                       '<input type=\"text\" value=\"'||round((s.prod_cena*s.kolicina)-(s.nab_cena*s.kolicina),2)||'\"  id = \"abs_ruc\" class=\"form-control\" placeholder=\"ruc\" readonly>' as abs_ruc,
-                    '<input type=\"text\" value=\"'||round((s.prod_cena*s.kolicina)*100/(s.kolicina*s.nab_cena),2)-100||'%\"  id = \"proc_ruc\" class=\"form-control\" placeholder=\"ruc %\" readonly>' as proc_ruc
+                    '<input type=\"text\" value=\"'||round((s.prod_cena*s.kolicina)*100/(s.kolicina*s.nab_cena),2)-100||'%\"  id = \"proc_ruc\" class=\"form-control\" placeholder=\"ruc %\" readonly>' as proc_ruc,
+                    (
+                        select '<select class=\"form-control\" id=\"ucesniciTenderaOdabirZaProdajnuCenu\"><option value=\"\">Izaberi</option>'||string_agg('<option value='||tu.id||'>'||tu.naziv||'</option>','')||'</select>' from 
+                            hel.tenderi_ucesnici tu
+                            where tu.id <>2
+                    ) as ucesnici_tendera
                     from hel.tenderi_stavke s
                     left  join hel.artikal z1 on s.zamenski_artikal1 = z1.sifra
                     left join hel.artikal z2 on s.zamenski_artikal2 = z2.sifra,
@@ -282,6 +287,42 @@ class tenderiController extends Controller
 
             // return json_encode($meniji);
     
+    }
+     public function tenderiNabavneCeneArtikla(Request $request)
+    {
+         
+         
+            $stavke = DB::Select("
+
+                select to_char(fakcen,'999,990.00') as nab_cena, 'Broj kalkulacije'||k.brkalk||'; Datum kalkulacije: '||to_char(k.datkal,'dd.mm.yyyy')||' ;Nabavna cena: '||to_char(k.fakcen,'999,990.00')  as tekst
+                    from hel.kalk2 k 
+                    where k.sifart = '{$request->artikal}'
+                    and k.datkal > current_date - interval '12 month'
+                    order by datkal desc
+                ");
+            return json_encode($stavke);
+           
+    }
+     public function tenderiSveProdajneCeneKonkurenta(Request $request)
+    {
+            if (!$request->komi)
+            {
+                return '[]';
+            }
+         
+            $stavke = DB::Select("
+
+               SELECT 'Cena:'||tsu.prod_cena||'; Tender: '||m.naziv||';Trajanje od:'||to_char(tz.datum_do,'dd.mm.yyyy')||' - '||to_char(tz.datum_do,'dd.mm.yyyy') as tekst
+                from hel.tenderi_stavke_ucesnici tsu, hel.tenderi_zaglavlje tz, hel.mddob m
+                where tsu.tenderi_zaglavlje_fk = tz.id 
+                and tz.komitent = m.sifra
+                and tsu.ucesnik_fk = {$request->komi}
+                and tsu.sif_art = '{$request->artikal}'
+                and tsu.prod_cena is not  null
+                order by tsu.prod_cena asc
+                ");
+            return json_encode($stavke);
+           
     }
           public function tenderiPrelgedStavkeKonk(Request $request)
     {              

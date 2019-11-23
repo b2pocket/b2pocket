@@ -103,6 +103,7 @@
               
                     <table class="table tabelaTender" id="tblTenderiStavkeKonk" style="width: 100%;">
                         <thead>
+                            <th>Sifra artikla</th>
                            <th>Artikal</th>
                      
                            <th>Prodajna cena</th>
@@ -155,7 +156,21 @@
                             </div>
                             <div class="form-group row col-md-12 my-0">
                                 <label class="col-md-12" for="">Nabanva cena: </label>
-                                <input class="form-control text-dark col-md-12" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeNabCena" step="any" placeholder="nabavna cena" required>
+                                <div class="col-md-9" id="stavkeNabCenaDiv">
+                                    <input class="form-control text-dark col-md-12" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeNabCena" step="any" placeholder="nabavna cena" >
+                                    {{-- <button class="btn btn-success col-md-3" id="btnstavkeNabCenaDivOpened">Izaberi nabavnu</button> --}}
+                                </div>
+                                <div class="col-md-9" id="stavkeNabCenaSelectDiv">
+                                    <select class="form-control text-dark col-md-12" id="stavkeNabCenaSelect">
+                                        <option value="">Odabir nabavne cene</option>
+                                    </select>
+                                    
+                                </div>
+                                <button type="button" class="btn btn-success col-md-3" id="btnstavkeNabCenaSelectDivOpened"><i class="fas fa-keyboard"></i></button>
+                                
+                                
+                                    
+                                
                             </div>
                            {{--  <div class="d-inline  col-md-2 col-6 p-1">
                                 <input class="form-control text-dark" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 188  && event.keyCode !== 109" type="number" id="stavkeProdCena" placeholder="prodajna cena">
@@ -210,8 +225,11 @@
                        <th>Kolicina</th>
                        <th>Nabavna cena</th>
                        <th>Prodajna cena</th>
+
                        <th>Apsolutni ruc</th>
                        <th>Procentualni ruc</th>
+                       <th>Konkurent</th>
+                       <th>Prod_cena konkurenta</th>
                        <th>Zamenski 1</th>
                        <th>Zamenski 2</th>
                     </thead>
@@ -398,6 +416,56 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         });
+
+$('#stavkeNabCenaDiv').toggle();
+$('#btnstavkeNabCenaSelectDivOpened').click(function(){
+    $('#stavkeNabCenaDiv').toggle();
+    $('#stavkeNabCenaSelectDiv').toggle();
+    $('#stavkeNabCena').val('');
+
+
+});
+
+$('#stavkeArtikal').on('change',function(){
+    //alert($('#stavkeArtikal').val());
+ 
+
+                $.get('{{url('tenderiNabavneCeneArtikla')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}',{
+                artikal: $('#stavkeArtikal').val(),
+       
+             
+            },function(result){
+                
+                obj = JSON.parse(result);
+             //console.log(result);
+                var brRedova=obj.length;
+                        $("#stavkeNabCenaSelect").empty();
+                        
+                        if (result)
+                        {
+                                $("#stavkeNabCenaSelect").append(
+                                                    $("<option></option>") 
+                                                        .text("Odaberi cenu")
+                                                        .val("")
+                                                   );  
+                        }
+                    
+                       for (var i = 0; i < brRedova; i++) 
+                        {
+
+                                $("#stavkeNabCenaSelect").append(
+                                                    $("<option></option>") 
+                                                        .text(obj[i].tekst)
+                                                        .val(obj[i].nab_cena)
+                                                   );   
+                        }
+
+                  });
+                
+});
+
+
+
 $('#tenderiPrelged').collapse();
 $("#partneri").select2( {
  placeholder: "Odabir partnera",
@@ -417,6 +485,7 @@ $("#stavkeArtikal,#stavkeArtikalKonk").select2( {
  width: 'element',
  dropdownCssClass : 'bigdrop'
  } );
+
 var tblTenderi = $('#tblTenderi').DataTable({
                 ordering:false,
                 scrollY: "50vh",
@@ -526,6 +595,12 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                         { data: 'prodajna_vred' },
                         { data: 'abs_ruc' },
                         { data: 'proc_ruc' },
+                        { data: 'ucesnici_tendera' },
+                        { data: 'dataFrame', 
+                               render: function(data) {
+                                 
+                                 return '<select class="form-control" id="ucesniciTenderaProdajneCene"><option>Radi</option></select>';
+                               }},
                         { data: 'naziv_z1' },
                         { data: 'naziv_z2' }
                                          
@@ -536,6 +611,46 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                             targets: "_all"
                             }]
         });
+        $("#tblTenderiStavke").on("change", "#ucesniciTenderaOdabirZaProdajnuCenu", function() {
+                    
+                        var puniSelect = $(this).parents('tr').find("#ucesniciTenderaProdajneCene");
+
+                      // alert(selektovani_podaci_stavke.sif_art+$(this).val());
+
+                          $.get('{{url('tenderiSveProdajneCeneKonkurenta')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}',{
+                                artikal: selektovani_podaci_stavke.sif_art,
+                                komi : $(this).val()
+                       
+                             
+                            },function(result){
+                                
+                                obj = JSON.parse(result);
+                               // console.log(obj[0].tekst);
+                                var brRedova=obj.length;
+                                        puniSelect.empty();
+                                        
+                                        // if (result)
+                                        // {
+                                        //         $("#stavkeNabCenaSelect").append(
+                                        //                             $("<option></option>") 
+                                        //                                 .text("Odaberi cenu")
+                                        //                                 .val("")
+                                        //                            );  
+                                        // }
+                                    
+                                       for (var i = 0; i < brRedova; i++) 
+                                        {
+
+                                                puniSelect.append(
+                                                                    $("<option></option>") 
+                                                                        .text(obj[i].tekst)
+                                                                        .val('')
+                                                                   );   
+                                        }
+
+                                  });
+                });
+
 var tblTenderiStavkeKonk = $('#tblTenderiStavkeKonk').DataTable({
                 ordering:false,
                 scrollY: "50vh",
@@ -600,6 +715,7 @@ var tblTenderiStavkeKonk = $('#tblTenderiStavkeKonk').DataTable({
                     },
 
                 columns:[
+                { data: 'sif_art' },
                         { data: 'naziv' },
 
                         { data: 'prodajna_vred' },
@@ -646,6 +762,11 @@ $('#tblTenderi tbody').on('click','tr',function(event){
 $('#tblTenderiStavke tbody').on('click','tr',function(event){
 
          selektovani_podaci_stavke =tblTenderiStavke.row(this).data();
+
+          if (!$('#stavkeNabCenaDiv').is(':visible'))
+        {
+            $('#btnstavkeNabCenaSelectDivOpened').trigger('click');
+        }
     
               $('#stavkeArtikal').val(selektovani_podaci_stavke.sif_art);
               $('#stavkeArtikal').select2().trigger('change');
@@ -1003,13 +1124,35 @@ $('#unosStavkiHelena').click(function(){
           $myForm.find(':submit').click();
            return false;
         }
+
+        if ($('#stavkeNabCenaDiv').is(':visible'))
+        {
+            $nabavna = $('#stavkeNabCena').val();
+        }
+        else
+        {
+            $nabavna = $('#stavkeNabCenaSelect').val();
+        }
+       // alert($nabavna);
+        //return false;
+        if (!$nabavna)
+        {
+            Swal.fire({
+                      type: 'error',
+                      title: 'Unesite nabavnu cenu!'
+                    });
+                 return false;
+        }
+
+
+
         var url = '{{url('tenderUnosStavki')}}'+'/{!!$sema!!}'+'/tenderi_stavke';;
                         $.post(url,{
 
                             tender:selektovani_podaci.id,
                             artikal:$('#stavkeArtikal').val(),
                             kolicina:$('#stavkeKolicina').val(),
-                            nab_cena:$('#stavkeNabCena').val(),
+                            nab_cena:$nabavna,
                             // prod_cena:$('#stavkeProdCena').val(),
                             artikal_z1:$('#stavkeArtikalZ1').val(),
                             artikal_z2:$('#stavkeArtikalZ2').val()
@@ -1041,13 +1184,32 @@ $('#izmenaStavkiHelena').click(function(){
                     });
                  return false;
             }
+
+                  if ($('#stavkeNabCenaDiv').is(':visible'))
+                            {
+                                $nabavna = $('#stavkeNabCena').val();
+                            }
+                            else
+                            {
+                                $nabavna = $('#stavkeNabCenaSelect').val();
+                            }
+                           // alert($nabavna);
+                            //return false;
+                            if (!$nabavna)
+                            {
+                                Swal.fire({
+                                          type: 'error',
+                                          title: 'Unesite nabavnu cenu!'
+                                        });
+                                     return false;
+                            }
         var url = '{{url('tenderIzmenaStavki')}}'+'/{!!$sema!!}'+'/tenderi_stavke';;
                         $.post(url,{
 
                             id:selektovani_podaci_stavke.id,
                             artikal:$('#stavkeArtikal').val(),
                             kolicina:$('#stavkeKolicina').val(),
-                            nab_cena:$('#stavkeNabCena').val(),
+                            nab_cena:$nabavna,
                             // prod_cena:$('#stavkeProdCena').val(),
                             artikal_z1:$('#stavkeArtikalZ1').val(),
                             artikal_z2:$('#stavkeArtikalZ2').val()
