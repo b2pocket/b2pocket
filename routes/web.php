@@ -95,17 +95,22 @@ Route::post('b2me_amdinsI', 'adminApps\setovanjeB2meAdminsController@helenaInser
 // TENDERI
 Route::get('tenderiIndex/{sema}/{tabela}', 'tenderiController@tenderiIndex')->name('tenderiIndex');
 Route::get('tenderiPrelged/{sema}/{tabela}', 'tenderiController@tenderiPrelged')->name('tenderiPrelged');
+Route::get('tenderiStavkePregledCenaKonkurenata/{sema}/{tabela}', 'tenderiController@tenderiStavkePregledCenaKonkurenata')->name('tenderiStavkePregledCenaKonkurenata');
+Route::get('tenderiStavkeUnosCenaKonkurenata/{sema}/{tabela}', 'tenderiController@tenderiStavkeUnosCenaKonkurenata')->name('tenderiStavkeUnosCenaKonkurenata');
 Route::post('tenderUnos/{sema}/{tabela}', 'tenderiController@tenderUnos')->name('tenderUnos');
 Route::post('tenderIzmena/{sema}/{tabela}', 'tenderiController@tenderIzmena')->name('tenderIzmena');
 Route::post('tenderBrisanje/{sema}/{tabela}', 'tenderiController@tenderBrisanje')->name('tenderBrisanje');
+Route::post('tenderOtkljucavanje/{sema}/{tabela}', 'tenderiController@tenderOtkljucavanje')->name('tenderOtkljucavanje');
 			// TENDERI STAVKE
 				Route::get('tenderiPrelgedStavke/{sema}/{tabela}', 'tenderiController@tenderiPrelgedStavke')->name('tenderiPrelgedStavke');
 				Route::post('tenderUnosStavki/{sema}/{tabela}', 'tenderiController@tenderUnosStavki')->name('tenderUnosStavki');
 				Route::post('tenderIzmenaStavki/{sema}/{tabela}', 'tenderiController@tenderIzmenaStavki')->name('tenderIzmenaStavki');
 				Route::post('tenderStavkaBrisanje/{sema}/{tabela}', 'tenderiController@tenderStavkaBrisanje')->name('tenderStavkaBrisanje');
 				Route::post('tenderUnosProdajneCene/{sema}/{tabela}', 'tenderiController@tenderUnosProdajneCene')->name('tenderUnosProdajneCene');
+				Route::post('tenderUnosProdajneCeneModal/{sema}/{tabela}', 'tenderiController@tenderUnosProdajneCeneModal')->name('tenderUnosProdajneCeneModal');
 
 				Route::get('tenderiNabavneCeneArtikla/{sema}/{tabela}', 'tenderiController@tenderiNabavneCeneArtikla')->name('tenderiNabavneCeneArtikla');
+				Route::get('tenderiMinCenaArtikla/{sema}/{tabela}', 'tenderiController@tenderiMinCenaArtikla')->name('tenderiMinCenaArtikla');
 				Route::get('tenderiSveProdajneCeneKonkurenta/{sema}/{tabela}', 'tenderiController@tenderiSveProdajneCeneKonkurenta')->name('tenderiSveProdajneCeneKonkurenta');
 
 			// --------!!!!!!!!-------------

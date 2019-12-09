@@ -125,14 +125,14 @@
                     <button class="btn btn-primary" style="background-color:#2A52C4; " id="vratiNaPocetak">Nazad</button>
                 </div>
                 <div class="card">
-                    <div class="card-header  text-white" style="background-color: #2A52C4;">
-                        <h4 class="card-title " id="cardInfoTitle">Sun Gone</h4>
+                    <div class="card-header m-0  text-white" style="background-color: #2A52C4;">
+                        <h5 class="card-title m-0 " id="cardInfoTitle">Sun Gone</h5>
                       </div>
-                    <div class="card-body ">
-                        <p class="card-text text-dark" id="cardInfoInterniId">Here are the top resources for all things related to the Sun.</p>    
-                        <p class="card-text text-dark" id="cardInfoDatumi">Here are the top resources for all things related to the Sun.</p>
-                        <p class="card-text text-dark" id="cardInfoVrednostTendera">Here are the top resources for all things related to the Sun.</p>
-                        <p class="card-text text-dark" id="cardInfoValutaBrojDana">Here are the top resources for all things related to the Sun.</p>
+                    <div class="card-body p-1">
+                        <p class="card-text text-dark m-0" id="cardInfoInterniId">Here are the top resources for all things related to the Sun.</p>    
+                        <p class="card-text text-dark m-0" id="cardInfoDatumi">Here are the top resources for all things related to the Sun.</p>
+                        <p class="card-text text-dark m-0" id="cardInfoVrednostTendera">Here are the top resources for all things related to the Sun.</p>
+                        <p class="card-text text-dark m-0" id="cardInfoValutaBrojDana">Here are the top resources for all things related to the Sun.</p>
                  
                     </div>
                 </div>
@@ -149,6 +149,14 @@
                                         @endforeach
                                     </select>
                                 
+                            </div>
+                             <div class="form-group row col-md-12 my-0" id="divPregledIdodavanjeSelArtikla">
+                                <label class="col-md-12" for="">Najniza prodajna cena: </label>
+                                <div class="col-md-9" >
+                                    <label id="lblMinCena"></label>
+                                </div>
+                                <button type="button" class="btn btn-success p-1 mr-1"  data-toggle="tooltip" data-placement="top" title="Dodavanje prodajnih cena konkurenata za selektovani artikal"  id="btnstavkeModalUnosKonkuren"><i class="fas fa-user-plus fa-sm"></i></button>
+                                <button type="button" data-toggle="tooltip" data-placement="top" title="Pregled cena selektovanog artikla"  class="btn btn-success  p-1" id="btnstavkeModalPregledKonkuren"><i class="fas fa-users fa-sm"></i></button>  
                             </div>
                             <div class="form-group row col-md-12 my-0">
                                     <label class="col-md-12"   for="">Kolicina: </label>
@@ -196,7 +204,7 @@
                             </div>
                         
                     
-                    <div class="form-inline   ml-1 mb-0 mt-2">
+                    <div class="form-inline   ml-1 mb-0 mt-2" id="divInsertButtons">
                        
                                 <button type="button"  id="unosStavkiHelena" class="d-inline mr-2 col-auto mb-2 mb-md-0  btn btn-primary" ><i class="fa fa-plus mr-1" aria-hidden="true" ></i>Unos</button>
                                 <button type="button"  id="izmenaStavkiHelena" class="d-inline mr-2 col-auto mb-2 mb-md-0  btn btn-warning" ><i class="fa fa-edit mr-1" aria-hidden="true" ></i>Izmena</button>
@@ -283,7 +291,9 @@
                 <button id="modalIzmene" class="d-md-block d-xs-inline btn btn-warning mb-2 col-12"><i class="fa fa-edit mr-1" aria-hidden="true"></i>Izmeni podatke</button>
                 <button id="obrisiTender" class="d-md-block d-xs-inline btn btn-danger mb-2  col-12"><i class="fa fa-trash mr-1" aria-hidden="true"></i>Obrisi tender</button>
                 <button id="stavkeHelena" class="d-md-block d-xs-inline btn btn-success mb-2 col-12"><i class="fa fa-info mr-1" aria-hidden="true"></i>Stavke</button>
-                <button id="stavkeKonkurent" class="d-md-block d-xs-inline btn btn-success  col-12"><i class="fa fa-info mr-1" aria-hidden="true"></i>Stavke konkurenta</button>
+                <button id="stavkeKonkurent" class="d-md-block d-xs-inline btn btn-success mb-2  col-12"><i class="fa fa-info mr-1" aria-hidden="true"></i>Stavke konkurenta</button>
+
+                <button id="otkljucajTender" class="d-md-block d-xs-inline btn btn-warning  col-12"><i class="fa fa-unlock mr-1" aria-hidden="true"></i>Otkljucaj tender</button>
                 <div class="card text-center d-none  d-md-block d-xs-inline col-12 p-0 mt-2" style="width: 18rem;">
                   <div class="card-body">
                     <h5 class="card-title">Potvrdjivanje tendera</h5>
@@ -401,6 +411,67 @@
   </div>
 </div>
 
+ <!-- The Modal Pregleda cena konkurenata -->
+  <div class="modal" id="modalPregledaCena">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Pregled cena</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <table style="width: 100%;" id="tblPregledaCenaKonkurenata">
+            <thead>
+                  <th>Ucesnik</th>
+                  <th>Tender</th>
+                  <th>Tender od</th>
+                  <th>Tender do</th>
+                  <th>cena</th>
+            </thead>
+          </table>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modalUnosCena">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Unos prodajnih cena ucesnika tendera</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <table style="width: 100%;" id="tblPregledaCenaKonkurenataUnos">
+            <thead>
+                    <th>ID</th>
+                  <th>Ucesnik</th>
+                  <th>cena</th>
+            </thead>
+          </table>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
  @section('mojJs')
     <script src="{{ asset("js/select2.full.min.js") }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8/dist/sweetalert2.all.min.js"></script>
@@ -411,19 +482,119 @@
     {{-- <script src="{{ asset("js/jquery.flexdatalist.min.js") }}"></script> --}}
 @stop
 <script>
+   
+       $( document ).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
+    });
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         });
 
+
+$('#divInsertButtons')
+
 $('#stavkeNabCenaDiv').toggle();
 $('#btnstavkeNabCenaSelectDivOpened').click(function(){
     $('#stavkeNabCenaDiv').toggle();
     $('#stavkeNabCenaSelectDiv').toggle();
     $('#stavkeNabCena').val('');
+    $('#lblMinCena').val('');
+    
 
 
+});
+var tblPregledaCenaKonkurenata = $('#tblPregledaCenaKonkurenata').DataTable({
+                    ordering:false,
+                    scrollY: "50vh",
+                    paging: false,
+                    scrollX: true,
+                    select:true,
+                    searching:true,
+                    ajax:{
+                        url:  '{{url('tenderiStavkePregledCenaKonkurenata')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}',
+                            "type": "GET",
+                            data:function(d){
+                                if(selektovani_podaci)
+                                {
+                                    d.tender = selektovani_podaci.id;
+                                }
+                                        
+                                        d.artikal = $('#stavkeArtikal').val();
+                                
+                                           },
+                            "dataSrc": function (response) { 
+                                           
+                                            //console.log(response);
+                                            return response; 
+                                           }
+                        },
+
+                    columns:[
+                            { data: 'naziv' },
+                            { data: 'komitent' },
+                           
+                            { data: 'datum_od' },
+                            { data: 'datum_do' },
+                             { data: 'prod_cena' },
+                                         
+                            ],
+                              columnDefs: [{
+                                data: null,
+                                defaultContent: "-",
+                                targets: "_all"
+                                }]
+            });
+var tblPregledaCenaKonkurenataUnos = $('#tblPregledaCenaKonkurenataUnos').DataTable({
+                    ordering:false,
+                    scrollY: "50vh",
+                    paging: false,
+                    scrollX: true,
+                    select:true,
+                    searching:true,
+                    ajax:{
+                        url:  '{{url('tenderiStavkeUnosCenaKonkurenata')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}',
+                            "type": "GET",
+                            data:function(d){
+                                if(selektovani_podaci)
+                                {
+                                    d.tender = selektovani_podaci.id;
+                                }
+                                        
+                                        d.artikal = $('#stavkeArtikal').val();
+                                
+                                           },
+                            "dataSrc": function (response) { 
+                                           
+                                           // console.log(response);
+                                            return response; 
+                                           }
+                        },
+
+                    columns:[
+                            {data:'id'},
+                            { data: 'ucesnik' },
+                            { data: 'cena' },
+                        
+                                         
+                            ],
+                              columnDefs: [{
+                                data: null,
+                                defaultContent: "-",
+                                targets: "_all"
+                                }]
+            });
+
+$('#btnstavkeModalPregledKonkuren').click(function(){
+
+        tblPregledaCenaKonkurenata.ajax.reload();
+        $('#modalPregledaCena').modal('toggle');
+});
+$('#btnstavkeModalUnosKonkuren').click(function(){
+
+        tblPregledaCenaKonkurenataUnos.ajax.reload();
+        $('#modalUnosCena').modal('toggle');
 });
 
 $('#stavkeArtikal').on('change',function(){
@@ -458,6 +629,24 @@ $('#stavkeArtikal').on('change',function(){
                                                         .text(obj[i].tekst)
                                                         .val(obj[i].nab_cena)
                                                    );   
+                        }
+
+                  });
+
+                  $.get('{{url('tenderiMinCenaArtikla')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}',{
+                artikal: $('#stavkeArtikal').val(),
+                tender: selektovani_podaci.id
+            },function(result){                
+                obj = JSON.parse(result);
+                var brRedova=obj.length;
+                if (brRedova > 0)
+                {
+                    $('#lblMinCena').css('color','red');
+                }
+                    
+                       for (var i = 0; i < brRedova; i++) 
+                        {
+                            $('#lblMinCena').text(obj[i].vred);
                         }
 
                   });
@@ -599,7 +788,7 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                         { data: 'dataFrame', 
                                render: function(data) {
                                  
-                                 return '<select class="form-control" id="ucesniciTenderaProdajneCene"><option>Radi</option></select>';
+                                 return '<select class="form-control" id="ucesniciTenderaProdajneCene"><option></option></select>';
                                }},
                         { data: 'naziv_z1' },
                         { data: 'naziv_z2' }
@@ -741,6 +930,7 @@ $('#filterStatus,#partneri').change(function(){
 var selektovani_podaci;
 var selektovani_podaci_stavke;
 var selektovani_podaci_stavke_konk;
+var selektovani_podaci_stavke_konk_modal;
 $('#tblTenderi tbody').on('click','tr',function(event){
 
          selektovani_podaci =tblTenderi.row(this).data();
@@ -783,6 +973,11 @@ $('#tblTenderiStavke tbody').on('click','tr',function(event){
 $('#tblTenderiStavkeKonk tbody').on('click','tr',function(event){
 
          selektovani_podaci_stavke_konk =tblTenderiStavkeKonk.row(this).data();
+     
+});
+$('#tblPregledaCenaKonkurenataUnos tbody').on('click','tr',function(event){
+
+         selektovani_podaci_stavke_konk_modal =tblPregledaCenaKonkurenataUnos.row(this).data();
      
 });
 $('#vratiNaPocetak').click(function(){
@@ -1025,6 +1220,46 @@ $('#obrisiTender').click(function(){
         })
 
 });
+$('#otkljucajTender').click(function(){
+       if(!selektovani_podaci)
+    {
+         Swal.fire({
+              type: 'error',
+              title: 'Selektujte tender za otkljucavanje!'
+            });
+         return false;
+    }
+    Swal.fire({
+          title: 'Da li ste sigurni?',
+          text: "Tender "+selektovani_podaci.naziv_partnera+" ce biti otkljucan!!",
+          type: 'warning',
+          showCancelButton: true,
+          cancelButtonText: 'odustani',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Da, otkljucaj!'
+        }).then((result) => {
+          if (result.value) {
+
+                    var url = '{{url('tenderOtkljucavanje')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+                    $.post(url,{
+                            id: selektovani_podaci.id,
+                            },function(result){
+                               $.notify( result['greska'],
+                                    {
+                                        className: result['klasa'],
+                                        globalPosition: 'bottom right'
+                                    });
+                                // console.log(result);
+                            tblTenderi.ajax.reload();
+                            //$('#modalKreirajIzmeniTender').modal('toggle');
+                        });
+
+                        
+          }
+        })
+
+});
 $('#potvrdaTendera').click(function(){
        if(!selektovani_podaci)
     {
@@ -1050,7 +1285,7 @@ $('#potvrdaTendera').click(function(){
           cancelButtonText: 'odustani',
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Da, obrisi!'
+          confirmButtonText: 'Da, potvrdi!'
         }).then((result) => {
           if (result.value) {
 
@@ -1086,11 +1321,16 @@ $('#stavkeHelena').click(function(){
     }
     if(selektovani_podaci.status != 'UN')
     {
-       Swal.fire({
-              type: 'error',
-              title: 'Samo u statusu kreirani tenderi mozete unositi stavke!'
-            });
-         return false; 
+        $('#divInsertButtons').hide();
+       // Swal.fire({
+       //        type: 'error',
+       //        title: 'Samo u statusu kreirani tenderi mozete unositi stavke!'
+       //      });
+       //   return false; 
+    }
+    else
+    {
+       $('#divInsertButtons').show(); 
     }
     tblTenderiStavke.ajax.reload();
     $('#selektovaniTenderInfoCard').collapse('toggle');
@@ -1375,6 +1615,31 @@ $("#tblTenderiStavkeKonk").on("focusout","#unosProdajneStavkeKonk",function(even
                                 //console.log(result);
 
                             tblTenderiStavkeKonk.ajax.reload(null, false);
+                          
+                        });
+
+    });
+$("#tblPregledaCenaKonkurenataUnos").on("focusout","#unosProdajneStavkeModalKonk",function(event){
+               
+                      //  alert($(this).val());
+                      // alert(selektovani_podaci_stavke.id);
+        var url = '{{url('tenderUnosProdajneCeneModal')}}'+'/{!!$sema!!}'+'/tenderi_stavke_ucesnici';;
+                        $.post(url,{
+
+                            id : selektovani_podaci_stavke_konk_modal.id_ucesnik,
+                            cena : $(this).val(),
+                            tender : selektovani_podaci.id,
+                            artikal: $('#stavkeArtikal').val()
+
+                            },function(result){
+                                $.notify( result['greska'],
+                                    {
+                                        className: result['klasa'],
+                                        globalPosition: 'bottom right'
+                                    });
+                                // console.log(result);
+
+                            tblPregledaCenaKonkurenataUnos.ajax.reload(null, false);
                           
                         });
 

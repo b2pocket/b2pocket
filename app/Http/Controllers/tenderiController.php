@@ -85,6 +85,86 @@ class tenderiController extends Controller
     	    // return json_encode($meniji);
   	
     }
+     public function tenderiStavkePregledCenaKonkurenata(Request $request)
+    {
+    //          $meniji = new $this->modelName;
+                // $meniji->setTable($this->sema.'.'.$this->tabela);
+                // $as = $meniji->get();
+                    if (!$request->tender) {
+                     return '{
+                    "sEcho": 1,
+                    "iTotalRecords": "0",
+                    "iTotalDisplayRecords": "0",
+                    "aaData": []
+                }';
+                }
+                $as = DB::select("
+                
+                    select tu.naziv,tsu.prod_cena,m.naziv as komitent,tz.datum_od,tz.datum_do 
+                    from hel.tenderi_stavke_ucesnici tsu,hel.tenderi_ucesnici tu,hel.tenderi_zaglavlje tz, hel.mddob m
+                    where tsu.ucesnik_fk = tu.id
+                    and tsu.tenderi_zaglavlje_fk = tz.id
+                    and tz.komitent = m.sifra
+                    and tsu.tenderi_zaglavlje_fk = {$request->tender}
+                    and tsu.sif_art = '{$request->artikal}'
+                        ");
+                $broj = count($as);
+                if ($broj < 1){
+                    return '{
+                    "sEcho": 1,
+                    "iTotalRecords": "0",
+                    "iTotalDisplayRecords": "0",
+                    "aaData": []
+                }';
+                } 
+                else 
+                {
+                    return json_encode($as);
+                }
+
+            // return json_encode($meniji);
+    
+    }
+         public function tenderiStavkeUnosCenaKonkurenata(Request $request)
+    {
+    //          $meniji = new $this->modelName;
+                // $meniji->setTable($this->sema.'.'.$this->tabela);
+                // $as = $meniji->get();
+                    if (!$request->tender || !$request->artikal) {
+                     return '{
+                    "sEcho": 1,
+                    "iTotalRecords": "0",
+                    "iTotalDisplayRecords": "0",
+                    "aaData": []
+                }';
+                }
+                $as = DB::select("
+                
+                    select tsu.id,tu.naziv as ucesnik,
+                         '<input type=\"number\" value=\"'||coalesce(CAST(tsu.prod_cena AS text),'')||'\" id = \"unosProdajneStavkeModalKonk\" class=\"form-control\" placeholder=\"cena\">' as cena,tu.id as id_ucesnik
+                    from hel.tenderi_ucesnici tu left join  hel.tenderi_stavke_ucesnici tsu 
+                    on tsu.ucesnik_fk = tu.id
+                    and tsu.sif_art = '{$request->artikal}'
+                    and tsu.tenderi_zaglavlje_fk = {$request->tender}
+                    where tu.id <> 2
+                        ");
+                $broj = count($as);
+                if ($broj < 1){
+                    return '{
+                    "sEcho": 1,
+                    "iTotalRecords": "0",
+                    "iTotalDisplayRecords": "0",
+                    "aaData": []
+                }';
+                } 
+                else 
+                {
+                    return json_encode($as);
+                }
+
+            // return json_encode($meniji);
+    
+    }
     public function tenderUnos(request $request)
     {
             try{
@@ -241,7 +321,36 @@ class tenderiController extends Controller
         
            //return $request->korisnik;
         }
+           public function tenderOtkljucavanje(request $request)
+      {
+            try{
+                        $obj = new $this->modelName;
+                        $obj->setTable($this->sema.'.'.$this->tabela); 
 
+                        $izmena = 
+                        $obj->where('id','=',$request->id)
+                        ->update(['status'=>'UN',
+                                    'sis_datum_otkljucavanja'=> DB::raw("current_timestamp")
+                                ]
+                              );
+                        $vratiGresku = array();
+                        $vratiGresku['greska'] = "Uspesna izmena";
+                        $vratiGresku['klasa'] = 'success';
+                        return $vratiGresku;
+                     
+
+
+                        }
+                    catch(\Illuminate\Database\QueryException $e){
+                       // do task when error
+                      // echo $e->getMessage();   // insert query
+                       $vratiGresku = array();
+                        $vratiGresku['greska'] = "Greska pri izmeni";
+                        $vratiGresku['klasa'] = 'error';
+                        return $vratiGresku;
+                    }
+
+            }
          public function tenderiPrelgedStavke(Request $request)
     {              
                 if (!$request->id) {
@@ -299,6 +408,22 @@ class tenderiController extends Controller
                     where k.sifart = '{$request->artikal}'
                     and k.datkal > current_date - interval '12 month'
                     order by datkal desc
+                ");
+            return json_encode($stavke);
+           
+    }
+         public function tenderiMinCenaArtikla(Request $request)
+    {
+         
+         
+            $stavke = DB::Select("
+
+               select a.naziv||' - '||a.cena||'din' as vred from (
+                select tu.naziv,min(prod_cena) as cena from hel.tenderi_stavke_ucesnici tsu,hel.tenderi_ucesnici tu
+                where tsu.tenderi_zaglavlje_fk = {$request->tender}
+                and tsu.sif_art = '{$request->artikal}'
+                and tsu.ucesnik_fk = tu.id
+                group by tu.naziv ) a
                 ");
             return json_encode($stavke);
            
@@ -527,6 +652,52 @@ class tenderiController extends Controller
             $vratiGresku['greska'] = "Greska pri izmeni";
             $vratiGresku['klasa'] = 'error';
             return $vratiGresku;
+        }
+
+      }
+
+        public function tenderUnosProdajneCeneModal(request $request)
+      {
+            try{
+                if (!$request->id /*id ucesnika*/ || !$request->tender || !$request->artikal)
+                {
+                               $vratiGresku = array();
+                                $vratiGresku['greska'] = "Greska, nisu prosledjeni svi podaci!!";
+                                $vratiGresku['klasa'] = 'error';
+                                return $vratiGresku;
+
+
+                }
+                if (empty($request->cena))
+                {
+                   $cena='null';
+                }
+                else
+                {
+                   $cena = $request->cena; 
+                }
+            $upsert = DB::Select("
+
+                        INSERT INTO hel.tenderi_stavke_ucesnici  (id,prod_cena,sif_art,sis_datum,tenderi_zaglavlje_fk,ucesnik_fk)
+                        VALUES (nextval('hel.seq_tenderi_stavke_ucesnici'),{$cena},'{$request->artikal}',current_date,{$request->tender},{$request->id})
+                        ON CONFLICT (sif_art,tenderi_zaglavlje_fk,ucesnik_fk) DO UPDATE
+                        set prod_cena = {$cena}
+                ");
+            $vratiGresku = array();
+            $vratiGresku['greska'] = "Uspesna izmena";
+            $vratiGresku['klasa'] = 'success';
+            return $vratiGresku;
+         
+
+
+            }
+        catch(\Illuminate\Database\QueryException $e){
+           // do task when error
+           //echo $e->getMessage();   // insert query
+               $vratiGresku = array();
+                $vratiGresku['greska'] = "Greska pri izmeni";
+                $vratiGresku['klasa'] = 'error';
+                return $vratiGresku;
         }
 
       }
