@@ -753,7 +753,7 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                                                 {  //loop through the array
                                                         if (response[i].prod_cena)
                                                         {
-                                                            ukupnaProdajnaCena += parseInt(response[i].prod_cena)*parseInt(response[i].kolicina);  //Do the math!
+                                                            ukupnaProdajnaCena += Number(response[i].prod_cena)*Number(response[i].kolicina);  //Do the math!
                                                         }
                                                         
                                                 }
@@ -761,7 +761,7 @@ var tblTenderiStavke = $('#tblTenderiStavke').DataTable({
                                                 
                                                // console.log(vrednost_tendera+', a vrednost uneta je '+ukupnaProdajnaCena);
                                                 // alert(Math.floor((parseInt(ukupnaProdajnaCena)/parseInt(vrednost_tendera))*100)); //w00t!
-                                                var procenat = Math.floor((parseInt(ukupnaProdajnaCena)/parseInt(vrednost_tendera))*100);
+                                                var procenat = Math.floor((Number(ukupnaProdajnaCena)/Number(vrednost_tendera))*100);
                                                 $('#progresVrednostiTendera').text(ukupnaProdajnaCena+'('+procenat+'%) od '+selektovani_podaci.vrednost_tendera_sep);
                                                 $('#progresVrednostiTendera').width(procenat+'%');
                                             }
