@@ -41,7 +41,7 @@
                                     <select id="stavkeArtikalKonk" class="form-control col-md-12"  style="width:100%!important;max-width: 100%;" required>
                                         <option value="">Odabir artikla</option>
                                         @foreach ($artikli as $artikal)
-                                                <option value="{{$artikal->sifra}}">{{$artikal->naziv}}</option>>
+                                                <option value="{{$artikal->sifra}}">{{$artikal->naziv}}({{$artikal->sifra}})</option>>
                                         @endforeach
                                     </select>
                                 
@@ -57,7 +57,7 @@
                                 <select id="stavkeArtikalZ1Konk" class="form-control col-md-12"  style="width:100%!important;max-width: 100%;" >
                                     <option value="">Odabir prvog zamenskog</option>
                                     @foreach ($artikli as $artikal)
-                                            <option value="{{$artikal->sifra}}">{{$artikal->naziv}}</option>>
+                                            <option value="{{$artikal->sifra}}">{{$artikal->naziv}}({{$artikal->sifra}})</option>>
                                     @endforeach
                                 </select>
                             </div>
@@ -66,7 +66,7 @@
                                 <select id="stavkeArtikalZ2Konk" class="form-control col-md-12"  style="width:100%!important;max-width: 100%;" >
                                     <option value="">Odabir drugog zamenskog</option>
                                     @foreach ($artikli as $artikal)
-                                            <option value="{{$artikal->sifra}}">{{$artikal->naziv}}</option>>
+                                            <option value="{{$artikal->sifra}}">{{$artikal->naziv}}({{$artikal->sifra}})</option>>
                                     @endforeach
                                 </select>
                             </div>
@@ -668,7 +668,7 @@ $("#modalPartneri").select2( {
  width: 'resolve',
  dropdownCssClass : 'bigdrop'
  } );
-$("#stavkeArtikal,#stavkeArtikalKonk,#stavkeArtikalZ1,#stavkeArtikalZ2").select2( {
+$("#stavkeArtikal,#stavkeArtikalKonk,#stavkeArtikalZ1,#stavkeArtikalZ2,#stavkeArtikalZ2Konk,#stavkeArtikalZ1Konk").select2( {
  placeholder: "Odabir artikla",
  allowClear: true,
  width: 'element',
