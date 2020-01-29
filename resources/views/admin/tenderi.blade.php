@@ -246,6 +246,42 @@
     </div>
     {{-- stavke helene KRAJ --}}
 
+    {{-- Modal za pobednika tendera pocetak --}}
+
+    <div class="modal fade" id="modalDodajPobednika"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white" >
+                <h5 class="modal-title" id="modalDodajPobednikaTitle" ></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="modalFormaDodajPobednika">
+                    <div class="form-row mb-2">
+                       {{-- <input class="form-control flexdatalist" id="tess" list="partneri" placeholder="lista partnera" data-min-length='0'> --}}
+                       <label>Dobitnik tendera: </label>
+                            <select id="modalDodajPobednikaUcesnik" class="form-control d-md-inline d-sm-block"  style="width:100%!important;" required>
+                                <option value="">Odabir dobitnika tendera</option>
+                                @foreach ($ucesnici2 as $ucesnik)
+                                        <option value="{{$ucesnik->id}}">{{$ucesnik->naziv}}</option>>
+                                @endforeach
+                            </select> 
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                <button type="button" id="dodajPobednikaTendera" class="btn btn-primary">Potvrdi</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {{-- Modal za pobednika tendera KRAJ --}}
+
+
 
     <div class="collapse" id="tenderiPrelged">
         <div class="row mb-2">
@@ -269,7 +305,10 @@
                         <option value="UN">Kreirani tenderi</option>
                         <option value="P">Potvrdjeni tenderi</option>
                         <option value="Z">Zavrseni tenderi</option>
-                    </select>  
+                    </select>
+                <div class="ml-2">
+                    <button id="btnModalPobednikTendera" class="btn btn-primary">Unos pobednika tendera</button>
+                </div>  
         </div>
         <div class="row">
             <div class="col-md-10 col-xs-12">
@@ -293,8 +332,8 @@
                 <button id="stavkeHelena" class="d-md-block d-xs-inline btn btn-success mb-2 col-12"><i class="fa fa-info mr-1" aria-hidden="true"></i>Stavke</button>
                 <button id="stavkeKonkurent" class="d-md-block d-xs-inline btn btn-success mb-2  col-12"><i class="fa fa-info mr-1" aria-hidden="true"></i>Stavke konkurenta</button>
 
-                <button id="otkljucajTender" class="d-md-block d-xs-inline btn btn-warning  col-12"><i class="fa fa-unlock mr-1" aria-hidden="true"></i>Otkljucaj tender</button>
-                <div class="card text-center d-none  d-md-block d-xs-inline col-12 p-0 mt-2" style="width: 18rem;">
+              {{--     <button id="otkljucajTender" class="d-md-block d-xs-inline btn btn-warning  col-12"><i class="fa fa-unlock mr-1" aria-hidden="true"></i>Otkljucaj tender</button>
+              <div class="card text-center d-none  d-md-block d-xs-inline col-12 p-0 mt-2" style="width: 18rem;">
                   <div class="card-body">
                     <h5 class="card-title">Potvrdjivanje tendera</h5>
                     <p class="card-text">Potvrditi tender nakon unosa stavki</p>
@@ -307,7 +346,7 @@
                     <p class="card-text">Zatvaranje se vrsi nakon dodeljivanja dobitnika tendera</p>
                     <button class="btn btn-primary" id="zatvaranjeTendera">Zatvori</button>
                   </div>
-                </div>
+                </div> --}}
             </div>
            
                 
@@ -1092,6 +1131,55 @@ $('#zatvaranjeTendera').click(function(){
     $('#modalZatvoriTender').modal('toggle');
 
 });
+
+
+$('#btnModalPobednikTendera').click(function(){
+
+     if(!selektovani_podaci)
+    {
+         Swal.fire({
+              type: 'error',
+              title: 'Selektujte tender!'
+            });
+         return false;
+    }
+    
+    $('#modalDodajPobednikaTitle').text('Dodavanje pobednika za tender: '+selektovani_podaci.naziv_partnera);
+    $('#modalDodajPobednika').modal('toggle');
+});
+$('#dodajPobednikaTendera').click(function(){
+       var $myForm = $('#modalFormaDodajPobednika');
+        if(! $myForm[0].checkValidity()) {
+          $('<input type="submit">').hide().appendTo($myForm).click().remove();
+          $myForm.find(':submit').click();
+           return false;
+        }
+        // if (selektovani_podaci.status != 'P')
+        // {
+        //     Swal.fire({
+        //       type: 'error',
+        //       title: 'Nemoguca izmena',
+        //       text: 'Mozete zatvoriti samo potvrdjene tendere!'
+        //     })
+        //     return false;
+        // }
+         var url = '{{url('tenderDodavanjePobednika')}}'+'/{!!$sema!!}'+'/{!!$tabela!!}';
+                        $.post(url,{
+                            id: selektovani_podaci.id,
+                            ucesnik:$('#modalDodajPobednikaUcesnik').val()
+                            
+            
+                            },function(result){
+                                $.notify( result['greska'],
+                                    {
+                                        className: result['klasa'],
+                                        globalPosition: 'bottom right'
+                                    });
+                                // console.log(result);
+                            tblTenderi.ajax.reload();
+                            $('#modalDodajPobednika').modal('toggle');
+                        });
+      });
 
 
 $('#modalUnosa').click(function(){

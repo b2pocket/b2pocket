@@ -125,6 +125,7 @@ Route::post('tenderOtkljucavanje/{sema}/{tabela}', 'tenderiController@tenderOtkl
 			// --------!!!!!!!!-------------
 Route::post('tenderPotvrda/{sema}/{tabela}', 'tenderiController@tenderPotvrda')->name('tenderPotvrda');
 Route::post('tenderZatvaranje/{sema}/{tabela}', 'tenderiController@tenderZatvaranje')->name('tenderZatvaranje');
+Route::post('tenderDodavanjePobednika/{sema}/{tabela}', 'tenderiController@tenderDodavanjePobednika')->name('tenderDodavanjePobednika');
 
 // --------!!!!!!!!-------------
 

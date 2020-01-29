@@ -32,5 +32,13 @@
     </div>
 </div>
 --}}
- 
+
+ @section('mojJs')
+ <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/2.0.0/pixi.js"></script>
+<script></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+@stop
+
+
 @endsection

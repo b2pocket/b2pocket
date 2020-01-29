@@ -32,7 +32,7 @@ class tenderiController extends Controller
     	$sema = $this->sema;
 		$tabela = $this->tabela;
 		$partneri = DB::Select("
-					select sifra,naziv||' - '||mesto as naziv from {$sema}.mddob  where godina_baze = 2019 order by naziv asc
+					select sifra,naziv||' - '||mesto as naziv from {$sema}.mddob  order by naziv asc
 					");
         $ucesnici = DB::Select("
                    select id,naziv from {$sema}.tenderi_ucesnici where id <> 2 order by naziv asc
@@ -292,6 +292,33 @@ class tenderiController extends Controller
           // echo $e->getMessage();   // insert query
            $vratiGresku = array();
             $vratiGresku['greska'] = "Greska pri izmeni";
+            $vratiGresku['klasa'] = 'error';
+            return $vratiGresku;
+        }
+
+      }
+            public function tenderDodavanjePobednika(request $request)
+      {
+            try{
+             //   $formDatum = Carbon::createFromFormat('d.m.Y', $request->datum)->format('Y-m-d');
+            $obj = new $this->modelName;
+            $obj->setTable($this->sema.'.'.$this->tabela); 
+            $izmena = 
+            $obj->where('id','=',$request->id)
+            ->update([   
+                        'dobitnik_tendera_fk'=>$request->ucesnik     
+                    ]
+                  );
+            $vratiGresku = array();
+            $vratiGresku['greska'] = "Uspesno upisan dobitnik";
+            $vratiGresku['klasa'] = 'success';
+            return $vratiGresku;
+            }
+        catch(\Illuminate\Database\QueryException $e){
+           // do task when error
+          // echo $e->getMessage();   // insert query
+           $vratiGresku = array();
+            $vratiGresku['greska'] = "Greska pri upisu dobitnika";
             $vratiGresku['klasa'] = 'error';
             return $vratiGresku;
         }
