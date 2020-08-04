@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'pro.b2me@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
@@ -81,12 +81,12 @@ return [
     | If your SMTP server requires a username for authentication, you should
     | set it here. This will get used to authenticate with your server on
     | connection. You may also set the "password" value below this one.
-    |
+    |prob2mecontrolling
     */
 
-    'username' => env('pro.b2me@gmail.com'),
+    'username' => env('MAIL_USERNAME'),
 
-    'password' => env('prob2mecontrolling'),
+    'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
