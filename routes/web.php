@@ -157,7 +157,20 @@ Route::post('helgk_KontaI/{sema}/{tabela}', 'adminApps\helgk_KontaController@hel
 
 // --------!!!!!!!!-------------
 
-
+// UNOS POPISA
+Route::get('popisIndex/{sema}/{tabela}', 'popisIndex@popisIndex')->name('popisIndex');
+Route::post('spisakPopisa', 'popisIndex@spisakPopisa')->name('spisakPopisa');
+Route::get('popisKreiraj', 'popisIndex@popisKreiraj')->name('popisKreiraj'); 
+		// UNOS STAVKI POPISA
+			Route::get('popisStavkeIndex/{popis_id}', 'popisStavkeIndex@popisStavkeIndex')->name('popisStavkeIndex'); 
+			Route::post('popisArtikliRefresh', 'popisStavkeIndex@popisArtikliRefresh')->name('popisArtikliRefresh');
+			Route::post('popisBrisanje', 'popisStavkeIndex@popisBrisanje')->name('popisBrisanje');
+			Route::post('spisakStavkiPopisa', 'popisStavkeIndex@spisakStavkiPopisa')->name('spisakStavkiPopisa');
+			Route::post('popisStavkaNovaKolicina', 'popisStavkeIndex@popisStavkaNovaKolicina')->name('popisStavkaNovaKolicina');
+			Route::post('labelBrojPopisanihRefresh', 'popisStavkeIndex@labelBrojPopisanihRefresh')->name('labelBrojPopisanihRefresh');
+		// --------!!!!!!!!-------------
+Route::get('exportCsv/{popis_id}', 'popisStavkeIndex@exportCsv');
+// --------!!!!!!!!-------------
 
 // --------!!!!!!!!-------------
 // BRISANJE KALKULACIJA
