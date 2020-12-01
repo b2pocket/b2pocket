@@ -90,6 +90,7 @@ class popisStavkeIndex extends Controller
 									 from {$this->getSema()}.m_popis_stavke mps
 									 where mps.m_popis_fk = {$popis_id}
 									 {$addQuery}
+									 order by mps.naziv_artikla asc
                                    ");
                  return json_encode($stavke);
     		
@@ -135,15 +136,15 @@ class popisStavkeIndex extends Controller
 
     		$popis_id = $request->popis_id;
 
-		    $popis_arr = DB::select("select to_char(sis_datum,'dd_mm_yyyy') as sis_datum, o.nazobj  from ult.m_popis mp ,ult.objekti o 
+		    $popis_arr = DB::select("select to_char(sis_datum,'dd_mm_yyyy') as sis_datum, o.nazobj  from {$this->getSema()}.m_popis mp ,{$this->getSema()}.objekti o 
 			 						where o.orgjed = mp.orgjed and mp.id = {$popis_id}");
 		    $naziv_objekta = $popis_arr[0]->nazobj; 
 		    $datum_popisa = $popis_arr[0]->sis_datum; 
     		
     		$fileName = "popis_{$naziv_objekta}_{$datum_popisa}.csv";
 		    //$tasks = Task::all();
-		    $stavke = DB::select(" select mps.sifra_artikla , mps.popisana_kolicina
-								 from ult.m_popis_stavke mps 
+		    $stavke = DB::select(" select mps.sifra_artikla,mps.barcode , mps.popisana_kolicina
+								 from {$this->getSema()}.m_popis_stavke mps 
 								 where mps.m_popis_fk = {$popis_id}
 								 and mps.popisana_kolicina is not null ");
 	        $headers = array(
@@ -158,7 +159,7 @@ class popisStavkeIndex extends Controller
 	            $file = fopen('php://output', 'w');
 	            //fputcsv($file, $columns);//ako zatreba naziv kolona
 		            foreach ($stavke as $stavka) {
-		                fputcsv($file, array($stavka->sifra_artikla, $stavka->popisana_kolicina));
+		                fputcsv($file, array("{$stavka->barcode}\r", $stavka->popisana_kolicina)); //   '="' . $stavka->barcode . '"'
 		            }
 
 		            fclose($file);
@@ -166,5 +167,41 @@ class popisStavkeIndex extends Controller
 
 		        return response()->stream($callback, 200, $headers);
 		    }
+		public function popisZavrsi(request $request){
+			if (!Auth::user())
+    		{
+    			return redirect()->back();
+    		}
+    		$popis_id = $request->popis_id;
+    	try {
+
+    		$dozvola_arr = DB::select("select count(*) as postoji from {$this->getSema()}.m_popis where id = {$popis_id} 
+					and broj_artikala  = broj_popunjenih_artikala 
+				 	and status = 'KREIRAN'");
+    		$dozvola = $dozvola_arr[0]->postoji;
+    		if ($dozvola != '1'){
+    			$json = new \stdClass();
+				$json->status = false;
+				$json->poruka = "Popunite sve stavke!!!";
+			    return json_encode($json);
+    		}
+
+		    	$zavrsi = DB::select("
+    				update {$this->getSema()}.m_popis 
+				 	set status = 'ZAVRSEN', vreme_zavrsetka = current_timestamp  
+				 	where id = {$popis_id} 
+					and broj_artikala  = broj_popunjenih_artikala 
+				 	and status = 'KREIRAN' 
+		    		");
+		    	$json = new \stdClass();
+				$json->status = true;
+				$json->poruka = "Uspesno ste potvrdili, sada mozete da preuzmete fajl!!!";
+			    return json_encode($json);
+    	}  catch(QueryException $ex)
+    		{ 
+		     // print_r($ex->getMessage()); 
+		    }
+
+    }
 
 }

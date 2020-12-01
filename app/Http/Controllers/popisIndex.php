@@ -37,7 +37,7 @@ class popisIndex extends Controller
     							   p.korisnik_portala,wu.name as naziv_korisnika, p.broj_artikala, p.status, p.orgjed, p.broj_popunjenih_artikala,
                                    p.broj_popunjenih_artikala||'/'||p.broj_artikala as popisanih,
 
-    							   case when p.status = 'KREIRAN' and p.broj_artikala = p.broj_popunjenih_artikala then '<button class=\"btn btn-link btn-sm ml-2 mt-2 mt-xl-0 d-inline\" type=\"button\" onclick=\"potvrdiPopis(id);\">Potvrdi zavrsen popis<i class=\"fa fa-check ml-1\"></i></button>' 
+    							   case when p.status = 'KREIRAN' and p.broj_artikala = p.broj_popunjenih_artikala and p.broj_artikala > 0 then '<button class=\"zavrsiPopis btn btn-link btn-sm ml-2 mt-2 mt-xl-0 d-inline\" type=\"button\" data-id_popisa=\"'||p.id||'\">Potvrdi zavrsen popis<i class=\"fa fa-check ml-1\"></i></button>' 
     							   when p.status = 'ZAVRSEN' then '' else '' end as akcija ,
 
     							   case when p.status = 'KREIRAN' and p.broj_artikala > 0 then '<button data-id_popisa=\"'||p.id||'\" class=\"nastaviPopis btn btn-success btn-sm ml-2 mt-2 mt-xl-0 d-inline\"  >Nastavi popis<i class=\"fa fa-play ml-1\"></i></button>' 
@@ -46,7 +46,11 @@ class popisIndex extends Controller
     							   case when p.broj_popunjenih_artikala = 0 then '<button data-id_popisa=\"'||p.id||'\" class=\"obrisiPopis btn btn-danger btn-sm ml-2 mt-2 mt-xl-0 d-inline\" type=\"button\" >Obrisi<i class=\"fa fa-trash ml-1\" ></i></button>' 
     							   when p.broj_popunjenih_artikala > 0 then '' else '' end as obrisiPopis,
 
-                                   case when p.broj_artikala = 0 then '<button data-id_popisa=\"'||p.id||'\" class=\"modalRefreshArtikala btn btn-info btn-sm ml-2 mt-2 mt-xl-0 d-inline\"  >Info<i class=\"fas fa-info ml-2\"></i></button>' else '' end as popuniArtikle
+                                   case when p.broj_artikala = 0 then '<button data-id_popisa=\"'||p.id||'\" class=\"modalRefreshArtikala btn btn-info btn-sm ml-2 mt-2 mt-xl-0 d-inline\"  >Info<i class=\"fas fa-info ml-2\"></i></button>' else '' end as popuniArtikle,
+
+                                   case when p.status = 'ZAVRSEN' and p.broj_artikala = p.broj_popunjenih_artikala then 
+                                   '<button  data-id_popisa=\"'||p.id||'\" id=\"export\" class=\"preuzmiFajl pl-2 btn btn-success btn-sm\" >Preuzmi fajl<i class=\"fas fa-download ml-2\"></i></button>'
+                                   else '' end as preuzmiFajl
 
     						       FROM {$this->getSema()}.m_popis p,{$this->getSema()}.objekti oj,ibm.users wu
     						       where p.orgjed = oj.orgjed

@@ -32,8 +32,12 @@
 			    </select>
 			 </div>
 			 <div class="form-group  col-lg-2 col-sm-5 col-12">
-			    <label for="filterStatus">Preuzimanje fajla za import</label>
-			    <button class="pl-2 btn btn-success">Preuzmi</button>
+			    <label for="swalPotvrdiPopis">Potvrda popisa</label>
+			    <button class="pl-2 btn btn-success"  id="swalPotvrdiPopis">Potvrdi zavrsen popis</button>
+			 </div>
+			 <div class="form-group  col-lg-2 col-sm-5 col-12">
+			    <label for="filterStatus">Preuzimanje fajla</label>
+			    <button data-href="{{url('exportCsv',$popis_id)}}" id="export" class="pl-2 btn btn-success" disabled>Preuzmi</button>
 			 </div>
 			 {{-- <div class="">
 			 	<span data-href="{{url('exportCsv',$popis_id)}}" id="export" class="btn btn-success btn-sm" >Export</span>
@@ -60,6 +64,9 @@
 		</div>
 	</div>
 </div>
+ @section('mojJs')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8/dist/sweetalert2.all.min.js"></script>
+@stop
 <style> 
 	.warning {
     background-color: #5985ff !important;
@@ -82,8 +89,44 @@
 		  }
 		});
 		$('#export').click(function(){
-				let _url = $(this).data('href');
-		      window.location.href = _url;	
+			let _url = $(this).data('href');
+		    window.location.href = _url;	
+		});
+		$('#swalPotvrdiPopis').click(function(){
+				Swal.fire({
+				  title: 'Da li ste sigurni?',
+				  text: "Ovim potvrdjujete da je zavrsen popis svih artikala i otkljucavate mogucnost preuzimanje fajla za import popisa. Ovom akcijom se zavrsava popis. Molim Vas pre potvrde proverite popisane stavke!",
+				  type: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Da, potvrdi!'
+				}).then((result) => {
+				  if (result.value) {
+				  	$.ajax({
+									    type: 'POST',
+									    url: '{{route('popisZavrsi')}}',
+									    data: { 
+									        'popis_id': '{{$popis_id}}'
+									    },
+									    success: function(msg){
+									    	msg = JSON.parse(msg);
+									    	if (msg.status){
+									    		Swal.fire(msg.poruka,'','success');
+									    		$("#swalPotvrdiPopis").prop("disabled", true);
+									    		$("#export").prop("disabled", false);
+									    	}else{
+									    		Swal.fire(msg.poruka,'','error');
+									    	}
+										}
+									});
+				    // Swal.fire(
+				    //   'Deleted!',
+				    //   'Your file has been deleted.',
+				    //   'success'
+				    // )
+				  }
+				})
 		});
 		// function exportTasks(_this) {
 		//       let _url = $(_this).data('href');

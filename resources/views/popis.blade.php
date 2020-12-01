@@ -159,7 +159,7 @@
 		                         { data: 'status' },
 		                         { data: 'akcija',render: function ( data, type, row ) 
 							            {
-							                return '<div class="d-flex">' + row.akcija + row.akcija2 + row.obrisipopis + row.popuniartikle + '</div>';
+							                return '<div class="d-flex">' + row.akcija + row.akcija2 + row.obrisipopis + row.popuniartikle + row.preuzmifajl +'</div>';
 							            }
 						          },
 		                        ],
@@ -178,6 +178,11 @@
 				$(document ).on("click","#tblPopis button.modalRefreshArtikala",function() {
 						selektovani_id_popisa = $(this).data('id_popisa');
 							$('#modalRefreshArtikala').modal('toggle');
+				
+				});
+				$(document ).on("click","#tblPopis button.preuzmiFajl",function() {
+						selektovani_id_popisa = $(this).data('id_popisa');
+		    			window.location.href = '{{url('exportCsv')}}/' + selektovani_id_popisa;	
 				
 				});
 				$(document ).on("click","#tblPopis button.obrisiPopis",function() {
@@ -227,6 +232,45 @@
 
 					}
 				});
+
+				$(document ).on("click","#tblPopis button.zavrsiPopis",function() {
+					selektovani_id_popisa = $(this).data('id_popisa');
+				Swal.fire({
+				  title: 'Da li ste sigurni?',
+				  text: "Ovim potvrdjujete da je zavrsen popis svih artikala i otkljucavate mogucnost preuzimanje fajla za import popisa. Ovom akcijom se zavrsava popis. Molim Vas pre potvrde proverite popisane stavke!",
+				  type: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Da, potvrdi!'
+				}).then((result) => {
+				  if (result.value) {
+				  	$.ajax({
+									    type: 'POST',
+									    url: '{{route('popisZavrsi')}}',
+									    data: { 
+									        'popis_id': selektovani_id_popisa
+									    },
+									    success: function(msg){
+									    	msg = JSON.parse(msg);
+									    	if (msg.status){
+									    		Swal.fire(msg.poruka,'','success');
+									    		tblPopis.ajax.reload();
+
+									    	}else{
+									    		Swal.fire(msg.poruka,'','error');
+									    	}
+										}
+									});
+				    // Swal.fire(
+				    //   'Deleted!',
+				    //   'Your file has been deleted.',
+				    //   'success'
+				    // )
+				  }
+				})
+		});
+
 		});
 
 

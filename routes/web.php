@@ -168,6 +168,7 @@ Route::get('popisKreiraj', 'popisIndex@popisKreiraj')->name('popisKreiraj');
 			Route::post('spisakStavkiPopisa', 'popisStavkeIndex@spisakStavkiPopisa')->name('spisakStavkiPopisa');
 			Route::post('popisStavkaNovaKolicina', 'popisStavkeIndex@popisStavkaNovaKolicina')->name('popisStavkaNovaKolicina');
 			Route::post('labelBrojPopisanihRefresh', 'popisStavkeIndex@labelBrojPopisanihRefresh')->name('labelBrojPopisanihRefresh');
+			Route::post('popisZavrsi', 'popisStavkeIndex@popisZavrsi')->name('popisZavrsi');
 		// --------!!!!!!!!-------------
 Route::get('exportCsv/{popis_id}', 'popisStavkeIndex@exportCsv');
 // --------!!!!!!!!-------------
