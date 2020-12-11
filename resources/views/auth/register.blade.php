@@ -54,7 +54,7 @@
                                         <option value="cmat">cmat</option>
                                         <option value="cmatMPO">MATEA_ADMIN</option>
                                         <option value="cmatRADNJA">MATEA OBJEKAT</option>
-                                       
+                                        <option value="ultra_viva">ULTRA VIVA</option>
                                     </select> 
                          
                             </div>

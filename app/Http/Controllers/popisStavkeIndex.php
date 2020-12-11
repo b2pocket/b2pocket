@@ -32,9 +32,14 @@ class popisStavkeIndex extends Controller
     	}
     	$sema = $this->getSema();
 
-    	$popis_info_arr = DB::select("select mp.sis_datum , o.nazobj , mp.broj_artikala , mp.broj_popunjenih_artikala  from ult.m_popis mp,ult.objekti  o
-						 where id = {$popis_id }
-						 and mp.orgjed  = o.orgjed");
+    	$popis_info_arr = DB::select("
+					select mp.sis_datum , o.nazobj , mp.broj_artikala , mp.broj_popunjenih_artikala ,sum(mps.prodcen*mps.kolicina) as vrednost_robe,sum(mps.popisana_kolicina*mps.prodcen) as popisana_vrednost
+					from {$this->getSema()}.m_popis mp,{$this->getSema()}.objekti  o, {$this->getSema()}.m_popis_stavke mps  
+											 where mp.id = {$popis_id }
+											 and mp.orgjed  = o.orgjed
+											 and mp.id = mps.m_popis_fk 
+					group by mp.sis_datum , o.nazobj , mp.broj_artikala , mp.broj_popunjenih_artikala
+    					");
     	$popis_info = $popis_info_arr[0]; 
 
 		$objekti = DB::select("select orgjed, nazobj as naziv from {$this->getSema()}.objekti o2  where o2.status = 'A'");
@@ -80,10 +85,17 @@ class popisStavkeIndex extends Controller
             // $status = $request->status;
     		$stavke =  DB::select("SELECT mps.sifra_artikla ,mps.barcode,mps.prodcen , mps.naziv_artikla , mps.kolicina ,
     								 mps.kolicina * mps.prodcen as 	vrednost, mps.kolicina||' '||mps.jmere as kolicina_jmere,mps.prodcen||' din' as prodcen_din,(mps.kolicina * mps.prodcen)||' din' as vrednost_din,
+
+    								 case 
+									 when mps.popisana_kolicina is null then '<label  id=\"r'||mps.id||'\"></label>' 
+									 else  '<label  id=\"r'||mps.id||'\">'||(mps.popisana_kolicina - mps.kolicina)::text||'</label>'
+									 end as razlika,
+
+
 									 case 
 									 when mps.popisana_kolicina is null 
-									 then '<input type=\"number\" pattern=\"[0-9]\" class=\"popisana_kolicina form-control\" style=\"max-width:150px;\" id =\"'||mps.id||'\" data-id=\"'||mps.id||'\" data-prodcen=\"'||mps.prodcen||'\"  data-sifra_artikla=\"'||mps.sifra_artikla||'\">' 
-									 else '<input type=\"number\" pattern=\"[0-9]\" id =\"'||mps.id||'\"  value=\"'||mps.popisana_kolicina||'\" class=\"popisana_kolicina form-control\" style=\"max-width:150px;\"  data-id=\"'||mps.id||'\"  data-prodcen=\"'||mps.prodcen||'\" data-sifra_artikla=\"'||mps.sifra_artikla||'\">' end as popisana_kolicina, 
+									 then '<input type=\"number\" pattern=\"[0-9]\" class=\"popisana_kolicina form-control\" style=\"max-width:150px;\" id =\"'||mps.id||'\" data-id=\"'||mps.id||'\" data-kolicina=\"'||mps.kolicina||'\" data-prodcen=\"'||mps.prodcen||'\"  data-sifra_artikla=\"'||mps.sifra_artikla||'\">' 
+									 else '<input type=\"number\" pattern=\"[0-9]\" id =\"'||mps.id||'\"  value=\"'||mps.popisana_kolicina||'\" class=\"popisana_kolicina form-control\" style=\"max-width:150px;\"  data-id=\"'||mps.id||'\" data-kolicina=\"'||mps.kolicina||'\"  data-prodcen=\"'||mps.prodcen||'\" data-sifra_artikla=\"'||mps.sifra_artikla||'\">' end as popisana_kolicina, 
 
 
 									 case when mps.popisana_kolicina is null then '<label  id=\"p'||mps.id||'\"></label>' else '<label  id=\"p'||mps.id||'\">'||(mps.popisana_kolicina * mps.prodcen)::text||'</label>' end as vrednost_popisa
@@ -122,11 +134,16 @@ class popisStavkeIndex extends Controller
     }
     public function labelBrojPopisanihRefresh(request $request){
     		$popis_id = $request->popis_id;
-    		$popis_info_arr = DB::select("select mp.sis_datum , o.nazobj , mp.broj_artikala , mp.broj_popunjenih_artikala  from ult.m_popis mp,ult.objekti  o
-						 where id = {$popis_id }
-						 and mp.orgjed  = o.orgjed");
+    		$popis_info_arr = DB::select("select mp.sis_datum , o.nazobj , mp.broj_artikala , mp.broj_popunjenih_artikala ,sum(mps.prodcen*mps.kolicina) as vrednost_robe,sum(mps.popisana_kolicina*mps.prodcen) as popisana_vrednost
+					from {$this->getSema()}.m_popis mp,{$this->getSema()}.objekti  o, {$this->getSema()}.m_popis_stavke mps  
+											 where mp.id = {$popis_id }
+											 and mp.orgjed  = o.orgjed
+											 and mp.id = mps.m_popis_fk 
+					group by mp.sis_datum , o.nazobj , mp.broj_artikala , mp.broj_popunjenih_artikala");
     		$broj_popunjenih_artikala = $popis_info_arr[0]->broj_popunjenih_artikala; 
-    		return $broj_popunjenih_artikala;
+    		$popisana_vrednost = $popis_info_arr[0]->popisana_vrednost; 
+    		$returnArr = [$broj_popunjenih_artikala,$popisana_vrednost]; 
+    		return json_encode($returnArr);
     }	
     public function exportCsv(Request $request){
     		if (!Auth::user())

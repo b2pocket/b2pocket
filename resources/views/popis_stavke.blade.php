@@ -15,6 +15,8 @@
 			<label class="border-left border-primary pl-2">Objekat: {{$popis_info->nazobj}}  </label>
 			<label class="border-left border-primary pl-2">Ukupno artikala: {{$popis_info->broj_artikala}}  </label>
 			<label class="border-left border-primary pl-2" id="ajaxRefreshBrojPopisanih">Popisanih stavki: {{$popis_info->broj_popunjenih_artikala}} </label>
+			<label class="border-left border-primary pl-2">Vrednost robe: {{number_format( $popis_info->vrednost_robe , 0 , '.' , ',' )}}  </label>
+			<label class="border-left border-primary pl-2" id="ajaxRefreshVrednostPopisanih">Vrednost popisane robe: {{number_format( $popis_info->popisana_vrednost , 0 , '.' , ',' )}}  </label>
 			
 		
 		</div>
@@ -59,6 +61,7 @@
 					<th>VREDNOST</th>
 					<th>POPIS</th>
 					<th>VREDNOST<br> POPISA</th>
+					<th>RAZLIKA<br><small>(POPIS-ZALIHA)</small></th>
 				</thead>
 			</table>
 		</div>
@@ -171,6 +174,7 @@
 		                         { data: 'vrednost_din' },
 		                         { data: 'popisana_kolicina'   },
 		                         { data: 'vrednost_popisa'  },
+		                         { data: 'razlika'  },
 		                        ],
 		                          columnDefs: [{
 		                            data: null,
@@ -178,7 +182,7 @@
 		                            targets: "_all"
 		                            }],
 		                           columnDefs: [
-								    { className: "warning", "targets": [ -1,-2 ] }
+								    { className: "warning", "targets": [ -3 ] }
 								  ]
 		        });
 		$('#osveziTabelu').click(function(){
@@ -193,6 +197,7 @@
 							var id_stavke = $(this).data('id');
 							var prodcen = $(this).data('prodcen');
 							var sifra_artikla = $(this).data('sifra_artikla');
+							var kolicina = $(this).data('kolicina');
 							var popisana_kolicina = $(this).val();
 							if (!popisana_kolicina){
 								return;
@@ -211,6 +216,7 @@
 
 								    	$("#"+id_stavke).css({"box-shadow":"0 0 10px #2eff46"});
 								    	$("#p"+id_stavke).text(popisana_kolicina*prodcen);
+								    	$("#r"+id_stavke).text(popisana_kolicina-kolicina);
 								    	refreshBrojPopunjenih();
 								    	$.notify("Uneto: "+popisana_kolicina+" Sifra artikla: "+sifra_artikla, { globalPosition: 'bottom right', className: 'success' });
 								    }
@@ -221,14 +227,19 @@
 					
 					$.ajax({
 					    type: 'POST',
+    					dataType: 'json',
 					    url: '{{route('labelBrojPopisanihRefresh')}}',
 					    data: { 
 					        'popis_id': '{{$popis_id}}'
 					    },
-					    success: function(broj_popunjenih_artikala){
-					    	$('#ajaxRefreshBrojPopisanih').text('Popisanih stavki: '+broj_popunjenih_artikala);
+					    success: function(data){
+					    	$('#ajaxRefreshBrojPopisanih').text('Popisanih stavki: '+data[0]);
+					    	$('#ajaxRefreshVrednostPopisanih').text('Popisanih stavki: '+numberWithCommas(data[1]));
 					    }
 					});
+				}
+				function numberWithCommas(x) {
+				    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 				}
 		});
 </script>
